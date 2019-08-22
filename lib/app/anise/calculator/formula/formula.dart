@@ -24,6 +24,8 @@ enum FormulaAction {
   Clean,
   Delete,
   Calculate,
+  UpPriority,
+  DownPriority,
 }
 
 enum MemoryOpera {
@@ -199,6 +201,13 @@ class FormulaController {
     _doInputDisplay();
     return this;
   }
+
+  FormulaLogic _getFormulaLogic() {
+    if (formulaLogic == null) {
+      formulaLogic = new FormulaLogic(this.onWarning);
+    }
+    return formulaLogic;
+  }
   
   void _doFormulaAction(FormulaAction action) {
     if (FormulaAction.Clean == action) {
@@ -207,6 +216,10 @@ class FormulaController {
       _doDelete();
     } else if (FormulaAction.Calculate== action) {
       _doCalculate();
+    } else if (FormulaAction.UpPriority== action) {
+      _getFormulaLogic().upPriorityWeight();
+    } else if (FormulaAction.DownPriority== action) {
+      _getFormulaLogic().downPriorityWeight();
     }
   }
 
@@ -292,20 +305,14 @@ class FormulaController {
   }
 
   void _doAddFormula(Formula formula) {
-    if (formulaLogic == null) {
-      formulaLogic = new FormulaLogic(this.onWarning);
-    }
-    formulaLogic.addFormula(formula);
+    _getFormulaLogic().addFormula(formula);
     currentNumber = "";
   }
 
   void _doAddNumber(int n) {
     String t = n.toString();
     currentNumber += t;
-    if (formulaLogic == null) {
-      formulaLogic = new FormulaLogic(this.onWarning);
-    }
-    formulaLogic.setCurrentNumber(currentNumber);
+    _getFormulaLogic().setCurrentNumber(currentNumber);
   }
 
   void _doAddDecimal(String text) {
@@ -317,10 +324,7 @@ class FormulaController {
         currentNumber = "0";
       }
       currentNumber += text;
-      if (formulaLogic == null) {
-        formulaLogic = new FormulaLogic(this.onWarning);
-      }
-      formulaLogic.setCurrentNumber(currentNumber);
+      _getFormulaLogic().setCurrentNumber(currentNumber);
     }
   }
 
@@ -335,17 +339,11 @@ class FormulaController {
       //当前已经是负数，再添加负数，则负负得正，应该取消负数。
       currentNumber = currentNumber.substring(1);
     }
-    if (formulaLogic == null) {
-      formulaLogic = new FormulaLogic(this.onWarning);
-    }
-    formulaLogic.setCurrentNumber(currentNumber);
+    _getFormulaLogic().setCurrentNumber(currentNumber);
   }
 
   void _doInputDisplay() {
-    if (formulaLogic == null) {
-      formulaLogic = new FormulaLogic(this.onWarning);
-    }
-    onInputDisplay(formulaLogic.toString());
+    onInputDisplay(_getFormulaLogic().toString());
   }
 }
 

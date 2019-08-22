@@ -193,7 +193,7 @@ void main() {
 
     });
 
-    test('Formula case 2', () {
+    test('Formula case 2 ：FormulaType.Percent', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -205,11 +205,17 @@ void main() {
             (String msg) {onWarning =  msg;},);
 
       _formulaController.input(12);
+      _formulaController.input(FormulaType.Multi);
+      _formulaController.input(FormulaAction.UpPriority);
+      _formulaController.input(2);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(3);
+      _formulaController.input(FormulaAction.DownPriority);
       _formulaController.input(FormulaType.Percent);
-      expect(onInputDisplay, "12%");
-
+      expect(onInputDisplay, "12×(2+3)%");
+      //12×0.05
       _formulaController.input(FormulaAction.Calculate);
-      expect(onOutputDisplay, "0.12");
+      expect(onOutputDisplay, "0.6");
     });
 
   });
