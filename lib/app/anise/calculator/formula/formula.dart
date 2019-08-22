@@ -230,7 +230,9 @@ class FormulaController {
     onOutputDisplay("");
   }
 
-  void _doDelete() {}
+  void _doDelete() {
+    currentNumber = _getFormulaLogic().delete();
+  }
 
   void _doCalculate() {
     if (formulaLogic != null) {
@@ -511,6 +513,50 @@ class FormulaLogic {
       }
     }
     return count == formula.valueCount();
+  }
+
+  String delete() {
+    Function findLastFormula = () {
+      bool flagHasFormula = false;
+      for (int i=_logicList.length-1;i>0;i--) {
+        dynamic dd = _logicList[i];
+        if (dd is Formula) {
+          _currentFormula = dd;
+          flagHasFormula = true;
+        }
+      }
+      if (!flagHasFormula) {
+        _currentFormula = null;
+      }
+    };
+
+    if (_currentNumber != "") {
+      _currentNumber = _currentNumber.substring(0,_currentNumber.length-1);
+    } else {
+      if (_logicList.length > 0) {
+        dynamic d = _logicList[_logicList.length - 1];
+        //Formula,(,)
+        _logicList.removeLast();
+        if (d == "(" || d == ")" ) {
+          //属于这2种类型时，则直接移除掉就好
+        } else if (d is Formula) {
+
+        } else {
+          //是数值时，则将该数值赋值给当前编辑的数值，逐个位数移除
+          String n = d;
+          if (n != null && n != ""){
+            _currentNumber = n.substring(0,n.length-1);
+          }
+        }
+        //删除时，需要寻找前面是否还有公式，
+        // 若有，则将其取出赋值给当前编辑的公式，若没有找到公式，则当前编辑的公式要赋值空
+        findLastFormula();
+      } else {
+        _onWarning("");
+      }
+    }
+    AppLog.i(LogTag, "delete _logicList:"+_logicList.toString() + " _currentNumber:"+_currentNumber);
+    return _currentNumber;
   }
 
   double calculate() {
