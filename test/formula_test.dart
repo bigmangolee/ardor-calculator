@@ -42,6 +42,13 @@ void main() {
       _formulaController.input(3);
       expect(onInputDisplay, "123");
 
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaAction.Delete);
+      expect(onInputDisplay, "");
+
+
+      _formulaController.input(123);
       _formulaController.input(".");
       expect(onInputDisplay, "123.");
 

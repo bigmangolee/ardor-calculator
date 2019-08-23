@@ -482,6 +482,9 @@ class FormulaLogic {
     String _currentNumber = _getCurrentNumber();
     if (_currentNumber != "") {
       _currentNumber = _currentNumber.substring(0,_currentNumber.length-1);
+      if (_currentNumber == "") {
+        _logicList.removeLast();
+      }
     } else {
       if (_logicList.length > 0) {
         _logicList.removeLast();
@@ -553,7 +556,7 @@ class FormulaLogic {
         logic.removeAt(removeIndes[j]);
       }
     }
-    return double.parse(logic[0]);
+    return logic.isEmpty ? 0 : double.parse(logic[0]);
   }
 
   //设置当前数值。
