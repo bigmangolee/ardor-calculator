@@ -22,7 +22,7 @@ void main() {
   //flutter test test/formula_test.dart
   AppLog.isEnable = false;
   group('Formula', () {
-    test('Input case 1', () {
+    test('Formula case 1 ：Input', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -65,34 +65,8 @@ void main() {
       expect(onInputDisplay, "0.56");
     });
 
-    test('Number input case 2', () {
-      String onTools;
-      String onInputDisplay;
-      String onOutputDisplay;
-      String onWarning;
-      FormulaController _formulaController = new FormulaController(
-            (String msg) {onTools =  msg;},
-            (String msg) {onInputDisplay =  msg;},
-            (String msg) {onOutputDisplay =  msg;},
-            (String msg) {onWarning =  msg;},);
 
-      _formulaController.input(8).input(8).input(8);
-      _formulaController.input(FormulaType.Plus);
-      _formulaController.input(9).input(9).input(9);
-      _formulaController.input(FormulaAction.Delete);
-      _formulaController.input(FormulaType.Plus);
-      _formulaController.input(FormulaAction.Delete);
-      _formulaController.input(FormulaAction.Delete);
-      _formulaController.input(FormulaType.Plus);
-      _formulaController.input(9).input(9).input(9);
-      expect(onInputDisplay, "888+9+999");
-
-      _formulaController.input(FormulaAction.Calculate);
-      expect(onOutputDisplay, "1896");
-
-    });
-
-    test('MemoryOpera', () {
+    test('Formula case 2 ：MemoryOpera', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -138,7 +112,7 @@ void main() {
       expect(onWarning, "Memory cache is empty.");
     });
 
-    test('Formula: 1+2+3×4×5+6-7-8+9÷10+11-12×13 = 221.9', () {
+    test('Formula case 3 ： 1+2+3×4×5+6-7-8+9÷10+11-12×13 = 221.9', () {
       String onTools = "";
       String onInputDisplay = "";
       String onOutputDisplay = "";
@@ -187,7 +161,7 @@ void main() {
 
     });
 
-    test('Exception case 1', () {
+    test('Formula case 4：Exception ', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -203,7 +177,7 @@ void main() {
 
     });
 
-    test('Formula case 2 ：FormulaType.Percent', () {
+    test('Formula case 5 ：FormulaType.Percent', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -229,7 +203,49 @@ void main() {
       expect(onOutputDisplay, "0.6000000000000001");
     });
 
-    test('Formula case 3 ：FormulaAction.Delete', () {
+
+    test('Formula case 6 ：FormulaAction.Delete test case 1', () {
+      String onTools;
+      String onInputDisplay;
+      String onOutputDisplay;
+      String onWarning;
+      FormulaController _formulaController = new FormulaController(
+            (String msg) {onTools =  msg;},
+            (String msg) {onInputDisplay =  msg;},
+            (String msg) {onOutputDisplay =  msg;},
+            (String msg) {onWarning =  msg;},);
+
+      _formulaController.input(8).input(8).input(8);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(9).input(9).input(9);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(9).input(9).input(9);
+      expect(onInputDisplay, "888+9+999");
+
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Plus);
+      expect(onInputDisplay, "888+9+99+");
+
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Multi);
+      _formulaController.input(9);
+      _formulaController.input(FormulaType.Square);
+      expect(onInputDisplay, "888+9+99×9Square");
+
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onOutputDisplay, "8916");
+
+    });
+
+    test('Formula case 7 ：FormulaAction.Delete test case 2', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;

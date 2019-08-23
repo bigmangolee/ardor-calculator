@@ -523,6 +523,7 @@ class FormulaLogic {
         if (dd is Formula) {
           _currentFormula = dd;
           flagHasFormula = true;
+          break;
         }
       }
       if (!flagHasFormula) {
