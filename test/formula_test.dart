@@ -299,6 +299,29 @@ void main() {
       expect(onOutputDisplay, "0.6000000000000001");
     });
 
+    test('Formula case 8 ： test case 3', () {
+      String onTools;
+      String onInputDisplay;
+      String onOutputDisplay;
+      String onWarning;
+      FormulaController _formulaController = new FormulaController(
+            (String msg) {onTools =  msg;},
+            (String msg) {onInputDisplay =  msg;},
+            (String msg) {onOutputDisplay =  msg;},
+            (String msg) {onWarning =  msg;},);
+
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(3);
+      _formulaController.input(FormulaAction.Calculate);
+      _formulaController.input(0);
+      expect(onInputDisplay, "1+2+30");
+
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onOutputDisplay, "33");
+    });
   });
 
 

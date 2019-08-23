@@ -40,7 +40,6 @@ void main() {
       formulaLogic.setCurrentNumber("12");
       expect(formulaLogic.toString(), "1+12");
 
-      formulaLogic.finishNumberInput();
       expect(formulaLogic.toString(), "1+12");
 
     });
@@ -90,7 +89,6 @@ void main() {
       formulaLogic.setCurrentNumber("8");
       expect(formulaLogic.toString(), "1+2+3×4×5-6÷8");
 
-      formulaLogic.finishNumberInput();
       expect(formulaLogic.toString(), "1+2+3×4×5-6÷8");
 
     });
@@ -184,7 +182,6 @@ void main() {
       formulaLogic.downPriorityWeight();
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+(7-1)÷8)+9)");
 
-      formulaLogic.finishNumberInput();
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+(7-1)÷8)+9)");
 
       double v = formulaLogic.calculate();
@@ -227,7 +224,6 @@ void main() {
       formulaLogic.setCurrentNumber("5");
       expect(formulaLogic.toString(), "1+2×3Square÷6-5");
 
-      formulaLogic.finishNumberInput();
       expect(formulaLogic.toString(), "1+2×3Square÷6-5");
 
       double v = formulaLogic.calculate();
@@ -312,8 +308,6 @@ void main() {
       formulaLogic.setCurrentNumber("1");
       expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×2)×2-1");
 
-      formulaLogic.finishNumberInput();
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×2)×2-1");
       //F4=a+b*c-d
       double v = formulaLogic.calculate();
       expect(v.toString(), "-36.0");

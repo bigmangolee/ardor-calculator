@@ -101,6 +101,8 @@ abstract class Formula {
   //参数值的数量
   int valueCount();
 
+  void initValue();
+
   //增加参数
   bool addValue(double v);
 
@@ -137,6 +139,11 @@ abstract class FormulaBase implements Formula {
   @override
   int getPriority() {
     return priority() + this._priorityAdd;
+  }
+
+  @override
+  void initValue(){
+    _valuesList.clear();
   }
 
   @override
@@ -236,7 +243,6 @@ class FormulaController {
 
   void _doCalculate() {
     if (formulaLogic != null) {
-      formulaLogic.finishNumberInput();
       double out = formulaLogic.calculate();
       onOutputDisplay(getNumberDisplay(out));
     }
@@ -357,8 +363,6 @@ class FormulaLogic {
   List<dynamic> _logicList = new List();
   //未完成参数填充的公式。
   Stack<Formula> _unFinishFormula = Stack();
-  Formula _currentFormula;
-  String _currentNumber = "";
   int _priorityWeight = 0;
 
   FormulaLogic(this._onWarning);
@@ -370,12 +374,11 @@ class FormulaLogic {
     }
     formula.setPriorityAdd(_getPriority());
     if (_logicList.isEmpty) {
-      _addNumber();
       _addFormula(formula);
       return;
     }
 
-    if (_currentNumber == "") {
+    if (_getCurrentNumber() == "") {
       //当前没有数字输入，则准备替换前一个公式
       dynamic d = _logicList[_logicList.length - 1];
       if (d == "(") {
@@ -385,82 +388,42 @@ class FormulaLogic {
       } else if (d == ")") {
         //公式之前是')'，则可以添加公式
         _addFormula(formula);
-      } else if (d is String) {
-        //前一个符号是数值，则替换
-        if (_currentFormula == null) {
-          //首次输入时，前面已经输入数值，则将公式添加进来
-          _addFormula(formula);
+      } else if (d is Formula){
+        //是公式
+        if (_isValuesFinish(d)) {
+            //前面公式已完成参数填充，1个参数的公式
+          _logicList.add(formula);
         } else {
-          if (_isValuesFinish(_currentFormula)) {
-            //前面公式已完成参数填充，则将当前公式添加到末尾
-            _addFormula(formula);
-          } else {
-            //前面公式未完成填充，且没有数值输入，则不能直接添加公式
-            this._onWarning(
-                "Formula logic illegal: can't add formula. error code: 2");
-          }
-        }
-      } else if (d is Formula) {
-        //前一个符号是公式，则替换
-        if (_isValuesFinish(_currentFormula)) {
-          //前面公式已完成参数填充，则将当前公式添加到末尾
-          _addFormula(formula);
-        } else {
-          //前面公式未完成填充，且还未有任何数值输入，则不能直接替换公式
+          //替换
           _logicList[_logicList.length - 1] = formula;
-          _currentFormula = formula;
         }
-      } else {
-        this._onWarning(
-            "Formula logic illegal: can't add formula. error code: 3");
       }
     } else {
-      //有缓存的数值待输入
-      if (_currentFormula == null) {
-        _addNumber();
-        _addFormula(formula);
-      } else {
-        if (_isValuesFinish(_currentFormula)) {
-          //前一个公式参数完整，且当前有缓存的数值，若需要直接增加新公式时，则不允许
-          this._onWarning(
-              "Formula logic illegal: can't add formula. error code: 4");
-        } else {
-          _addNumber();
-          if (_isValuesFinish(_currentFormula)) {
-            // 先添加参数后，判断前一个公式参数完整，则可以新增公式
-            _addFormula(formula);
-          } else {
-            // 给前一个公式添加缓存的参数后，仍然未满足其所有参数需要，
-            // 则还不能直接添加公式，需要等待数值输入完整后才能新增公式
-            if (formula.getPriority() > _currentFormula.getPriority()) {
-              // 后面的公式优先权限比前一个公式优先权限大
-              // 则允许先将后面的公式添加进来，先填充完优先级大的公式参数后，
-              // 再依次填满之前保存未完成参数的公式填充
-              _unFinishFormula.push(_currentFormula);
-              _addFormula(formula);
-            } else {
-              this._onWarning(
-                  "Formula logic illegal: can't add formula. error code: 5");
-            }
-          }
-        }
-      }
+      _addFormula(formula);
     }
   }
 
   void _addFormula(Formula formula) {
     _logicList.add(formula);
-    _currentFormula = formula;
+    if (!_isValuesFinish(formula)) {
+      //该公式参数不完整，则添加到未完成参数
+      _unFinishFormula.push(formula);
+    }
   }
 
-  void _addNumber() {
-    _logicList.add(_currentNumber);
-    _currentNumber = "";
-    if (_currentFormula != null && _isValuesFinish(_currentFormula)) {
-      Formula formula = _unFinishFormula.pop();
-      if (formula != null) {
-        _currentFormula = formula;
+  String _getCurrentNumber() {
+    if (_logicList.length > 0) {
+      dynamic d = _logicList[_logicList.length - 1];
+      if (d == null) {
+        return "";
+      }else if (d == "(" || d == ")" || d is Formula) {
+        return "";
+      } else {
+        //当前的数值
+        return d.toString();
       }
+    } else {
+      return "";
     }
   }
 
@@ -516,47 +479,20 @@ class FormulaLogic {
   }
 
   String delete() {
-    Function findLastFormula = () {
-      bool flagHasFormula = false;
-      for (int i=_logicList.length-1;i>0;i--) {
-        dynamic dd = _logicList[i];
-        if (dd is Formula) {
-          _currentFormula = dd;
-          flagHasFormula = true;
-          break;
-        }
-      }
-      if (!flagHasFormula) {
-        _currentFormula = null;
-      }
-    };
-
+    String _currentNumber = _getCurrentNumber();
     if (_currentNumber != "") {
       _currentNumber = _currentNumber.substring(0,_currentNumber.length-1);
     } else {
       if (_logicList.length > 0) {
-        dynamic d = _logicList[_logicList.length - 1];
-        //Formula,(,)
         _logicList.removeLast();
-        if (d == "(" || d == ")" ) {
-          //属于这2种类型时，则直接移除掉就好
-        } else if (d is Formula) {
-
-        } else {
-          //是数值时，则将该数值赋值给当前编辑的数值，逐个位数移除
-          String n = d;
-          if (n != null && n != ""){
-            _currentNumber = n.substring(0,n.length-1);
-          }
-        }
-        //删除时，需要寻找前面是否还有公式，
-        // 若有，则将其取出赋值给当前编辑的公式，若没有找到公式，则当前编辑的公式要赋值空
-        findLastFormula();
       } else {
-        _onWarning("");
+        _onWarning("Nothing can be deleted！");
       }
     }
     AppLog.i(LogTag, "delete _logicList:"+_logicList.toString() + " _currentNumber:"+_currentNumber);
+    if (_currentNumber != ""){
+      setCurrentNumber(_currentNumber);
+    }
     return _currentNumber;
   }
 
@@ -592,6 +528,7 @@ class FormulaLogic {
     //遍历公式列表，逐个计算出结果。
     for (int i = 0; i < formulaList.length; i++) {
       Formula f = formulaList[i];
+      f.initValue();
       int index = logic.indexOf(f);
       List<int> removeIndes = new List();
       if (f.valueCount() == 1) {
@@ -621,25 +558,33 @@ class FormulaLogic {
 
   //设置当前数值。
   void setCurrentNumber(String value) {
-    _currentNumber = value;
+    if (_logicList.length > 0) {
+      dynamic d = _logicList[_logicList.length - 1];
+      if (d == null || d == "(" || d == ")" || d is Formula) {
+        _logicList.add(value);
+      } else {
+        //当前的数值
+        _logicList[_logicList.length - 1] = value;
+      }
+    } else {
+      _logicList.add(value);
+    }
+    if (!_unFinishFormula.isEmpty) {
+      checkFinishFormula(_unFinishFormula.top);
+    }
   }
 
-  //完成当前参数数值输入。
-  void finishNumberInput() {
-    if (_currentNumber != "") {
-      if (_currentFormula == null) {
-        _addNumber();
+  bool checkFinishFormula(Formula formula) {
+    if (_isValuesFinish(formula)) {
+      _unFinishFormula.pop();
+      if (_unFinishFormula.isEmpty) {
+        return true;
       } else {
-        if (_isValuesFinish(_currentFormula)) {
-          //当前公式已经完成所有参数接收，已经没有参数输入位置，则不能输入
-          this._onWarning(
-              "Formula logic illegal: can't add formula. error code: 6");
-        } else {
-          _addNumber();
-        }
+        return checkFinishFormula(_unFinishFormula.top);
       }
+    } else {
+      return false;
     }
-    _currentNumber = "";
   }
 
   int _getPriority() {
@@ -648,9 +593,6 @@ class FormulaLogic {
 
   //提升计算公式优先级，相当于输入(
   bool upPriorityWeight() {
-    if (_currentNumber != "") {
-      _addNumber();
-    }
     if (_logicList.length == 0) {
       _priorityWeight++;
       _logicList.add("(");
@@ -663,7 +605,7 @@ class FormulaLogic {
         return true;
       } else if (d == ")" || d is String) {
         //可能是当前函数参数未填充完所有参数
-        if (_currentFormula != null && !_isValuesFinish(_currentFormula)) {
+        if (!_unFinishFormula.isEmpty && !_isValuesFinish(_unFinishFormula.top)) {
           _priorityWeight++;
           _logicList.add("(");
           return true;
@@ -672,6 +614,7 @@ class FormulaLogic {
         }
       }
     }
+    return false;
   }
 
   //降低计算公式优先级，相当于输入)
@@ -681,24 +624,9 @@ class FormulaLogic {
       return false;
     } else {
       dynamic d = _logicList[_logicList.length - 1];
-      if (_currentNumber == "") {
-        if (d is Formula) {
-          if (d.valueCount() <= 1) {
-            //单个参数的公式可以允许降级括号
-            if (_priorityWeight > 0) {
-              --_priorityWeight;
-              _logicList.add(")");
-              return true;
-            } else {
-              //不能匹配前括号(
-              this._onWarning("Formula logic illegal: Can't match (");
-            }
-          } else {
-            //)前面不能是多参数的公式
-            this._onWarning("Formula logic illegal: It can't be )");
-          }
-        } else {
-          //d是数字、(、)
+
+      if (d is Formula) {
+        if (_isValuesFinish(d)) {
           if (_priorityWeight > 0) {
             --_priorityWeight;
             _logicList.add(")");
@@ -707,35 +635,27 @@ class FormulaLogic {
             //不能匹配前括号(
             this._onWarning("Formula logic illegal: Can't match (");
           }
+        } else {
+          //)前面不能是多参数的公式
+          this._onWarning("Formula logic illegal: It can't be )");
         }
-      } else {
-        if (d is Formula) {
-          if (d.valueCount() <= 1) {
-            //单个参数的公式，且有当前输入的数字，
-            this._onWarning("Formula logic illegal: 2");
-          } else {
-            //多参数的公式
-            if (_priorityWeight > 0) {
-              --_priorityWeight;
-              _addNumber();
-              _logicList.add(")");
-              return true;
-            } else {
-              //不能匹配前括号(
-              this._onWarning("Formula logic illegal: Can't match (");
-            }
-          }
+      } else if (d == "(" || d == ")") {
+        if (_priorityWeight > 0) {
+          --_priorityWeight;
+          _logicList.add(")");
+          return true;
         } else {
-          //d是数字、(、)
-          if (_priorityWeight > 0) {
-            --_priorityWeight;
-            _addNumber();
-            _logicList.add(")");
-            return true;
-          } else {
-            //不能匹配前括号(
-            this._onWarning("Formula logic illegal: Can't match (");
-          }
+          //不能匹配前括号(
+          this._onWarning("Formula logic illegal: Can't match (");
+        }
+      } else if (d is String) {
+        if (_priorityWeight > 0) {
+          --_priorityWeight;
+          _logicList.add(")");
+          return true;
+        } else {
+          //不能匹配前括号(
+          this._onWarning("Formula logic illegal: Can't match (");
         }
       }
     }
@@ -752,9 +672,6 @@ class FormulaLogic {
       } else {
         format += "" + d.toString() + "";
       }
-    }
-    if (_currentNumber != "") {
-      format += _currentNumber;
     }
     return format;
   }
