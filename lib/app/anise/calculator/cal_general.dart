@@ -193,7 +193,12 @@ class CalGeneral extends CalBase {
   }
 
   void onTools(String msg) {
-    _toolInfo.onOpera(msg);
+    if (msg == MemoryOpera.Add.toString()) {
+      _toolInfo.onOpera("M");
+    } else if (msg == MemoryOpera.Clean.toString()) {
+      _toolInfo.onOpera("");
+    }
+
   }
 
   void onInputDisplay(String msg) {
