@@ -33,6 +33,8 @@ class CalGeneral extends CalBase {
   InputDisplay _inputInfo = new InputDisplay();
   OutDisplay _outputInfo = new OutDisplay();
 
+  MemoryOperation _memoryOperationMAMC;
+
   CalGeneral(){
     _formulaController = new FormulaController(
           (String msg) {onTools(msg);},
@@ -77,9 +79,7 @@ class CalGeneral extends CalBase {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                new MemoryOperation(MemoryOpera.Add, (dynamic key) {
-                  onKey(key);
-                }),
+                _getMemoryOperationMAMC(),
                 new MemoryOperation(MemoryOpera.Plus, (dynamic key) {
                   onKey(key);
                 }),
@@ -187,6 +187,16 @@ class CalGeneral extends CalBase {
     );
   }
 
+
+  MemoryOperation _getMemoryOperationMAMC() {
+    if (_memoryOperationMAMC == null) {
+      _memoryOperationMAMC =  new MemoryOperation(MemoryOpera.Add, (dynamic key) {
+        onKey(key);
+      });
+    }
+    return _memoryOperationMAMC;
+  }
+
   void onKey(dynamic key) {
     _formulaController.input(key);
     AppLog.d(_tag, key.toString());
@@ -195,10 +205,11 @@ class CalGeneral extends CalBase {
   void onTools(String msg) {
     if (msg == MemoryOpera.Add.toString()) {
       _toolInfo.onOpera("M");
+      _memoryOperationMAMC.setMemoryOperation(MemoryOpera.Clean);
     } else if (msg == MemoryOpera.Clean.toString()) {
       _toolInfo.onOpera("");
+      _memoryOperationMAMC.setMemoryOperation(MemoryOpera.Add);
     }
-
   }
 
   void onInputDisplay(String msg) {
@@ -351,15 +362,24 @@ class _OutDisplay extends State<OutDisplay> {
   }
 }
 
+// ignore: must_be_immutable
 class MemoryOperation extends StatefulWidget {
-  final MemoryOpera memoryOpera;
+  MemoryOpera memoryOpera;
   final CalculatorCallbackDynamic callback;
+  _MemoryOperation _memoryOperation;
   MemoryOperation(this.memoryOpera, this.callback);
+
+  void setMemoryOperation(MemoryOpera memoryOpera) {
+    this.memoryOpera = memoryOpera;
+    _memoryOperation.setMemoryOperation(memoryOpera);
+  }
 
   @override
   State<StatefulWidget> createState() {
-    return new _MemoryOperation(memoryOpera,callback);
+    _memoryOperation = new _MemoryOperation(memoryOpera,callback);
+    return _memoryOperation;
   }
+
 }
 
 class _MemoryOperation extends State<MemoryOperation> {
@@ -382,13 +402,9 @@ class _MemoryOperation extends State<MemoryOperation> {
     return "MR";
   }
 
-  void switchMAMC(MemoryOpera opera) {
+  void setMemoryOperation(MemoryOpera memoryOpera) {
     setState(() {
-      if (opera == MemoryOpera.Add) {
-        memoryOpera = MemoryOpera.Clean;
-      } else if (opera == MemoryOpera.Clean) {
-        memoryOpera = MemoryOpera.Add;
-      }
+      this.memoryOpera = memoryOpera;
     });
   }
 
@@ -402,7 +418,6 @@ class _MemoryOperation extends State<MemoryOperation> {
                 child: new Text(getDisplay()),
                 onPressed: () {
                   callback(memoryOpera);
-                  switchMAMC(memoryOpera);
                 })));
   }
 
