@@ -270,8 +270,12 @@ class FormulaController {
     };
 
     if (MemoryOpera.Add == action) {
-      this.onTools(MemoryOpera.Add.toString());
-      memoryCache = currentNumber;
+      if (memoryCache == "") {
+        this.onWarning("There is nothing to cache memory.");
+      } else {
+        this.onTools(MemoryOpera.Add.toString());
+        memoryCache = currentNumber;
+      }
     } else if (MemoryOpera.Clean == action) {
       this.onTools(MemoryOpera.Clean.toString());
       memoryCache = "";
