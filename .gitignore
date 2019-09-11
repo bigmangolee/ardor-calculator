@@ -27,7 +27,6 @@ doc/api/
 .svn/
 
 # IntelliJ related
-*.iml
 *.ipr
 *.iws
 
