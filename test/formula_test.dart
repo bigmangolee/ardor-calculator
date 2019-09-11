@@ -329,6 +329,71 @@ void main() {
       _formulaController.input(FormulaAction.Calculate);
       expect(onOutputDisplay, "33");
     });
+
+    test('Formula case 9 ： test Negative operation', () {
+      String onTools;
+      String onInputDisplay;
+      String onOutputDisplay;
+      String onWarning;
+      FormulaController _formulaController = new FormulaController(
+            (String msg) {onTools =  msg;},
+            (String msg) {onInputDisplay =  msg;},
+            (String msg) {onOutputDisplay =  msg;},
+            (String msg) {onWarning =  msg;},);
+
+      _formulaController.input("-");
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1+2");
+      expect(onOutputDisplay, "1");
+
+      _formulaController.input(FormulaAction.Clean);
+
+      _formulaController.input("-");
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input("-");
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1+-2");
+      expect(onOutputDisplay, "-3");
+
+      _formulaController.input(FormulaAction.Clean);
+
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1+2");
+      expect(onOutputDisplay, "1");
+
+      _formulaController.input(FormulaAction.Clean);
+
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1-2");
+      expect(onOutputDisplay, "-3");
+
+      _formulaController.input(FormulaAction.Clean);
+
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaAction.UpPriority);
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1+(-2");
+      expect(onOutputDisplay, "-3");
+    });
+
   });
 
 

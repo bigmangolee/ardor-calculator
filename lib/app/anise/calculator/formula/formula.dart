@@ -197,7 +197,17 @@ class FormulaController {
     } else if (text is MemoryOpera) {
       _doMemoryOpera(text);
     } else if (text is FormulaType) {
-      _doAddFormula(Formula(text));
+      if (text == FormulaType.Minus) {
+        //输入减号公式时，则有可能这两种可能需要转换为负数。
+        dynamic last = _getFormulaLogic().lastLogic();
+        if (last == null || "(" == last) {
+          _doAddNegative();
+        } else {
+          _doAddFormula(Formula(text));
+        }
+      } else {
+        _doAddFormula(Formula(text));
+      }
     } else if (text is int) {
       _doAddNumber(text);
     } else if ("." == text) {
@@ -412,6 +422,19 @@ class FormulaLogic {
     if (!_isValuesFinish(formula)) {
       //该公式参数不完整，则添加到未完成参数
       _unFinishFormula.push(formula);
+    }
+  }
+
+  bool isEmpty() {
+    return _logicList.isEmpty;
+  }
+
+  //获取最新的逻辑元素。
+  dynamic lastLogic() {
+    if (isEmpty()) {
+      return null;
+    } else {
+      return _logicList.last;
     }
   }
 
