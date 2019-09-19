@@ -131,6 +131,57 @@ class _GroupHomePageState extends State<GroupHomePage> {
   void _showGroup(Group group, bool isEditEnable) {
     Group groupEditCache = new Group("");
     groupEditCache.resetValues(group);
+
+    List<Widget> getActionSelect(){
+      if (isEditEnable) {
+        return <Widget>[
+          Container(
+            height: 30,
+            width: 90,
+            child: new RaisedButton(
+                child: new Text(
+                  "Cancel",
+                  style: AppStyle.getAppStyle().dialog.buttonText,
+                ),
+                onPressed: () {
+                  //关闭对话框
+                  Navigator.pop(context);
+                }),
+          ),
+          Container(
+            height: 30,
+            width: 90,
+            child: new RaisedButton(
+                child: new Text(
+                  "Confirm",
+                  style: AppStyle.getAppStyle().dialog.buttonText,
+                ),
+                onPressed: () {
+                  group.resetValues(groupEditCache);
+                  _saveGroup(group);
+                  Navigator.pop(context); //关闭对话框
+                }),
+          ),
+        ];
+      } else {
+        return <Widget>[
+          Container(
+            height: 30,
+            width: 90,
+            child: new RaisedButton(
+                child: new Text(
+                  "OK",
+                  style: AppStyle.getAppStyle().dialog.buttonText,
+                ),
+                onPressed: () {
+                  //关闭对话框
+                  Navigator.pop(context);
+                }),
+          ),
+        ];
+      }
+    }
+
     showDialog<Null>(
         context: context,
         barrierDismissible: false,
@@ -220,35 +271,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Container(
-                          height: 30,
-                          width: 90,
-                          child: new RaisedButton(
-                              child: new Text(
-                                "Cancel",
-                                style: AppStyle.getAppStyle().dialog.buttonText,
-                              ),
-                              onPressed: () {
-                                //关闭对话框
-                                Navigator.pop(context);
-                              }),
-                        ),
-                        Container(
-                          height: 30,
-                          width: 90,
-                          child: new RaisedButton(
-                              child: new Text(
-                                "Confirm",
-                                style: AppStyle.getAppStyle().dialog.buttonText,
-                              ),
-                              onPressed: () {
-                                group.resetValues(groupEditCache);
-                                _saveGroup(group);
-                                Navigator.pop(context); //关闭对话框
-                              }),
-                        ),
-                      ]),
+                      children: getActionSelect()),
                 ],
               ),
             ),

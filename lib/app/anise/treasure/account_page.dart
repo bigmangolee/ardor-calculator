@@ -25,7 +25,6 @@ import 'store/user_data_store.dart';
 
 // ignore: must_be_immutable
 class AccountHomePage extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return new _AccountHomePageState();
@@ -121,32 +120,71 @@ class _AccountHomePageState extends State<AccountHomePage> {
     if (_userDataStore == null) {
       _userDataStore = UserDataStore("");
     }
-    _showAccount(new Account(_groupId),true);
+    _showAccount(new Account(_groupId), true);
   }
 
-  void _showAccount(Account acc,bool isEditEnable) {
+  void _showAccount(Account acc, bool isEditEnable) {
     Account accountEditCache = new Account(acc.groupId);
     accountEditCache.resetValues(acc);
+
+    List<Widget> getActionSelect() {
+      if (isEditEnable) {
+        return <Widget>[
+          new RaisedButton(
+              child: new Text(
+                "Cancel",
+                style: AppStyle.getAppStyle().dialog.buttonText,
+              ),
+              onPressed: () {
+                //关闭对话框
+                Navigator.pop(context);
+              }),
+          new RaisedButton(
+              child: new Text(
+                "Confirm",
+                style: AppStyle.getAppStyle().dialog.buttonText,
+              ),
+              onPressed: () {
+                acc.resetValues(accountEditCache);
+                _saveAccount(acc);
+                Navigator.pop(context); //关闭对话框
+              }),
+        ];
+      } else {
+        return <Widget>[
+          new RaisedButton(
+              child: new Text(
+                "Ok",
+                style: AppStyle.getAppStyle().dialog.buttonText,
+              ),
+              onPressed: () {
+                //关闭对话框
+                Navigator.pop(context);
+              }),
+        ];
+      }
+    }
+
     showDialog<Null>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return new StatefulDialog(
             child: new Container(
-            constraints:BoxConstraints(
-              maxHeight: 330,
-            ),
+              constraints: BoxConstraints(
+                maxHeight: 330,
+              ),
               child: new Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   new TextField(
                     enabled: isEditEnable,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          // 设置内容
-                          text: accountEditCache.name,
-                        )),
+                    controller:
+                        TextEditingController.fromValue(TextEditingValue(
+                      // 设置内容
+                      text: accountEditCache.name,
+                    )),
                     style: AppStyle.getAppStyle().textField(isEditEnable),
                     decoration: new InputDecoration(
                         contentPadding: const EdgeInsets.all(5.0),
@@ -158,11 +196,11 @@ class _AccountHomePageState extends State<AccountHomePage> {
                   ),
                   new TextField(
                     enabled: isEditEnable,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          // 设置内容
-                          text: accountEditCache.order.toString(),
-                        )),
+                    controller:
+                        TextEditingController.fromValue(TextEditingValue(
+                      // 设置内容
+                      text: accountEditCache.order.toString(),
+                    )),
                     style: AppStyle.getAppStyle().textField(isEditEnable),
                     keyboardType: TextInputType.number,
                     decoration: new InputDecoration(
@@ -175,11 +213,11 @@ class _AccountHomePageState extends State<AccountHomePage> {
                   ),
                   new TextField(
                     enabled: isEditEnable,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          // 设置内容
-                          text: accountEditCache.remarks,
-                        )),
+                    controller:
+                        TextEditingController.fromValue(TextEditingValue(
+                      // 设置内容
+                      text: accountEditCache.remarks,
+                    )),
                     style: AppStyle.getAppStyle().textField(isEditEnable),
                     maxLines: 3,
                     decoration: new InputDecoration(
@@ -192,11 +230,13 @@ class _AccountHomePageState extends State<AccountHomePage> {
                   ),
                   new TextField(
                     enabled: false,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          // 设置内容
-                          text: DateTime.fromMillisecondsSinceEpoch(accountEditCache.updateTime).toString(),
-                        )),
+                    controller:
+                        TextEditingController.fromValue(TextEditingValue(
+                      // 设置内容
+                      text: DateTime.fromMillisecondsSinceEpoch(
+                              accountEditCache.updateTime)
+                          .toString(),
+                    )),
                     style: AppStyle.getAppStyle().textField(false),
                     decoration: new InputDecoration(
                         contentPadding: const EdgeInsets.all(5.0),
@@ -206,11 +246,13 @@ class _AccountHomePageState extends State<AccountHomePage> {
                   ),
                   new TextField(
                     enabled: false,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          // 设置内容
-                          text: DateTime.fromMillisecondsSinceEpoch(accountEditCache.updateTime).toString(),
-                        )),
+                    controller:
+                        TextEditingController.fromValue(TextEditingValue(
+                      // 设置内容
+                      text: DateTime.fromMillisecondsSinceEpoch(
+                              accountEditCache.updateTime)
+                          .toString(),
+                    )),
                     style: AppStyle.getAppStyle().textField(false),
                     decoration: new InputDecoration(
                         contentPadding: const EdgeInsets.all(5.0),
@@ -221,28 +263,11 @@ class _AccountHomePageState extends State<AccountHomePage> {
                   new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        new RaisedButton(
-                            child: new Text("Cancel",
-                              style: AppStyle.getAppStyle().dialog.buttonText,),
-                            onPressed: () {
-                              //关闭对话框
-                              Navigator.pop(context);
-                            }),
-                        new RaisedButton(
-                            child: new Text("Confirm",
-                              style: AppStyle.getAppStyle().dialog.buttonText,),
-                            onPressed: () {
-                              acc.resetValues(accountEditCache);
-                              _saveAccount(acc);
-                              Navigator.pop(context); //关闭对话框
-                            }),
-                      ]),
+                      children: getActionSelect()),
                 ],
               ),
-          ),
+            ),
           );
-
         });
   }
 
@@ -270,6 +295,11 @@ class _AccountHomePageState extends State<AccountHomePage> {
                   ),
                   new Text(""),
                   new Text(
+                    '查看：仅查看(${account.name})信息。',
+                    style: AppStyle.getAppStyle().dialog.contentText,
+                  ),
+                  new Text(""),
+                  new Text(
                     '编辑：对(${account.name})信息进行编辑。',
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
@@ -279,7 +309,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
             actions: <Widget>[
               Container(
                 height: 30,
-                width: 80,
+                width: 60,
                 child: new RaisedButton(
                   child: new Text(
                     '删除',
@@ -293,7 +323,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
               ),
               Container(
                 height: 30,
-                width: 80,
+                width: 60,
                 child: new RaisedButton(
                   child: new Text(
                     '取消',
@@ -306,7 +336,21 @@ class _AccountHomePageState extends State<AccountHomePage> {
               ),
               Container(
                 height: 30,
-                width: 80,
+                width: 60,
+                child: new RaisedButton(
+                  child: new Text(
+                    '查看',
+                    style: AppStyle.getAppStyle().dialog.buttonText,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _showAccount(account, false);
+                  },
+                ),
+              ),
+              Container(
+                height: 30,
+                width: 60,
                 child: new RaisedButton(
                   child: new Text(
                     '编辑',
@@ -324,20 +368,20 @@ class _AccountHomePageState extends State<AccountHomePage> {
   }
 
   void _onClickAccountItem(Account account) {
-    _showAccount(account,false);
+    _showAccount(account, false);
   }
 
   void _onLongPressAccountItem(Account account) {
     _showEditOrNotDialog(account);
   }
 
-  void _saveAccount(Account account) async{
+  void _saveAccount(Account account) async {
     _userDataStore.updateAccount(account);
     setState(() {});
     await StoreManager.saveUserData(_userDataStore);
   }
 
-  void _deleteAccount(Account account) async{
+  void _deleteAccount(Account account) async {
     _userDataStore.removeAccount(account);
     setState(() {});
     await StoreManager.saveUserData(_userDataStore);
