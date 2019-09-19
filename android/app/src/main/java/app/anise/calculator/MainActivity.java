@@ -2,6 +2,7 @@ package app.anise.calculator;
 
 import android.os.Bundle;
 
+import app.anise.flutter.plugins.AniseCryptoPlugins;
 import app.anise.flutter.plugins.FlutterPluginRegistrant;
 import app.anise.flutter.plugins.LogPlugins;
 import io.flutter.app.FlutterActivity;
@@ -15,6 +16,7 @@ public class MainActivity extends FlutterActivity {
     GeneratedPluginRegistrant.registerWith(this);
 
     FlutterPluginRegistrant.addPlugins(LogPlugins.class);
+    FlutterPluginRegistrant.addPlugins(AniseCryptoPlugins.class);
     FlutterPluginRegistrant.registerWith(this.getFlutterView());
   }
 
