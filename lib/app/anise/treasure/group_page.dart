@@ -56,6 +56,11 @@ class _GroupHomePageState extends State<GroupHomePage> {
         title: new Text("Group List"),
         actions: <Widget>[
           IconButton(
+            icon: const Icon(Icons.edit_location),
+            tooltip: 'Reset Passwrod',
+            onPressed: _resetPass,
+          ),
+          IconButton(
             icon: const Icon(Icons.navigate_next),
             tooltip: 'Export',
             onPressed: _export,
@@ -128,153 +133,17 @@ class _GroupHomePageState extends State<GroupHomePage> {
     _showGroup(new Group(""), true);
   }
 
-  void _showGroup(Group group, bool isEditEnable) {
-    Group groupEditCache = new Group("");
-    groupEditCache.resetValues(group);
-
-    List<Widget> getActionSelect(){
-      if (isEditEnable) {
-        return <Widget>[
-          Container(
-            height: 30,
-            width: 90,
-            child: new RaisedButton(
-                child: new Text(
-                  "Cancel",
-                  style: AppStyle.getAppStyle().dialog.buttonText,
-                ),
-                onPressed: () {
-                  //关闭对话框
-                  Navigator.pop(context);
-                }),
-          ),
-          Container(
-            height: 30,
-            width: 90,
-            child: new RaisedButton(
-                child: new Text(
-                  "Confirm",
-                  style: AppStyle.getAppStyle().dialog.buttonText,
-                ),
-                onPressed: () {
-                  group.resetValues(groupEditCache);
-                  _saveGroup(group);
-                  Navigator.pop(context); //关闭对话框
-                }),
-          ),
-        ];
-      } else {
-        return <Widget>[
-          Container(
-            height: 30,
-            width: 90,
-            child: new RaisedButton(
-                child: new Text(
-                  "OK",
-                  style: AppStyle.getAppStyle().dialog.buttonText,
-                ),
-                onPressed: () {
-                  //关闭对话框
-                  Navigator.pop(context);
-                }),
-          ),
-        ];
-      }
-    }
-
+  void _showGroup(Group g, bool isEditEnable) {
     showDialog<Null>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return new StatefulDialog(
-            child: new Container(
-              constraints:BoxConstraints(
-                maxHeight: 330,
-              ),
-              child: new Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new TextField(
-                    enabled: isEditEnable,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                            // 设置内容
-                            text: groupEditCache.name,
-                            )),
-                    style: AppStyle.getAppStyle().textField(isEditEnable),
-                    decoration: new InputDecoration(
-                        contentPadding: const EdgeInsets.all(5.0),
-                        icon: new Icon(Icons.group),
-                        labelText: "Group name"),
-                    onChanged: (String str) {
-                      groupEditCache.name = str;
-                    },
-                  ),
-                  new TextField(
-                    enabled: isEditEnable,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          // 设置内容
-                          text: groupEditCache.order.toString(),
-                        )),
-                    style: AppStyle.getAppStyle().textField(isEditEnable),
-                    keyboardType: TextInputType.number,
-                    decoration: new InputDecoration(
-                        contentPadding: const EdgeInsets.all(5.0),
-                        icon: new Icon(Icons.reorder),
-                        labelText: "Display Order"),
-                    onChanged: (String str) {
-                      groupEditCache.order = int.parse(str);
-                    },
-                  ),
-                  new TextField(
-                    enabled: isEditEnable,
-                    style: AppStyle.getAppStyle().textField(isEditEnable),
-                    maxLines: 3,
-                    decoration: new InputDecoration(
-                        contentPadding: const EdgeInsets.all(5.0),
-                        icon: new Icon(Icons.bookmark),
-                        labelText: "Group Remarks"),
-                    onChanged: (String str) {
-                      groupEditCache.remarks = str;
-                    },
-                  ),
-                  new TextField(
-                    enabled: false,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          // 设置内容
-                          text: DateTime.fromMillisecondsSinceEpoch(group.createTime).toString(),
-                        )),
-                    style: AppStyle.getAppStyle().textField(false),
-                    decoration: new InputDecoration(
-                        contentPadding: const EdgeInsets.all(5.0),
-                        icon: new Icon(Icons.timer),
-                        labelText: "Create time"),
-                    onChanged: (String str) {},
-                  ),
-                  new TextField(
-                    enabled: false,
-                    controller: TextEditingController.fromValue(
-                        TextEditingValue(
-                          // 设置内容
-                          text: DateTime.fromMillisecondsSinceEpoch(group.updateTime).toString(),
-                        )),
-                    style: AppStyle.getAppStyle().textField(false),
-                    decoration: new InputDecoration(
-                        contentPadding: const EdgeInsets.all(5.0),
-                        icon: new Icon(Icons.timer),
-                        labelText: "Update time"),
-                    onChanged: (String str) {},
-                  ),
-                  new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: getActionSelect()),
-                ],
-              ),
-            ),
+          return GroupEditDialog(
+            group : g,
+            isEditEnable : isEditEnable,
+            onSaveGroup : (Group group){
+              _saveGroup(group);
+            },
           );
         });
   }
@@ -375,6 +244,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
         });
   }
 
+  void _resetPass() {}
+
   void _export() {}
 
   void _onClickGroupItem(Group group) {
@@ -403,4 +274,224 @@ class _GroupHomePageState extends State<GroupHomePage> {
     setState(() {});
     await StoreManager.saveUserData(_userDataStore);
   }
+}
+
+typedef OnSaveGroup = void Function(Group group);
+// ignore: must_be_immutable
+class GroupEditDialog extends StatefulWidget {
+
+  Group group;
+  bool isEditEnable;
+  OnSaveGroup onSaveGroup;
+
+  GroupEditDialog({
+    Key key,
+    this.group,
+    this.isEditEnable,
+    this.onSaveGroup,
+  }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return new _GroupEditDialogState(group,isEditEnable,onSaveGroup);
+  }
+}
+
+class _GroupEditDialogState extends State<GroupEditDialog> {
+
+  Group group;
+  bool isEditEnable;
+  OnSaveGroup onSaveGroup;
+
+  Color backgroundColor;
+
+  double elevation;
+
+  Duration insetAnimationDuration = const Duration(milliseconds: 100);
+
+  Curve insetAnimationCurve = Curves.decelerate;
+
+  ShapeBorder shape;
+
+  _GroupEditDialogState(this.group, this.isEditEnable,
+      this.onSaveGroup);
+
+  static const RoundedRectangleBorder _defaultDialogShape =
+  RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0)));
+  static const double _defaultElevation = 24.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final DialogTheme dialogTheme = DialogTheme.of(context);
+    return AnimatedPadding(
+      padding: MediaQuery.of(context).viewInsets + const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+      duration: insetAnimationDuration,
+      curve: insetAnimationCurve,
+      child: MediaQuery.removeViewInsets(
+        removeLeft: true,
+        removeTop: true,
+        removeRight: true,
+        removeBottom: true,
+        context: context,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: 280.0),
+            child: Material(
+              color: backgroundColor ?? dialogTheme.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
+              elevation: elevation ?? dialogTheme.elevation ?? _defaultElevation,
+              shape: shape ?? dialogTheme.shape ?? _defaultDialogShape,
+              type: MaterialType.card,
+              child: getContent(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getContent () {
+    Group groupEditCache = new Group("");
+    groupEditCache.resetValues(group);
+
+    List<Widget> getActionSelect(){
+      if (isEditEnable) {
+        return <Widget>[
+          Container(
+            height: 30,
+            width: 90,
+            child: new RaisedButton(
+                child: new Text(
+                  "Cancel",
+                  style: AppStyle.getAppStyle().dialog.buttonText,
+                ),
+                onPressed: () {
+                  //关闭对话框
+                  Navigator.pop(context);
+                }),
+          ),
+          Container(
+            height: 30,
+            width: 90,
+            child: new RaisedButton(
+                child: new Text(
+                  "Confirm",
+                  style: AppStyle.getAppStyle().dialog.buttonText,
+                ),
+                onPressed: () {
+                  group.resetValues(groupEditCache);
+                  onSaveGroup(group);
+                  Navigator.pop(context); //关闭对话框
+                }),
+          ),
+        ];
+      } else {
+        return <Widget>[
+          Container(
+            height: 30,
+            width: 90,
+            child: new RaisedButton(
+                child: new Text(
+                  "OK",
+                  style: AppStyle.getAppStyle().dialog.buttonText,
+                ),
+                onPressed: () {
+                  //关闭对话框
+                  Navigator.pop(context);
+                }),
+          ),
+        ];
+      }
+    }
+
+    return new Container(
+      constraints:BoxConstraints(
+        maxHeight: 330,
+      ),
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          new TextField(
+            enabled: isEditEnable,
+            controller: TextEditingController.fromValue(
+                TextEditingValue(
+                  // 设置内容
+                  text: groupEditCache.name,
+                )),
+            style: AppStyle.getAppStyle().textField(isEditEnable),
+            decoration: new InputDecoration(
+                contentPadding: const EdgeInsets.all(5.0),
+                icon: new Icon(Icons.group),
+                labelText: "Group name"),
+            onChanged: (String str) {
+              groupEditCache.name = str;
+            },
+          ),
+          new TextField(
+            enabled: isEditEnable,
+            controller: TextEditingController.fromValue(
+                TextEditingValue(
+                  // 设置内容
+                  text: groupEditCache.order.toString(),
+                )),
+            style: AppStyle.getAppStyle().textField(isEditEnable),
+            keyboardType: TextInputType.number,
+            decoration: new InputDecoration(
+                contentPadding: const EdgeInsets.all(5.0),
+                icon: new Icon(Icons.reorder),
+                labelText: "Display Order"),
+            onChanged: (String str) {
+              groupEditCache.order = int.parse(str);
+            },
+          ),
+          new TextField(
+            enabled: isEditEnable,
+            style: AppStyle.getAppStyle().textField(isEditEnable),
+            maxLines: 3,
+            decoration: new InputDecoration(
+                contentPadding: const EdgeInsets.all(5.0),
+                icon: new Icon(Icons.bookmark),
+                labelText: "Group Remarks"),
+            onChanged: (String str) {
+              groupEditCache.remarks = str;
+            },
+          ),
+          new TextField(
+            enabled: false,
+            controller: TextEditingController.fromValue(
+                TextEditingValue(
+                  // 设置内容
+                  text: DateTime.fromMillisecondsSinceEpoch(group.createTime).toString(),
+                )),
+            style: AppStyle.getAppStyle().textField(false),
+            decoration: new InputDecoration(
+                contentPadding: const EdgeInsets.all(5.0),
+                icon: new Icon(Icons.timer),
+                labelText: "Create time"),
+            onChanged: (String str) {},
+          ),
+          new TextField(
+            enabled: false,
+            controller: TextEditingController.fromValue(
+                TextEditingValue(
+                  // 设置内容
+                  text: DateTime.fromMillisecondsSinceEpoch(group.updateTime).toString(),
+                )),
+            style: AppStyle.getAppStyle().textField(false),
+            decoration: new InputDecoration(
+                contentPadding: const EdgeInsets.all(5.0),
+                icon: new Icon(Icons.timer),
+                labelText: "Update time"),
+            onChanged: (String str) {},
+          ),
+          new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: getActionSelect()),
+        ],
+      ),
+    );
+  }
+
 }

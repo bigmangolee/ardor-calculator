@@ -3,12 +3,12 @@
 
 import 'package:flutter/material.dart';
 
-class StatefulDialog extends StatefulWidget {
+abstract class StatefulDialog extends StatefulWidget {
 
   /// Creates a dialog.
   ///
   /// Typically used in conjunction with [showDialog].
-  const StatefulDialog({
+  StatefulDialog({
     Key key,
     this.backgroundColor,
     this.elevation,
@@ -67,10 +67,11 @@ class StatefulDialog extends StatefulWidget {
   RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0)));
   static const double _defaultElevation = 24.0;
 
+  _StatefulDialogState _state;
 
   @override
   State<StatefulWidget> createState() {
-    return new _StatefulDialogState(
+    _state =  new _StatefulDialogState(
       this.backgroundColor,
       this.elevation,
       this.insetAnimationDuration,
@@ -78,8 +79,20 @@ class StatefulDialog extends StatefulWidget {
       this.shape,
       this.child,
     );
+    return _state;
   }
 
+  @protected
+  Widget getChild();
+
+  void close() {
+    _state.close();
+  }
+
+  @protected
+  State<StatefulWidget> getState() {
+    return _state;
+  }
 }
 
 class _StatefulDialogState extends State<StatefulDialog> {
@@ -171,4 +184,9 @@ class _StatefulDialogState extends State<StatefulDialog> {
     );
   }
 
+  @protected
+  void close() {
+    //关闭对话框
+    Navigator.pop(context);
+  }
 }

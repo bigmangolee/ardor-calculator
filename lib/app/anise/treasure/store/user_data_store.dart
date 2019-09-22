@@ -150,8 +150,9 @@ class UserDataStore {
   void changeGroup( Account account, int toGroupId){
     List<Account> oldList = getAccountsByGroup(account.groupId);
     List<Account> newList = getAccountsByGroup(toGroupId);
-    if(newList==null){
-      return;
+    if(newList == null){
+      newList = new List<Account>();
+      accounts.putIfAbsent(toGroupId.toString(), () => newList);
     }
     Account deleteAccount;
     if(oldList != null){
@@ -173,6 +174,7 @@ class UserDataStore {
     if(deleteAccount != null){
       newList.remove(deleteAccount);
     }
+    account.groupId = toGroupId;
     newList.add(account);
   }
 }
