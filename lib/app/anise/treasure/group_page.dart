@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:anise_calculator/app/anise/calculator/style/style.dart';
+import 'package:anise_calculator/app/anise/treasure/password_keyboard.dart';
 import 'package:anise_calculator/app/anise/widget/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -56,7 +57,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
         title: new Text("Group List"),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.edit_location),
+            icon: const Icon(Icons.enhanced_encryption),
             tooltip: 'Reset Passwrod',
             onPressed: _resetPass,
           ),
@@ -244,7 +245,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
         });
   }
 
-  void _resetPass() {}
+  void _resetPass() {
+    showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return PasswordKeybordDialog();
+        });
+  }
 
   void _export() {}
 
@@ -293,7 +301,6 @@ class GroupEditDialog extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return new _GroupEditDialogState(group,isEditEnable,onSaveGroup);
   }
 }

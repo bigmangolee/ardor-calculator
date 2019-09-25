@@ -4,6 +4,7 @@ import 'package:anise_calculator/app/anise/calculator/cal_home.dart';
 
 import 'app/anise/treasure/account_page.dart';
 import 'app/anise/treasure/group_page.dart';
+import 'app/anise/treasure/password_keyboard.dart';
 
 void main() => runApp(AniseApp());
 

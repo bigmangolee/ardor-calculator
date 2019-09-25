@@ -14,11 +14,11 @@
 
 import 'package:anise_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:anise_calculator/app/anise/calculator/cal_base.dart';
 import 'formula/formula.dart';
-
 
 typedef CalculatorCallback = void Function(String key);
 typedef CalculatorCallbackInt = void Function(int key);
@@ -35,12 +35,20 @@ class CalGeneral extends CalBase {
 
   MemoryOperation _memoryOperationMAMC;
 
-  CalGeneral(){
+  CalGeneral() {
     _formulaController = new FormulaController(
-          (String msg) {onTools(msg);},
-          (String msg) {onInputDisplay(msg);},
-          (String msg) {onOutputDisplay(msg);},
-          (String msg) {onWarning(msg);},
+      (String msg) {
+        onTools(msg);
+      },
+      (String msg) {
+        onInputDisplay(msg);
+      },
+      (String msg) {
+        onOutputDisplay(msg);
+      },
+      (String msg) {
+        onWarning(msg);
+      },
     );
   }
 
@@ -58,139 +66,129 @@ class CalGeneral extends CalBase {
   Widget build(BuildContext context) {
     return new Center(
       child: new Column(
-        mainAxisSize: MainAxisSize.max,
+//        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          new Expanded(
+              flex: 1,
+              child: Container(
+                child: new Column(children: <Widget>[
+                  _toolInfo,
+                  _inputInfo,
+                  _outputInfo,
+                ]),
+              )),
           new Container(
-            alignment: Alignment.centerRight,
-            child: _toolInfo,
+            alignment: Alignment.bottomCenter,
+            height: 300,
+            padding:const EdgeInsets.all(1.0),
+            child: new StaggeredGridView.countBuilder(
+              crossAxisCount: 4,
+              itemCount: 23,
+              itemBuilder: (BuildContext context, int index) => new Container(
+                  child: new Center(
+                child: getKeyboard(index),
+              )),
+              staggeredTileBuilder: (int index) =>
+                  new StaggeredTile.count(1, index == 19 ? 1.2 : 0.6),
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+            ),
           ),
-          new Expanded(
-              flex: 1,
-              child: Container(
-                child: _inputInfo,
-              )),
-          new Expanded(
-              flex: 1,
-              child: Container(
-                child: _outputInfo,
-              )),
-          new Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _getMemoryOperationMAMC(),
-                new MemoryOperation(MemoryOpera.Plus, (dynamic key) {
-                  onKey(key);
-                }),
-                new MemoryOperation(MemoryOpera.Minus, (dynamic key) {
-                  onKey(key);
-                }),
-                new MemoryOperation(MemoryOpera.Read, (dynamic key) {
-                  onKey(key);
-                }),
-              ]),
-          new Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new _CleanOperation(() {
-                  onKey(FormulaAction.Clean);
-                }),
-                new _MathOperation(FormulaType.Devi, (dynamic key) {
-                  onKey(key);
-                }),
-                new _MathOperation(FormulaType.Multi, (dynamic key) {
-                  onKey(key);
-                }),
-                new _DeleteOperation(() {
-                  onKey(FormulaAction.Delete);
-                }),
-              ]),
-          new Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new _CalInput(7, (int key) {
-                  onKey(key);
-                }),
-                new _CalInput(8, (int key) {
-                  onKey(key);
-                }),
-                new _CalInput(9, (int key) {
-                  onKey(key);
-                }),
-                new _MathOperation(FormulaType.Minus, (dynamic key) {
-                  onKey(key);
-                }),
-              ]),
-          new Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new _CalInput(4, (int key) {
-                  onKey(key);
-                }),
-                new _CalInput(5, (int key) {
-                  onKey(key);
-                }),
-                new _CalInput(6, (int key) {
-                  onKey(key);
-                }),
-                new _MathOperation(FormulaType.Plus, (dynamic key) {
-                  onKey(key);
-                }),
-              ]),
-          new Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      new Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new _CalInput(1, (int key) {
-                              onKey(key);
-                            }),
-                            new _CalInput(2, (int key) {
-                              onKey(key);
-                            }),
-                            new _CalInput(3, (int key) {
-                              onKey(key);
-                            }),
-                          ]),
-                      new Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            new _CalPercent(() {
-                              onKey(FormulaType.Percent);
-                            }),
-                            new _CalInput(0, (int key) {
-                              onKey(key);
-                            }),
-                            new _CalPoint((String key) {
-                              onKey(key);
-                            }),
-                          ]),
-                    ]),
-                new _CalculateOperation(() {
-                  onKey(FormulaAction.Calculate);
-                }),
-              ]),
         ],
       ),
     );
   }
 
+  List<Widget> list;
+  Widget getKeyboard(int index) {
+    if (list != null) {
+      return list[index];
+    }
+
+    list = new List();
+
+    //row 1
+    list.add(_getMemoryOperationMAMC());
+    list.add(new MemoryOperation(MemoryOpera.Plus, (dynamic key) {
+      onKey(key);
+    }));
+    list.add(new MemoryOperation(MemoryOpera.Minus, (dynamic key) {
+      onKey(key);
+    }));
+    list.add(new MemoryOperation(MemoryOpera.Read, (dynamic key) {
+      onKey(key);
+    }));
+    //row 2
+    list.add(new _CleanOperation(() {
+      onKey(FormulaAction.Clean);
+    }));
+    list.add(new _MathOperation(FormulaType.Devi, (dynamic key) {
+      onKey(key);
+    }));
+    list.add(new _MathOperation(FormulaType.Multi, (dynamic key) {
+      onKey(key);
+    }));
+    list.add(new _DeleteOperation(() {
+      onKey(FormulaAction.Delete);
+    }));
+    //row 3
+    list.add(new _CalInput(7, (int key) {
+      onKey(key);
+    }));
+    list.add(new _CalInput(8, (int key) {
+      onKey(key);
+    }));
+    list.add(new _CalInput(9, (int key) {
+      onKey(key);
+    }));
+    list.add(new _MathOperation(FormulaType.Minus, (dynamic key) {
+      onKey(key);
+    }));
+    //row 4
+    list.add(new _CalInput(4, (int key) {
+      onKey(key);
+    }));
+    list.add(new _CalInput(5, (int key) {
+      onKey(key);
+    }));
+    list.add(new _CalInput(6, (int key) {
+      onKey(key);
+    }));
+    list.add(new _MathOperation(FormulaType.Plus, (dynamic key) {
+      onKey(key);
+    }));
+    //row 5
+    list.add(new _CalInput(1, (int key) {
+      onKey(key);
+    }));
+    list.add(new _CalInput(2, (int key) {
+      onKey(key);
+    }));
+    list.add(new _CalInput(3, (int key) {
+      onKey(key);
+    }));
+    list.add(new _CalculateOperation(() {
+      onKey(FormulaAction.Calculate);
+    }));
+    //row 6
+    list.add(new _CalPercent(() {
+      onKey(FormulaType.Percent);
+    }));
+    list.add(new _CalInput(0, (int key) {
+      onKey(key);
+    }));
+    list.add(new _CalPoint((String key) {
+      onKey(key);
+    }));
+    return list[index];
+  }
 
   MemoryOperation _getMemoryOperationMAMC() {
     if (_memoryOperationMAMC == null) {
-      _memoryOperationMAMC =  new MemoryOperation(MemoryOpera.Add, (dynamic key) {
+      _memoryOperationMAMC =
+          new MemoryOperation(MemoryOpera.Add, (dynamic key) {
         onKey(key);
       });
     }
@@ -230,14 +228,11 @@ class CalGeneral extends CalBase {
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIos: 1,
-      backgroundColor:Colors.lime[100],
-      textColor:Colors.deepOrange,
+      backgroundColor: Colors.lime[100],
+      textColor: Colors.deepOrange,
     );
   }
 }
-
-const double buttonHeight = 60;
-const double buttonWidth = 83;
 
 // ignore: must_be_immutable
 class ToolInfo extends StatefulWidget {
@@ -259,9 +254,7 @@ class _ToolInfo extends State<ToolInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return new Text(_info,
-        key:Key('tool_info'),
-        style: new TextStyle());
+    return new Text(_info, key: Key('tool_info'));
   }
 
   void setTextInfo(String info) {
@@ -304,8 +297,8 @@ class _InputDisplay extends State<InputDisplay> {
 //      style: new TextStyle(fontSize: 20),
 //    );
     return new Text(
-        _info,
-      key:Key('input_display'),
+      _info,
+      key: Key('input_display'),
     );
   }
 
@@ -351,7 +344,7 @@ class _OutDisplay extends State<OutDisplay> {
 //    );
     return new Text(
       _info,
-      key:Key('out_display'),
+      key: Key('out_display'),
     );
   }
 
@@ -376,10 +369,9 @@ class MemoryOperation extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    _memoryOperation = new _MemoryOperation(memoryOpera,callback);
+    _memoryOperation = new _MemoryOperation(memoryOpera, callback);
     return _memoryOperation;
   }
-
 }
 
 class _MemoryOperation extends State<MemoryOperation> {
@@ -410,17 +402,16 @@ class _MemoryOperation extends State<MemoryOperation> {
 
   @override
   Widget build(BuildContext context) {
-    return new Expanded(
-        child: Container(
-            height: buttonHeight,
-            child: RaisedButton(
-                key:Key(memoryOpera.toString()),
-                child: new Text(getDisplay()),
-                onPressed: () {
-                  callback(memoryOpera);
-                })));
+    return new Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: RaisedButton(
+            key: Key(memoryOpera.toString()),
+            child: new Text(getDisplay()),
+            onPressed: () {
+              callback(memoryOpera);
+            }));
   }
-
 }
 
 class _CalInput extends StatelessWidget {
@@ -431,17 +422,18 @@ class _CalInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-        height: buttonHeight,
-        width: buttonWidth,
-        child: RaisedButton(
-            key:Key("input_$input"),
-            child: new Text(
-              this.input.toString(),
-              style: getCalculateTextStyle(),
-            ),
-            onPressed: () {
-              doInput();
-            }));
+      width: double.infinity,
+      height: double.infinity,
+      child: RaisedButton(
+          key: Key("input_$input"),
+          child: new Text(
+            this.input.toString(),
+            style: getCalculateTextStyle(),
+          ),
+          onPressed: () {
+            doInput();
+          }),
+    );
   }
 
   bool doInput() {
@@ -457,10 +449,10 @@ class _CalPercent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-        height: buttonHeight,
-        width: buttonWidth,
+        width: double.infinity,
+        height: double.infinity,
         child: RaisedButton(
-            key:Key(FormulaType.Percent.toString()),
+            key: Key(FormulaType.Percent.toString()),
             child: new Text(
               "%",
               style: getCalculateTextStyle(),
@@ -483,10 +475,10 @@ class _CalPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
-        height: buttonHeight,
-        width: buttonWidth,
+        width: double.infinity,
+        height: double.infinity,
         child: RaisedButton(
-            key:Key("input_point"),
+            key: Key("input_point"),
             child: new Text(
               ".",
               style: getCalculateTextStyle(),
@@ -502,7 +494,6 @@ class _CalPoint extends StatelessWidget {
   }
 }
 
-
 class _MathOperation extends StatelessWidget {
   FormulaType mathOpera;
   final CalculatorCallbackDynamic callback;
@@ -514,18 +505,18 @@ class _MathOperation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Expanded(
-        child: Container(
-            height: buttonHeight,
-            child: RaisedButton(
-                key:Key(mathOpera.toString()),
-                child: new Text(
-                  getDisplay(),
-                  style: getCalculateTextStyle(),
-                ),
-                onPressed: () {
-                  doMathOpera();
-                })));
+    return new Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: RaisedButton(
+            key: Key(mathOpera.toString()),
+            child: new Text(
+              getDisplay(),
+              style: getCalculateTextStyle(),
+            ),
+            onPressed: () {
+              doMathOpera();
+            }));
   }
 
   void doMathOpera() {
@@ -540,17 +531,17 @@ class _CleanOperation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Expanded(
-        child: Container(
-            height: buttonHeight,
-            child: RaisedButton(
-                key:Key(FormulaAction.Clean.toString()),
-                child: new Text(
-                  "C",
-                ),
-                onPressed: () {
-                  this.callback();
-                })));
+    return new Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: RaisedButton(
+            key: Key(FormulaAction.Clean.toString()),
+            child: new Text(
+              "C",
+            ),
+            onPressed: () {
+              this.callback();
+            }));
   }
 }
 
@@ -561,17 +552,17 @@ class _DeleteOperation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Expanded(
-        child: Container(
-            height: buttonHeight,
-            child: RaisedButton(
-                key:Key(FormulaAction.Delete.toString()),
-                child: new Text(
-                  "Del",
-                ),
-                onPressed: () {
-                  this.callback();
-                })));
+    return new Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: RaisedButton(
+            key: Key(FormulaAction.Delete.toString()),
+            child: new Text(
+              "Del",
+            ),
+            onPressed: () {
+              this.callback();
+            }));
   }
 }
 
@@ -582,23 +573,22 @@ class _CalculateOperation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Expanded(
-        flex: 1,
-        child: Container(
-            height: buttonHeight * 2,
-            child: RaisedButton(
-                key:Key(FormulaAction.Calculate.toString()),
-                color: Colors.green[100],
-                child: new Text(
-                  "=",
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                onPressed: () {
-                  callback();
-                })));
+    return new Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: RaisedButton(
+            key: Key(FormulaAction.Calculate.toString()),
+            color: Colors.green[100],
+            child: new Text(
+              "=",
+              style: TextStyle(
+                fontSize: 30.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            onPressed: () {
+              callback();
+            }));
   }
 }
 
