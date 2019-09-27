@@ -2,10 +2,10 @@
 
 
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:flutter/material.dart';
 
-import 'password_keyboard.dart';
-import 'store/store_manager.dart';
 
 class TreasureInit{
 
