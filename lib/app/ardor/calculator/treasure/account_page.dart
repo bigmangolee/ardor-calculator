@@ -13,13 +13,13 @@
 // limitations under the License.
 
 import 'package:ardor_calculator/app/ardor/calculator/style/style.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/account.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'bean/account.dart';
-import 'bean/group.dart';
 import 'store/store_manager.dart';
-import 'store/user_data_store.dart';
 
 // ignore: must_be_immutable
 class AccountHomePage extends StatefulWidget {

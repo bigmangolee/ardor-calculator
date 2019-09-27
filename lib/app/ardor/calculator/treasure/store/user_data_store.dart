@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:ardor_calculator/app/ardor/treasure/bean/account.dart';
-import 'package:ardor_calculator/app/ardor/treasure/bean/group.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/account.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../app_global.dart';

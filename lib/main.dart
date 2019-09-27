@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_home.dart';
 
-import 'app/ardor/treasure/account_page.dart';
-import 'app/ardor/treasure/group_page.dart';
+import 'app/ardor/calculator//treasure/account_page.dart';
+import 'app/ardor/calculator//treasure/group_page.dart';
 
 void main() => runApp(ArdorApp());
 

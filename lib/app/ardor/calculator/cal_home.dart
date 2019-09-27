@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:ardor_calculator/app/ardor/treasure/treasure_init_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_financial.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_mathematicall.dart';
+
+import 'treasure/treasure_init_page.dart';
 
 // ignore: must_be_immutable
 class CalHome extends StatelessWidget {

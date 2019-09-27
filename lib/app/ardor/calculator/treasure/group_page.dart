@@ -13,16 +13,15 @@
 // limitations under the License.
 
 import 'package:ardor_calculator/app/ardor/calculator/style/style.dart';
-import 'package:ardor_calculator/app/ardor/treasure/password_keyboard.dart';
-import 'package:ardor_calculator/app/ardor/widget/dialog.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'bean/group.dart';
 import 'store/store_manager.dart';
-import 'store/user_data_store.dart';
 
 class GroupHomePage extends StatefulWidget {
   @override

@@ -1,9 +1,9 @@
 
 
 
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
 import 'package:flutter/material.dart';
 
-import 'bean/config.dart';
 import 'password_keyboard.dart';
 import 'store/store_manager.dart';
 

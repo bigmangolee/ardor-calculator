@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:ardor_calculator/app/ardor/treasure/store/store_manager.dart';
-import 'package:ardor_calculator/app/ardor/treasure/store/user_data_store.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:flutter/material.dart';
 
 abstract class CalBase extends StatelessWidget {
