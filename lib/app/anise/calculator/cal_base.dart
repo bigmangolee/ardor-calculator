@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:anise_calculator/app/anise/treasure/store/store_manager.dart';
+import 'package:anise_calculator/app/anise/treasure/store/user_data_store.dart';
 import 'package:flutter/material.dart';
 
 abstract class CalBase extends StatelessWidget {
@@ -19,4 +21,15 @@ abstract class CalBase extends StatelessWidget {
   String getName();
 
   IconData getIcon();
+
+  Future<bool> startTreasure(context,String password) async{
+    StoreManager.secretKey = password;
+    UserDataStore value = await StoreManager.getUserData();
+    if (value != null) {
+      Navigator.pushNamed(context, '/group');
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

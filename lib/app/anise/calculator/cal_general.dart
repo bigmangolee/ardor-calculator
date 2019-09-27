@@ -34,7 +34,7 @@ class CalGeneral extends CalBase {
   OutDisplay _outputInfo = new OutDisplay();
 
   MemoryOperation _memoryOperationMAMC;
-
+  BuildContext _context;
   CalGeneral() {
     _formulaController = new FormulaController(
       (String msg) {
@@ -64,6 +64,7 @@ class CalGeneral extends CalBase {
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return new Center(
       child: new Column(
 //        mainAxisSize: MainAxisSize.min,
@@ -171,6 +172,7 @@ class CalGeneral extends CalBase {
     }));
     list.add(new _CalculateOperation(() {
       onKey(FormulaAction.Calculate);
+      onClickCalculate();
     }));
     //row 6
     list.add(new _CalPercent(() {
@@ -183,6 +185,27 @@ class CalGeneral extends CalBase {
       onKey(key);
     }));
     return list[index];
+  }
+
+  int _onClickTimes = 0;
+  int _lastClickTime = 0;
+  void onClickCalculate() {
+    int newLastClickTime = new DateTime.now().millisecondsSinceEpoch;
+    if (newLastClickTime - _lastClickTime < 500) {
+      //有效连续点击
+      if(++_onClickTimes >= 4){
+        //连续点击4次，则出发跳转
+        startTreasure(_context,_outputInfo.getText()).then((bool onValue){
+          if (!onValue){
+            //密码校验失败
+            showToast("校验失败");
+          }
+        });
+      }
+    } else {
+      _onClickTimes = 0;
+    }
+    _lastClickTime = newLastClickTime;
   }
 
   MemoryOperation _getMemoryOperationMAMC() {
@@ -313,8 +336,14 @@ class _InputDisplay extends State<InputDisplay> {
 class OutDisplay extends StatefulWidget {
   _OutDisplay __outDisplay;
 
+  String _content;
   void setText(String content) {
+    _content = content;
     __outDisplay.setTextInfo(content);
+  }
+
+  String getText(){
+    return _content;
   }
 
   @override
@@ -588,7 +617,9 @@ class _CalculateOperation extends StatelessWidget {
             ),
             onPressed: () {
               callback();
-            }));
+            },
+
+            ));
   }
 }
 

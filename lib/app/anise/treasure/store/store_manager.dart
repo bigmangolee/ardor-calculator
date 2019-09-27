@@ -1,23 +1,73 @@
 
 import 'package:anise_calculator/app/anise/store/safe_file_store.dart';
+import 'package:anise_calculator/app/anise/treasure/bean/config.dart';
 import 'package:anise_calculator/app/anise/treasure/store/user_data_store.dart';
+import 'package:anise_calculator/library/anise_crypto.dart';
+import 'package:anise_calculator/library/applog.dart';
 
+const String tag = "StoreManager";
 class StoreManager {
+  static String _secretKey;
 
-  static Future<UserDataStore> getUserData() async{
-    SafeFileStore safeFileStore = SafeFileStore("UserDataStore");
+  static set secretKey(String value) {
+    if (_secretKey != value) {
+      _userDataStore = null;
+    }
+    _secretKey = value;
+  }
+
+  static Config _config;
+  static UserDataStore _userDataStore;
+
+  static Future<Config> getConfig() async{
+    if (_config != null) {
+      return _config;
+    }
+    SafeFileStore safeFileStore = SafeFileStore("Config");
     String content = await safeFileStore.readString();
     if (content != null) {
-      return UserDataStore.parseJson(content);
+      _config = Config.parseJson(content);
     }
-    return new UserDataStore("");
+    if (_config == null) {
+      _config = new Config();
+    }
+    return _config;
+  }
+
+  static Future<bool> saveConfig(Config config) async{
+    SafeFileStore safeFileStore = SafeFileStore("Config");
+    String content = config.encodeJson();
+    await safeFileStore.write(content);
+    _config = config;
+    return true;
+  }
+
+  static Future<UserDataStore> getUserData() async{
+    if (_userDataStore != null) {
+      return _userDataStore;
+    }
+    SafeFileStore safeFileStore = SafeFileStore("UserDataStore");
+    String content = await safeFileStore.readString();
+    String key = _secretKey + _config.randomSalt;
+    AppLog.i(tag, "getUserData secretKey: $key");
+    String text = await AniseCrypto.decrypt(key, content);
+    if (text != null) {
+      _userDataStore = UserDataStore.parseJson(text);
+    }
+    if (_userDataStore == null) {
+      _userDataStore = UserDataStore("");
+    }
+    return _userDataStore;
   }
 
   static Future<bool> saveUserData(UserDataStore userData) async{
     SafeFileStore safeFileStore = SafeFileStore("UserDataStore");
     String content = userData.encodeJson();
-    await safeFileStore.write(content);
+    String key = _secretKey + _config.randomSalt;
+    AppLog.i(tag, "saveUserData secretKey: $key");
+    String text = await AniseCrypto.encrypt(key, content);
+    await safeFileStore.write(text);
+    _userDataStore = userData;
     return true;
   }
-
 }

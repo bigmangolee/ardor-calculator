@@ -52,6 +52,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _initArguments(context);
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Group List"),
@@ -118,6 +119,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
         ],
       )),
     );
+  }
+
+  void _initArguments(BuildContext context) {
+    dynamic obj = ModalRoute.of(context).settings.arguments;
   }
 
   List<Group> getGroups() {

@@ -33,7 +33,6 @@ class _AccountHomePageState extends State<AccountHomePage> {
   UserDataStore _userDataStore;
   int _groupId = 0;
   Group _group;
-
   _AccountHomePageState();
 
   @override
@@ -98,8 +97,10 @@ class _AccountHomePageState extends State<AccountHomePage> {
 
   void _initArguments(BuildContext context) {
     dynamic obj = ModalRoute.of(context).settings.arguments;
-    if (obj != null && obj["groupId"] != null && obj["groupId"] is int) {
-      _groupId = obj["groupId"];
+    if (obj != null) {
+      if (obj["groupId"] != null && obj["groupId"] is int){
+        _groupId = obj["groupId"];
+      }
     }
   }
 

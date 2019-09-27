@@ -12,57 +12,52 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:anise_calculator/app/anise/treasure/treasure_init_page.dart';
 import 'package:flutter/material.dart';
 import 'package:anise_calculator/app/anise/calculator/cal_general.dart';
 import 'package:anise_calculator/app/anise/calculator/cal_base.dart';
 import 'package:anise_calculator/app/anise/calculator/cal_financial.dart';
 import 'package:anise_calculator/app/anise/calculator/cal_mathematicall.dart';
 
+// ignore: must_be_immutable
 class CalHome extends StatelessWidget {
-  // This widget is the root of your application.
+  static bool _isCheckInitApp = false;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Anise Calculator',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.cyan,
-      ),
-      home: new DefaultTabController(
-        length: calculators.length,
-        child: new Scaffold(
-          appBar: new AppBar(
-            title: const Text('Anise Calculator'),
-            bottom: new TabBar(
-              isScrollable: true,
-              tabs: calculators.map((CalBase cal) {
-                return new Tab(
-                  text: cal.getName(),
-                  icon: new Icon(cal.getIcon()),
-                );
-              }).toList(),
-            ),
-
-          ),
-          body: new TabBarView(
-            children: calculators.map((CalBase cal) {
-              return new Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: new ChoiceCalculator(cal: cal),
+    if(!_isCheckInitApp){
+      checkInitApp(context);
+      _isCheckInitApp = true;
+    }
+    return DefaultTabController(
+      length: calculators.length,
+      child: new Scaffold(
+        appBar: new AppBar(
+          title: const Text('Anise Calculator'),
+          bottom: new TabBar(
+            isScrollable: true,
+            tabs: calculators.map((CalBase cal) {
+              return new Tab(
+                text: cal.getName(),
+                icon: new Icon(cal.getIcon()),
               );
             }).toList(),
           ),
+
+        ),
+        body: new TabBarView(
+          children: calculators.map((CalBase cal) {
+            return new Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: new ChoiceCalculator(cal: cal),
+            );
+          }).toList(),
         ),
       ),
     );
+  }
+
+  void checkInitApp(BuildContext context){
+    TreasureInit.toInit(context);
   }
 }
 
