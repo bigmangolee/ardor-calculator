@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AndroidConfiguredLogFilters">
+    <filters>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="Formula" />
+        <option name="name" value="Formula" />
+        <option name="packageNamePattern" value="" />
+        <option name="pid" value="" />
+      </filter>
+    </filters>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Formula" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bcd2b2f5-371d-4bd8-bd86-36ba957f26b0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_for_Android.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_for_Android.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/anise_calculator_android.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/calculator/CalculatorApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/calculator/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/flutter/plugins/AniseCryptoPlugins.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/flutter/plugins/FlutterPluginRegistrant.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/flutter/plugins/FlutterPluginsBase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/flutter/plugins/LogPlugins.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/AES.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/Hex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/MD5.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/RSA.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/TCrypto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/encoding/Base58.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/encoding/Base58FormatException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/utils/AppLog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/utils/DateUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/anise_calculator.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/AppDelegate.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/AppDelegate.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/main.m" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/cal_base.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/cal_blockchain.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/cal_financial.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/cal_general.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/cal_home.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/cal_mathematicall.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/formula/formula.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/formula/formula_standard.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/style/style.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/calculator/style/style_simple.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/store/safe_file_store.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/account_page.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/app_global.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/bean/account.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/bean/account.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/bean/config.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/bean/config.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/bean/group.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/bean/group.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/group_page.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/password_keyboard.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/store/store_manager.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/store/user_data_store.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/store/user_data_store.g.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/treasure/treasure_init_page.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/anise/widget/dialog.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/library/anise_crypto.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/library/applog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/library/applog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/library/stack.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/library/stack.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/formula_logic_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/formula_logic_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/formula_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/formula_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/store_manager_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/store_manager_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_driver/cal_general.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test_driver/cal_general.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_driver/cal_general_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test_driver/cal_general_test.dart" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.dart_tool/" />
+    <ignored path="$PROJECT_DIR$/.idea/" />
+    <ignored path="$PROJECT_DIR$/.pub/" />
+    <ignored path="$PROJECT_DIR$/build/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="S2D0218B13000246" />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/main.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ardor_calculator.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="38" lean-forward="true" selection-start-column="38" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="8" selection-start-column="8" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.idea/checkstyle-idea.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>buttonI</find>
+      <find>formulaLogic</find>
+      <find>unFinishFormula</find>
+      <find>_addNumber</find>
+      <find>_currentNumber</find>
+      <find>+</find>
+      <find>\?</find>
+      <find>÷</find>
+      <find>onOutputDisplay</find>
+      <find>_doCalculate</find>
+      <find>onInputDisplay</find>
+      <find>\+</find>
+      <find>_doInputDisplay</find>
+      <find>out_display</find>
+      <find>F3</find>
+      <find>finishNumberInput</find>
+      <find>.toString\(\)</find>
+      <find>Devi.toString\(\)</find>
+      <find>.toString()</find>
+      <find>FormulaAction</find>
+      <find>numbers</find>
+      <find>_MathOperation</find>
+      <find>currentNumber</find>
+      <find>_CalculateOperation</find>
+      <find>_logicList</find>
+      <find>minSdkVersion</find>
+      <find>@NonNull</find>
+      <find>jinhua</find>
+      <find>res</find>
+      <find>anise</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>i</replace>
+      <replace>+</replace>
+      <replace>=</replace>
+      <replace>÷</replace>
+      <replace>F4</replace>
+      <replace>Plus</replace>
+      <replace>Devi</replace>
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/android</dir>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/calculator/MainActivity.java" />
+        <option value="$PROJECT_DIR$/test/widget_test.dart" />
+        <option value="$PROJECT_DIR$/test/cal_general_test.dart" />
+        <option value="$PROJECT_DIR$/test/app.dart" />
+        <option value="$PROJECT_DIR$/lib/calculator/formula/formula_standard.dart" />
+        <option value="$PROJECT_DIR$/lib/calculator/formula/formula.dart" />
+        <option value="$PROJECT_DIR$/lib/calculator/cal_general.dart" />
+        <option value="$PROJECT_DIR$/lib/main.dart" />
+        <option value="$PROJECT_DIR$/lib/app/anise/calculator/cal_base.dart" />
+        <option value="$PROJECT_DIR$/lib/app/anise/calculator/cal_blockchain.dart" />
+        <option value="$PROJECT_DIR$/lib/app/anise/calculator/cal_financial.dart" />
+        <option value="$PROJECT_DIR$/lib/app/anise/calculator/cal_general.dart" />
+        <option value="$PROJECT_DIR$/lib/app/anise/calculator/cal_home.dart" />
+        <option value="$PROJECT_DIR$/lib/app/anise/calculator/cal_mathematicall.dart" />
+        <option value="$PROJECT_DIR$/lib/app/anise/calculator/formula/formula.dart" />
+        <option value="$PROJECT_DIR$/lib/app/anise/calculator/formula/formula_standard.dart" />
+        <option value="$PROJECT_DIR$/lib/library/applog.dart" />
+        <option value="$PROJECT_DIR$/lib/library/stack.dart" />
+        <option value="$PROJECT_DIR$/test_driver/cal_general_test.dart" />
+        <option value="$PROJECT_DIR$/test_driver/cal_general.dart" />
+        <option value="$PROJECT_DIR$/test/formula_logic_test.dart" />
+        <option value="$PROJECT_DIR$/test/formula_test.dart" />
+        <option value="$PROJECT_DIR$/pubspec.yaml" />
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/calculator/AppGlobal.java" />
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/AES.java" />
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/encoding/Base58.java" />
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/treasure/store/ArdorAccountStore.java" />
+        <option value="$PROJECT_DIR$/android/gradle.properties" />
+        <option value="$PROJECT_DIR$/android/local.properties" />
+        <option value="$PROJECT_DIR$/local.properties" />
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/flutter/plugins/FlutterPluginRegistrant.java" />
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/store/StorageManager.java" />
+        <option value="$PROJECT_DIR$/android/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/treasure/store/AppStoreManager.java" />
+        <option value="$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/utils/AppLog.java" />
+        <option value="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/android/android.iml" />
+        <option value="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/android/build.gradle" />
+        <option value="$PROJECT_DIR$/android/app/build.gradle" />
+        <option value="$PROJECT_DIR$/android/anise_calculator_android.iml" />
+        <option value="$PROJECT_DIR$/README.md" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="x" value="-130" />
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="830" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="ardor-calculator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ardor-calculator" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ardor-calculator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ardor-calculator" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ardor-calculator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ardor-calculator" type="462c0819:PsiDirectoryNode" />
+              <item name="android" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ardor-calculator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ardor-calculator" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/android/app/src/main/res/values" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/app/anise/calculator/formula" />
+      <recent name="$PROJECT_DIR$/lib/app/anise/calculator" />
+      <recent name="$PROJECT_DIR$/test_driver" />
+      <recent name="$PROJECT_DIR$/test" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="app.anise.calculator" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/android/app/src/main/res/values" />
+      <recent name="$PROJECT_DIR$/test" />
+      <recent name="$PROJECT_DIR$/lib/library" />
+      <recent name="$PROJECT_DIR$/lib" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Flutter.main.dart">
+    <configuration name="cal_general.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/test_driver/cal_general.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="cal_general_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/test_driver/cal_general_test.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="1+2&lt;F4&gt;(2×3Square÷6)-5(1+2×2)×2-1" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="1+2&lt;F4&gt;(2×3Square÷6)-5(1+2×2)×2-1" />
+      <option name="testFile" value="$PROJECT_DIR$/test/formula_logic_test.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="formula_logic_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true">
+      <option name="testName" value="formula_logic_test.dart" />
+      <option name="testFile" value="$PROJECT_DIR$/test/formula_logic_test.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tests in formula_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/formula_test.dart" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Dart Command Line App.cal_general.dart" />
+      <item itemvalue="Dart Command Line App.cal_general_test.dart" />
+      <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Flutter Test.formula_logic_test.dart" />
+      <item itemvalue="Flutter Test.tests in formula_test.dart" />
+      <item itemvalue="Flutter Test.1+2&lt;F4&gt;(2×3Square÷6)-5(1+2×2)×2-1" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter Test.tests in formula_test.dart" />
+        <item itemvalue="Flutter Test.1+2&lt;F4&gt;(2×3Square÷6)-5(1+2×2)×2-1" />
+        <item itemvalue="Flutter Test.formula_logic_test.dart" />
+        <item itemvalue="Dart Command Line App.cal_general_test.dart" />
+        <item itemvalue="Dart Command Line App.cal_general.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bcd2b2f5-371d-4bd8-bd86-36ba957f26b0" name="Default Changelist" comment="" />
+      <created>1566193380812</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1566193380812</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="formula_logic_test_dart - 2019.08.21 at 20h 27m 57s.xml">
+      <configuration name="formula_logic_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="formula_logic_test_dart - 2019.08.21 at 20h 28m 19s.xml">
+      <configuration name="formula_logic_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="formula_logic_test_dart - 2019.08.21 at 20h 28m 39s.xml">
+      <configuration name="formula_logic_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="formula_logic_test_dart - 2019.08.21 at 20h 29m 03s.xml">
+      <configuration name="formula_logic_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="1+2_F4_(2×3Square÷6)-5(1+2×2)×2-1 - 2019.08.21 at 20h 35m 34s.xml">
+      <configuration name="1+2&lt;F4&gt;(2×3Square÷6)-5(1+2×2)×2-1" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="tests_in_formula_test_dart - 2019.08.22 at 15h 35m 58s.xml">
+      <configuration name="tests in formula_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="tests_in_formula_test_dart - 2019.08.22 at 15h 47m 44s.xml">
+      <configuration name="tests in formula_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="tests_in_formula_test_dart - 2019.08.22 at 15h 58m 43s.xml">
+      <configuration name="tests in formula_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="tests_in_formula_test_dart - 2019.08.22 at 15h 59m 37s.xml">
+      <configuration name="tests in formula_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+    <history-entry file="tests_in_formula_test_dart - 2019.08.22 at 15h 59m 52s.xml">
+      <configuration name="tests in formula_test.dart" configurationId="FlutterTestConfigType" />
+    </history-entry>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26323318" />
+      <window_info id="Designer" order="1" />
+      <window_info id="Build Variants" order="2" side_tool="true" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Favorites" order="4" side_tool="true" />
+      <window_info id="Captures" order="5" side_tool="true" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Resources Explorer" order="7" />
+      <window_info id="Structure" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="0" weight="0.4510533" />
+      <window_info anchor="bottom" id="Dart Analysis" order="1" weight="0.29120198" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6144492" visible="true" weight="0.35811648" />
+      <window_info anchor="bottom" id="Android Profiler" order="3" show_stripe_button="false" />
+      <window_info anchor="bottom" id="CheckStyle" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.5028612" side_tool="true" weight="0.39653036" />
+      <window_info anchor="bottom" id="Statistic" order="6" />
+      <window_info anchor="bottom" id="Logcat" order="7" weight="0.32713756" />
+      <window_info anchor="bottom" id="Flutter Performance" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.16232961" />
+      <window_info anchor="bottom" id="Debug with JRebel for Android" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49713877" weight="0.21065675" />
+      <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.4985694" weight="0.32218093" />
+      <window_info anchor="bottom" id="TODO" order="13" />
+      <window_info anchor="bottom" id="Debug" order="14" weight="0.45229244" />
+      <window_info anchor="bottom" id="JRebel for Android" order="15" />
+      <window_info anchor="bottom" id="Build" order="16" />
+      <window_info anchor="right" id="Palette&#9;" order="0" />
+      <window_info anchor="right" id="Flutter Inspector" order="1" />
+      <window_info anchor="right" id="Capture Analysis" order="2" />
+      <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
+      <window_info anchor="right" id="Flutter Outline" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+    </layout>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/android/app/src/main/java/app/anise/calculator/MainActivity.java</url>
+          <line>18</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/test/formula_logic_test.dart</url>
+          <line>311</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/app/anise/calculator/cal_general.dart</url>
+          <line>176</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/app/anise/calculator/formula/formula.dart</url>
+          <line>267</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/app/anise/calculator/formula/formula.dart</url>
+          <line>547</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="FlutterTestConfigType">
+        <watch expression="_logicList" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/libraries/Flutter_for_Android.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="15" lean-forward="true" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/flutter/plugins/FlutterPluginsBase.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/AES.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/Hex.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/MD5.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/RSA.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/crypto/TCrypto.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/encoding/Base58.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/encoding/Base58FormatException.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/utils/DateUtil.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/treasure/bean/Account.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/treasure/bean/AccountGroup.java" />
+    <entry file="file://$PROJECT_DIR$/android/gradlew">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/treasure/store/AppConfigStore.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/treasure/store/ArdorAccountStore.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/treasure/bean/DataImportExport.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/flutter/plugins/FlutterPluginRegistrant.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/flutter/plugins/LogPlugins.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/store/SafeFileStore.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/store/StorageManager.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/lib/utils/AppLog.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/treasure/store/AppStoreManager.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/calculator/AppGlobal.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/calculator/CalculatorApplication.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/java/app/anise/calculator/MainActivity.java" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="23" selection-start-line="1" selection-start-column="23" selection-end-line="1" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-573">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anise_calculator.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="55" selection-start-line="10" selection-start-column="55" selection-end-line="10" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="10" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/android.iml" />
+    <entry file="file://$PROJECT_DIR$/android/app/app.iml" />
+    <entry file="file://$PROJECT_DIR$/android/local.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/modules.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="10" lean-forward="true" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/local.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="66" lean-forward="true" selection-start-line="3" selection-start-column="66" selection-end-line="3" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="609">
+          <caret line="843" column="12" lean-forward="true" selection-start-line="843" selection-start-column="12" selection-end-line="843" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="121">
+          <caret line="41" column="5" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/res/values/strings.xml" />
+    <entry file="file://$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="14" column="42" selection-start-line="14" selection-start-column="42" selection-end-line="14" selection-end-column="42" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/android/anise_calculator_android.iml" />
+    <entry file="file://$PROJECT_DIR$/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/checkstyle-idea.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ardor_calculator.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="38" lean-forward="true" selection-start-column="38" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

@@ -1,4 +1,4 @@
-// Copyright 2019-present the Anise.App authors. All Rights Reserved.
+// Copyright 2019-present the Ardor.App authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
 // limitations under the License.
 
 
-import 'package:anise_calculator/app/anise/calculator/formula/formula.dart';
-import 'package:anise_calculator/library/applog.dart';
+import 'package:ardor_calculator/app/ardor/calculator/formula/formula.dart';
+import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 
@@ -22,7 +22,7 @@ void main() {
   //flutter test test/formula_test.dart
   AppLog.isEnable = false;
   group('Formula', () {
-    test('Input case 1', () {
+    test('Formula case 1 ：Input', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -42,6 +42,13 @@ void main() {
       _formulaController.input(3);
       expect(onInputDisplay, "123");
 
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaAction.Delete);
+      expect(onInputDisplay, "");
+
+
+      _formulaController.input(123);
       _formulaController.input(".");
       expect(onInputDisplay, "123.");
 
@@ -65,24 +72,8 @@ void main() {
       expect(onInputDisplay, "0.56");
     });
 
-    test('Number input case 2', () {
-      String onTools;
-      String onInputDisplay;
-      String onOutputDisplay;
-      String onWarning;
-      FormulaController _formulaController = new FormulaController(
-            (String msg) {onTools =  msg;},
-            (String msg) {onInputDisplay =  msg;},
-            (String msg) {onOutputDisplay =  msg;},
-            (String msg) {onWarning =  msg;},);
 
-      _formulaController.input(1).input(2).input(3).input(".").input(4);
-      _formulaController.input(FormulaAction.Delete);
-      expect(onInputDisplay, "123.4");
-
-    });
-
-    test('MemoryOpera', () {
+    test('Formula case 2 ：MemoryOpera', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -128,7 +119,7 @@ void main() {
       expect(onWarning, "Memory cache is empty.");
     });
 
-    test('Formula: 1+2+3×4×5+6-7-8+9÷10+11-12×13 = 221.9', () {
+    test('Formula case 3 ： 1+2+3×4×5+6-7-8+9÷10+11-12×13 = 221.9', () {
       String onTools = "";
       String onInputDisplay = "";
       String onOutputDisplay = "";
@@ -177,7 +168,7 @@ void main() {
 
     });
 
-    test('Exception case 1', () {
+    test('Formula case 4：Exception ', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -193,7 +184,7 @@ void main() {
 
     });
 
-    test('Formula case 2', () {
+    test('Formula case 5 ：FormulaType.Percent', () {
       String onTools;
       String onInputDisplay;
       String onOutputDisplay;
@@ -205,11 +196,202 @@ void main() {
             (String msg) {onWarning =  msg;},);
 
       _formulaController.input(12);
+      _formulaController.input(FormulaType.Multi);
+      _formulaController.input(FormulaAction.UpPriority);
+      _formulaController.input(2);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(3);
+      _formulaController.input(FormulaAction.DownPriority);
       _formulaController.input(FormulaType.Percent);
-      expect(onInputDisplay, "12%");
+      expect(onInputDisplay, "12×(2+3)%");
+      //12×0.05=0.6000000000000001
+      _formulaController.input(FormulaAction.Calculate);
+
+      expect(onOutputDisplay, "0.6000000000000001");
+    });
+
+
+    test('Formula case 6 ：FormulaAction.Delete test case 1', () {
+      String onTools;
+      String onInputDisplay;
+      String onOutputDisplay;
+      String onWarning;
+      FormulaController _formulaController = new FormulaController(
+            (String msg) {onTools =  msg;},
+            (String msg) {onInputDisplay =  msg;},
+            (String msg) {onOutputDisplay =  msg;},
+            (String msg) {onWarning =  msg;},);
+
+      _formulaController.input(8).input(8).input(8);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(9).input(9).input(9);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(9).input(9).input(9);
+      expect(onInputDisplay, "888+9+999");
+
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Plus);
+      expect(onInputDisplay, "888+9+99+");
+
+      _formulaController.input(FormulaAction.Delete);
+      _formulaController.input(FormulaType.Multi);
+      _formulaController.input(9);
+      _formulaController.input(FormulaType.Square);
+      expect(onInputDisplay, "888+9+99×9Square");
 
       _formulaController.input(FormulaAction.Calculate);
-      expect(onOutputDisplay, "0.12");
+      expect(onOutputDisplay, "8916");
+
+    });
+
+    test('Formula case 7 ：FormulaAction.Delete test case 2', () {
+      String onTools;
+      String onInputDisplay;
+      String onOutputDisplay;
+      String onWarning;
+      FormulaController _formulaController = new FormulaController(
+            (String msg) {onTools =  msg;},
+            (String msg) {onInputDisplay =  msg;},
+            (String msg) {onOutputDisplay =  msg;},
+            (String msg) {onWarning =  msg;},);
+
+      _formulaController.input(12);
+      _formulaController.input(FormulaType.Multi);
+      _formulaController.input(FormulaAction.Delete);
+      expect(onInputDisplay, "12");
+
+      _formulaController.input(FormulaType.Multi);
+      expect(onInputDisplay, "12×");
+
+      _formulaController.input(FormulaAction.UpPriority);
+      expect(onInputDisplay, "12×(");
+
+      _formulaController.input(FormulaAction.Delete);
+      expect(onInputDisplay, "12×");
+
+      _formulaController.input(FormulaAction.UpPriority);
+      expect(onInputDisplay, "12×(");
+
+      _formulaController.input(2);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(3);
+      _formulaController.input(FormulaAction.DownPriority);
+      _formulaController.input(FormulaAction.Delete);
+      expect(onInputDisplay, "12×(2+3");
+
+      _formulaController.input(FormulaAction.DownPriority);
+      expect(onInputDisplay, "12×(2+3)");
+
+      _formulaController.input(FormulaType.Percent);
+      expect(onInputDisplay, "12×(2+3)%");
+
+      _formulaController.input(FormulaAction.Delete);
+      expect(onInputDisplay, "12×(2+3)");
+
+      _formulaController.input(FormulaType.Percent);
+      expect(onInputDisplay, "12×(2+3)%");
+
+      _formulaController.input(FormulaAction.Calculate);
+
+      //TODO why ???
+      //12×0.05=0.6000000000000001  ？？？？
+      expect(onOutputDisplay, "0.6000000000000001");
+    });
+
+    test('Formula case 8 ： test case 3', () {
+      String onTools;
+      String onInputDisplay;
+      String onOutputDisplay;
+      String onWarning;
+      FormulaController _formulaController = new FormulaController(
+            (String msg) {onTools =  msg;},
+            (String msg) {onInputDisplay =  msg;},
+            (String msg) {onOutputDisplay =  msg;},
+            (String msg) {onWarning =  msg;},);
+
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(3);
+      _formulaController.input(FormulaAction.Calculate);
+      _formulaController.input(0);
+      expect(onInputDisplay, "1+2+30");
+
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onOutputDisplay, "33");
+    });
+
+    test('Formula case 9 ： test Negative operation', () {
+      String onTools;
+      String onInputDisplay;
+      String onOutputDisplay;
+      String onWarning;
+      FormulaController _formulaController = new FormulaController(
+            (String msg) {onTools =  msg;},
+            (String msg) {onInputDisplay =  msg;},
+            (String msg) {onOutputDisplay =  msg;},
+            (String msg) {onWarning =  msg;},);
+
+      _formulaController.input("-");
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1+2");
+      expect(onOutputDisplay, "1");
+
+      _formulaController.input(FormulaAction.Clean);
+
+      _formulaController.input("-");
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input("-");
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1+-2");
+      expect(onOutputDisplay, "-3");
+
+      _formulaController.input(FormulaAction.Clean);
+
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1+2");
+      expect(onOutputDisplay, "1");
+
+      _formulaController.input(FormulaAction.Clean);
+
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1-2");
+      expect(onOutputDisplay, "-3");
+
+      _formulaController.input(FormulaAction.Clean);
+
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(1);
+      _formulaController.input(FormulaType.Plus);
+      _formulaController.input(FormulaAction.UpPriority);
+      _formulaController.input(FormulaType.Minus);
+      _formulaController.input(2);
+      _formulaController.input(FormulaAction.Calculate);
+      expect(onInputDisplay, "-1+(-2");
+      expect(onOutputDisplay, "-3");
     });
 
   });

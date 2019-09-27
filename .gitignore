@@ -4,6 +4,8 @@
 .dart_tool/
 .packages
 .pub/
+.idea/
+
 build/
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock
@@ -25,10 +27,9 @@ doc/api/
 .svn/
 
 # IntelliJ related
-*.iml
 *.ipr
 *.iws
-.idea/
+
 
 # Visual Studio Code related
 .vscode/

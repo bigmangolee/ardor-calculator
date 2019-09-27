@@ -1,4 +1,4 @@
-// Copyright 2019-present the Anise.App authors. All Rights Reserved.
+// Copyright 2019-present the Ardor.App authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 import 'package:flutter/services.dart';
 
 class AppLog {
-  static const perform = const MethodChannel("calculator.anise.app/app_log");
+  static const perform = const MethodChannel("calculator.ardor.app/app_log");
 
   static bool isEnable = true;
 
