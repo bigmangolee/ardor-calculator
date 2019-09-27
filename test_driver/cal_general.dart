@@ -1,4 +1,4 @@
-// Copyright 2019-present the Anise.App authors. All Rights Reserved.
+// Copyright 2019-present the Ardor.App authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 
 import 'package:flutter_driver/driver_extension.dart';
-import 'package:anise_calculator/main.dart' as app;
+import 'package:ardor_calculator/main.dart' as app;
 
 void main() {
   // flutter drive --target=test_driver/cal_general.dart

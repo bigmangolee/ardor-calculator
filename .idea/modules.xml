@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/anise_calculator.iml" filepath="$PROJECT_DIR$/anise_calculator.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/anise_calculator_android.iml" filepath="$PROJECT_DIR$/android/anise_calculator_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ardor_calculator.iml" filepath="$PROJECT_DIR$/ardor_calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/ardor_calculator_android.iml" filepath="$PROJECT_DIR$/android/ardor_calculator_android.iml" />
     </modules>
   </component>
 </project>

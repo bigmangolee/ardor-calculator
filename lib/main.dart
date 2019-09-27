@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:anise_calculator/app/anise/calculator/cal_home.dart';
+import 'package:ardor_calculator/app/ardor/calculator/cal_home.dart';
 
-import 'app/anise/treasure/account_page.dart';
-import 'app/anise/treasure/group_page.dart';
+import 'app/ardor/treasure/account_page.dart';
+import 'app/ardor/treasure/group_page.dart';
 
-void main() => runApp(AniseApp());
+void main() => runApp(ArdorApp());
 
 
-class AniseApp extends StatelessWidget {
+class ArdorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

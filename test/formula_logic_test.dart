@@ -1,4 +1,4 @@
-// Copyright 2019-present the Anise.App authors. All Rights Reserved.
+// Copyright 2019-present the Ardor.App authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
 // limitations under the License.
 
 
-import 'package:anise_calculator/app/anise/calculator/formula/formula.dart';
-import 'package:anise_calculator/library/applog.dart';
+import 'package:ardor_calculator/app/ardor/calculator/formula/formula.dart';
+import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 
