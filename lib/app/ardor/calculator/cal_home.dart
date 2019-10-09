@@ -63,11 +63,12 @@ class CalHome extends StatelessWidget {
 }
 
 List<CalBase> calculators = <CalBase>[
-  CalGeneral(),
-  CalMathematical(),
-  CalFinancial(),
+  CalGeneral(null),
+  CalMathematical(null),
+  CalFinancial(null),
 //  CalBlockChain(),
 ];
+
 
 class ChoiceCalculator extends StatelessWidget {
   const ChoiceCalculator({ Key key, this.cal }) : super(key: key);

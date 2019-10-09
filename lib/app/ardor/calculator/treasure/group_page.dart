@@ -15,13 +15,14 @@
 import 'package:ardor_calculator/app/ardor/calculator/style/style.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
+import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'store/store_manager.dart';
 
 class GroupHomePage extends StatefulWidget {
   @override

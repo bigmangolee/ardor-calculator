@@ -9,6 +9,8 @@ const String tag = "StoreManager";
 class StoreManager {
   static String _secretKey;
 
+  static String get secretKey => _secretKey;
+
   static set secretKey(String value) {
     if (_secretKey != value) {
       _userDataStore = null;
@@ -56,9 +58,6 @@ class StoreManager {
       if (text != null) {
         _userDataStore = UserDataStore.parseJson(text);
       }
-    }
-    if (_userDataStore == null) {
-      _userDataStore = UserDataStore("");
     }
     return _userDataStore;
   }

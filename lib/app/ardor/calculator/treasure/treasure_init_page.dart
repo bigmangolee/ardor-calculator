@@ -59,10 +59,6 @@ class TreasureInit{
         });
 
     if (i != null) {
-      Config config = await StoreManager.getConfig();
-      config.randomSalt = "init";
-      StoreManager.saveConfig(config);
-      //TODO
       if (i == 1) {
         _setNewPassword(context);
       }
@@ -74,7 +70,12 @@ class TreasureInit{
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return PasswordKeybordDialog();
+          return PasswordKeybordDialog(
+            passwordType: PasswordType.newPass,
+            passwordOk: () async {
+
+            },
+          );
         });
   }
 }

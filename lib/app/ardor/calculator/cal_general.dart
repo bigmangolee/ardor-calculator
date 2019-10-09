@@ -35,7 +35,7 @@ class CalGeneral extends CalBase {
 
   MemoryOperation _memoryOperationMAMC;
   BuildContext _context;
-  CalGeneral() {
+  CalGeneral(resultCallBack) : super(resultCallBack) {
     _formulaController = new FormulaController(
       (String msg) {
         onTools(msg);
@@ -172,7 +172,9 @@ class CalGeneral extends CalBase {
     }));
     list.add(new _CalculateOperation(() {
       onKey(FormulaAction.Calculate);
-      onClickCalculate();
+      if (resultCallBack == null) {
+        onClickToTreasure();
+      }
     }));
     //row 6
     list.add(new _CalPercent(() {
@@ -189,7 +191,7 @@ class CalGeneral extends CalBase {
 
   int _onClickTimes = 0;
   int _lastClickTime = 0;
-  void onClickCalculate() {
+  void onClickToTreasure() {
     int newLastClickTime = new DateTime.now().millisecondsSinceEpoch;
     if (newLastClickTime - _lastClickTime < 500) {
       //有效连续点击
@@ -239,6 +241,9 @@ class CalGeneral extends CalBase {
 
   void onOutputDisplay(String msg) {
     _outputInfo.setText(msg);
+    if (resultCallBack != null) {
+      resultCallBack(msg);
+    }
   }
 
   void onWarning(String msg) {
@@ -254,6 +259,15 @@ class CalGeneral extends CalBase {
       backgroundColor: Colors.lime[100],
       textColor: Colors.deepOrange,
     );
+  }
+
+  @override
+  void reset() {
+    _toolInfo.onOpera("");
+    _inputInfo.setText("");
+    _outputInfo.setText("");
+    _memoryOperationMAMC.setMemoryOperation(MemoryOpera.Add);
+    _formulaController.input(FormulaAction.Clean);
   }
 }
 

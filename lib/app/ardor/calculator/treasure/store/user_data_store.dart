@@ -177,4 +177,10 @@ class UserDataStore {
     account.groupId = toGroupId;
     newList.add(account);
   }
+
+  @override
+  String toString() {
+    return 'UserDataStore{name: $name, maxGroupId: $maxGroupId, maxAccountId: $maxAccountId, groups: $groups, accounts: $accounts}';
+  }
+
 }

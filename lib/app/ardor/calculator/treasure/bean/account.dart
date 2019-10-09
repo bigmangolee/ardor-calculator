@@ -39,4 +39,11 @@ class Account {
     updateTime = account.updateTime;
     order = account.order;
   }
+
+  @override
+  String toString() {
+    return 'Account{id: $id, groupId: $groupId, name: $name, address: $address, account: $account, password: $password, remarks: $remarks, order: $order, createTime: $createTime, updateTime: $updateTime}';
+  }
+
+
 }

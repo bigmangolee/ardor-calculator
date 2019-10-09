@@ -34,4 +34,11 @@ class Group {
     groupId = group.groupId;
     isPrivate = group.isPrivate;
   }
+
+  @override
+  String toString() {
+    return 'Group{groupId: $groupId, isPrivate: $isPrivate, name: $name, remarks: $remarks, createTime: $createTime, updateTime: $updateTime, order: $order}';
+  }
+
+
 }
