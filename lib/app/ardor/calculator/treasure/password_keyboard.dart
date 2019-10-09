@@ -70,7 +70,9 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
 
   static String currentInput;
 
-  _PasswordKeybordDialogState(this.passwordType,this.passwordOk);
+  _PasswordKeybordDialogState(this.passwordType,this.passwordOk){
+    currentInput = "";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +194,46 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
         }
       }
     } else if (passwordType == PasswordType.resetPass) {
-
+      if (oldPasswrod == null || oldPasswrod.isEmpty) {
+        StoreManager.checkPassword(currentInput).then((bool){
+          if (bool) {
+            oldPasswrod = currentInput;
+            resetCal();
+            showToast("请输入新密码。");
+          } else {
+            showToast("原密码校验不通过，请重新输入。");
+          }
+        });
+      } else if (newPasswrod1 == null || newPasswrod1.isEmpty) {
+        newPasswrod1 = currentInput;
+        showToast("请再次输入，确认新密码。");
+        resetCal();
+      } else if (newPasswrod2 == null || newPasswrod2.isEmpty) {
+        if (currentInput == newPasswrod1) {
+          newPasswrod2 = currentInput;
+          resetNewPassword(oldPasswrod,newPasswrod2);
+          resetCal();
+          showToast("完成密码重置。");
+          Navigator.of(context).pop();
+          if (passwordOk != null) {
+            passwordOk();
+          }
+        } else {
+          showToast("密码不一致，请重新输入。");
+        }
+      } else {
+        if (newPasswrod2 == newPasswrod1) {
+          resetNewPassword(oldPasswrod,newPasswrod2);
+          resetCal();
+          showToast("完成密码重置。");
+          Navigator.of(context).pop();
+          if (passwordOk != null) {
+            passwordOk();
+          }
+        } else {
+          showToast("密码不一致，请重新输入。");
+        }
+      }
     } else {
 
     }
@@ -200,10 +241,17 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
 
   void saveNewPassword(String password) async{
     Config config = await StoreManager.getConfig();
+    //TODO 需要实现随机数
     config.randomSalt = "init";
     StoreManager.saveConfig(config);
     StoreManager.secretKey = password;
     StoreManager.saveUserData(UserDataStore(""));
+  }
+
+  void resetNewPassword(String oldPassword,String newPassword) async{
+    UserDataStore userDataStore = await StoreManager.getUserData();
+    StoreManager.secretKey = newPassword;
+    StoreManager.saveUserData(userDataStore);
   }
 
   void cleanCache() {

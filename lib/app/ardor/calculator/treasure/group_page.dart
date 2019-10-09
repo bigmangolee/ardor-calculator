@@ -255,7 +255,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return PasswordKeybordDialog();
+          return PasswordKeybordDialog(passwordType: PasswordType.resetPass);
         });
   }
 

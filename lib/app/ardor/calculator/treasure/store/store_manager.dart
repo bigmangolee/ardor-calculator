@@ -7,6 +7,7 @@ import 'package:ardor_calculator/library/applog.dart';
 
 const String tag = "StoreManager";
 class StoreManager {
+  static String _sotreFileName = "UserDataStore";
   static String _secretKey;
 
   static String get secretKey => _secretKey;
@@ -44,12 +45,27 @@ class StoreManager {
     return true;
   }
 
+  static Future<bool> checkPassword(String password) async{
+    _config = await getConfig();
+    UserDataStore userDataStore;
+    SafeFileStore safeFileStore = SafeFileStore(_sotreFileName);
+    String content = await safeFileStore.readString();
+    if (content != null) {
+      String key = "$password${_config.randomSalt}";
+      String text = await ArdorCrypto.decrypt(key, content);
+      if (text != null) {
+        userDataStore = UserDataStore.parseJson(text);
+      }
+    }
+    return userDataStore != null;
+  }
+
   static Future<UserDataStore> getUserData() async{
     if (_userDataStore != null) {
       return _userDataStore;
     }
     _config = await getConfig();
-    SafeFileStore safeFileStore = SafeFileStore("UserDataStore");
+    SafeFileStore safeFileStore = SafeFileStore(_sotreFileName);
     String content = await safeFileStore.readString();
     if (content != null) {
       String key = "$_secretKey${_config.randomSalt}";
@@ -64,7 +80,7 @@ class StoreManager {
 
   static Future<bool> saveUserData(UserDataStore userData) async{
     _config = await getConfig();
-    SafeFileStore safeFileStore = SafeFileStore("UserDataStore");
+    SafeFileStore safeFileStore = SafeFileStore(_sotreFileName);
     String content = userData.encodeJson();
     String key = "$_secretKey${_config.randomSalt}";
     AppLog.i(tag, "saveUserData secretKey: $key");
