@@ -12,20 +12,40 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_init_page.dart';
+import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_financial.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_mathematicall.dart';
 
-import 'treasure/treasure_init_page.dart';
-
 // ignore: must_be_immutable
-class CalHome extends StatelessWidget {
+class CalHome extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _CalHomeState();
+  }
+}
+
+class _CalHomeState extends State<CalHome> {
   static bool _isCheckInitApp = false;
+
+  BuildContext _context;
+  List<CalBase> calculators;
+
+  _CalHomeState() {
+    initCalculators();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if(!_isCheckInitApp){
+    initCalculators();
+    _context = context;
+    if (!_isCheckInitApp) {
       checkInitApp(context);
       _isCheckInitApp = true;
     }
@@ -33,7 +53,7 @@ class CalHome extends StatelessWidget {
       length: calculators.length,
       child: new Scaffold(
         appBar: new AppBar(
-          title: const Text('ardor Calculator'),
+          title: const Text('Ardor Calculator'),
           bottom: new TabBar(
             isScrollable: true,
             tabs: calculators.map((CalBase cal) {
@@ -43,7 +63,6 @@ class CalHome extends StatelessWidget {
               );
             }).toList(),
           ),
-
         ),
         body: new TabBarView(
           children: calculators.map((CalBase cal) {
@@ -57,21 +76,41 @@ class CalHome extends StatelessWidget {
     );
   }
 
-  void checkInitApp(BuildContext context){
+  void checkInitApp(BuildContext context) {
     TreasureInit.toInit(context);
+  }
+
+  void initCalculators() {
+    if (calculators == null) {
+      calculators = <CalBase>[
+        CalGeneral((String p) {
+          startTreasure(p);
+        }),
+        CalMathematical((String p) {
+          startTreasure(p);
+        }),
+        CalFinancial((String p) {
+          startTreasure(p);
+        }),
+      ];
+    }
+  }
+
+  Future<void> startTreasure(String p) async {
+    StoreManager.secretKey = p;
+    UserDataStore value = await StoreManager.getUserData();
+    AppLog.i(tag, "startTreasure value: $value");
+    if (value != null) {
+      Navigator.pushNamed(_context, '/group');
+    } else {
+      //密码校验失败
+      ArdorToast.show("校验失败");
+    }
   }
 }
 
-List<CalBase> calculators = <CalBase>[
-  CalGeneral(null),
-  CalMathematical(null),
-  CalFinancial(null),
-//  CalBlockChain(),
-];
-
-
 class ChoiceCalculator extends StatelessWidget {
-  const ChoiceCalculator({ Key key, this.cal }) : super(key: key);
+  const ChoiceCalculator({Key key, this.cal}) : super(key: key);
 
   final CalBase cal;
 
@@ -85,4 +124,3 @@ class ChoiceCalculator extends StatelessWidget {
     );
   }
 }
-

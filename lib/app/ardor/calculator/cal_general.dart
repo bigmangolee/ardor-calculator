@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -34,8 +35,7 @@ class CalGeneral extends CalBase {
   OutDisplay _outputInfo = new OutDisplay();
 
   MemoryOperation _memoryOperationMAMC;
-  BuildContext _context;
-  CalGeneral(resultCallBack) : super(resultCallBack) {
+  CalGeneral(passwordInputCallback) : super(passwordInputCallback) {
     _formulaController = new FormulaController(
       (String msg) {
         onTools(msg);
@@ -64,7 +64,6 @@ class CalGeneral extends CalBase {
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
     return new Center(
       child: new Column(
 //        mainAxisSize: MainAxisSize.min,
@@ -83,7 +82,7 @@ class CalGeneral extends CalBase {
           new Container(
             alignment: Alignment.bottomCenter,
             height: 300,
-            padding:const EdgeInsets.all(1.0),
+            padding: const EdgeInsets.all(1.0),
             child: new StaggeredGridView.countBuilder(
               crossAxisCount: 4,
               itemCount: 23,
@@ -172,9 +171,7 @@ class CalGeneral extends CalBase {
     }));
     list.add(new _CalculateOperation(() {
       onKey(FormulaAction.Calculate);
-      if (resultCallBack == null) {
-        onClickToTreasure();
-      }
+      onClickToTreasure();
     }));
     //row 6
     list.add(new _CalPercent(() {
@@ -195,14 +192,11 @@ class CalGeneral extends CalBase {
     int newLastClickTime = new DateTime.now().millisecondsSinceEpoch;
     if (newLastClickTime - _lastClickTime < 500) {
       //有效连续点击
-      if(++_onClickTimes >= 4){
+      if (++_onClickTimes >= 4) {
         //连续点击4次，则出发跳转
-        startTreasure(_context,_outputInfo.getText()).then((bool onValue){
-          if (!onValue){
-            //密码校验失败
-            showToast("校验失败");
-          }
-        });
+        if (passwordInputCallback != null) {
+          passwordInputCallback(_outputInfo.getText());
+        }
       }
     } else {
       _onClickTimes = 0;
@@ -241,24 +235,10 @@ class CalGeneral extends CalBase {
 
   void onOutputDisplay(String msg) {
     _outputInfo.setText(msg);
-    if (resultCallBack != null) {
-      resultCallBack(msg);
-    }
   }
 
   void onWarning(String msg) {
-    showToast(msg);
-  }
-
-  void showToast(String msg) {
-    Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIos: 1,
-      backgroundColor: Colors.lime[100],
-      textColor: Colors.deepOrange,
-    );
+    ArdorToast.show(msg);
   }
 
   @override
@@ -356,7 +336,7 @@ class OutDisplay extends StatefulWidget {
     __outDisplay.setTextInfo(content);
   }
 
-  String getText(){
+  String getText() {
     return _content;
   }
 
@@ -620,20 +600,19 @@ class _CalculateOperation extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         child: RaisedButton(
-            key: Key(FormulaAction.Calculate.toString()),
-            color: Colors.green[100],
-            child: new Text(
-              "=",
-              style: TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.w700,
-              ),
+          key: Key(FormulaAction.Calculate.toString()),
+          color: Colors.green[100],
+          child: new Text(
+            "=",
+            style: TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.w700,
             ),
-            onPressed: () {
-              callback();
-            },
-
-            ));
+          ),
+          onPressed: () {
+            callback();
+          },
+        ));
   }
 }
 

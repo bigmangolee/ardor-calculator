@@ -19,8 +19,7 @@ import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 
 // ignore: must_be_immutable
 class CalMathematical extends CalBase {
-
-  CalMathematical(resultCallBack) : super(resultCallBack);
+  CalMathematical(passwordInputCallback) : super(passwordInputCallback);
 
   @override
   String getName() {

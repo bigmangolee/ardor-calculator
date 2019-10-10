@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
-import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
-import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 
 typedef StringCallback = void Function(String value);
@@ -22,9 +19,9 @@ typedef StringCallback = void Function(String value);
 // ignore: must_be_immutable
 abstract class CalBase extends StatelessWidget {
 
-  StringCallback resultCallBack;
+  StringCallback passwordInputCallback;
 
-  CalBase(this.resultCallBack);
+  CalBase(this.passwordInputCallback);
 
   String getName();
 
@@ -32,15 +29,5 @@ abstract class CalBase extends StatelessWidget {
 
   void reset();
 
-  Future<bool> startTreasure(context,String password) async{
-    StoreManager.secretKey = password;
-    UserDataStore value = await StoreManager.getUserData();
-    AppLog.i(tag, "startTreasure value: $value");
-    if (value != null) {
-      Navigator.pushNamed(context, '/group');
-      return true;
-    } else {
-      return false;
-    }
-  }
+
 }

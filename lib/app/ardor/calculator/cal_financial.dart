@@ -18,7 +18,7 @@ import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 
 // ignore: must_be_immutable
 class CalFinancial extends CalBase {
-  CalFinancial(resultCallBack) : super(resultCallBack);
+  CalFinancial(passwordInputCallback) : super(passwordInputCallback);
 
   @override
   String getName() {
@@ -49,5 +49,4 @@ class CalFinancial extends CalBase {
   void reset() {
     // TODO: implement reset
   }
-
 }

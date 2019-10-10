@@ -15,17 +15,14 @@
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
-import 'package:flutter/material.dart';
+import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_financial.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_mathematicall.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/material.dart';
 
-enum PasswordType{
-  newPass,
-  resetPass
-}
+enum PasswordType { newPass, resetPass }
 
 // ignore: must_be_immutable
 class PasswordKeybordDialog extends StatefulWidget {
@@ -40,19 +37,19 @@ class PasswordKeybordDialog extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _PasswordKeybordDialogState(passwordType,passwordOk);
+    return new _PasswordKeybordDialogState(passwordType, passwordOk);
   }
 }
 
-
 class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
-
   PasswordType passwordType;
   VoidCallback passwordOk;
 
   String oldPasswrod;
   String newPasswrod1;
   String newPasswrod2;
+
+  List<CalBase> calculators;
 
   Color backgroundColor;
 
@@ -65,20 +62,20 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
   ShapeBorder shape;
 
   static const RoundedRectangleBorder _defaultDialogShape =
-  RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0)));
+      RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(2.0)));
   static const double _defaultElevation = 24.0;
 
-  static String currentInput;
-
-  _PasswordKeybordDialogState(this.passwordType,this.passwordOk){
-    currentInput = "";
+  _PasswordKeybordDialogState(this.passwordType, this.passwordOk) {
+    initCalculators();
   }
 
   @override
   Widget build(BuildContext context) {
     final DialogTheme dialogTheme = DialogTheme.of(context);
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + const EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
+      padding: MediaQuery.of(context).viewInsets +
+          const EdgeInsets.symmetric(horizontal: 20.0, vertical: 100.0),
       duration: insetAnimationDuration,
       curve: insetAnimationCurve,
       child: MediaQuery.removeViewInsets(
@@ -91,8 +88,11 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 280.0),
             child: Material(
-              color: backgroundColor ?? dialogTheme.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
-              elevation: elevation ?? dialogTheme.elevation ?? _defaultElevation,
+              color: backgroundColor ??
+                  dialogTheme.backgroundColor ??
+                  Theme.of(context).dialogBackgroundColor,
+              elevation:
+                  elevation ?? dialogTheme.elevation ?? _defaultElevation,
               shape: shape ?? dialogTheme.shape ?? _defaultDialogShape,
               type: MaterialType.card,
               child: getContent(),
@@ -118,10 +118,13 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
       length: calculators.length,
       child: new Scaffold(
         appBar: new AppBar(
-          title: Text(getTips(),style: TextStyle(
-            fontSize: 13.0,
-            fontWeight: FontWeight.w700,
-          ),),
+          title: Text(
+            getTips(),
+            style: TextStyle(
+              fontSize: 13.0,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           bottom: new TabBar(
             isScrollable: true,
             tabs: calculators.map((CalBase cal) {
@@ -133,18 +136,12 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
           ),
           actions: <Widget>[
             IconButton(
-              icon: const Icon(Icons.input),
-              tooltip: 'done',
-              onPressed: passwordDown,
-            ),
-            IconButton(
               icon: const Icon(Icons.cached),
               tooltip: 'cancel',
               onPressed: cleanCache,
             ),
           ],
         ),
-
         body: new TabBarView(
           children: calculators.map((CalBase cal) {
             return new Padding(
@@ -157,7 +154,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
     );
   }
 
-  void passwordDown() {
+  void passwordDown(String currentInput) {
     if (currentInput == null || currentInput.isEmpty) {
       showToast("请输入");
       return;
@@ -195,7 +192,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
       }
     } else if (passwordType == PasswordType.resetPass) {
       if (oldPasswrod == null || oldPasswrod.isEmpty) {
-        StoreManager.checkPassword(currentInput).then((bool){
+        StoreManager.checkPassword(currentInput).then((bool) {
           if (bool) {
             oldPasswrod = currentInput;
             resetCal();
@@ -211,7 +208,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
       } else if (newPasswrod2 == null || newPasswrod2.isEmpty) {
         if (currentInput == newPasswrod1) {
           newPasswrod2 = currentInput;
-          resetNewPassword(oldPasswrod,newPasswrod2);
+          resetNewPassword(oldPasswrod, newPasswrod2);
           resetCal();
           showToast("完成密码重置。");
           Navigator.of(context).pop();
@@ -223,7 +220,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
         }
       } else {
         if (newPasswrod2 == newPasswrod1) {
-          resetNewPassword(oldPasswrod,newPasswrod2);
+          resetNewPassword(oldPasswrod, newPasswrod2);
           resetCal();
           showToast("完成密码重置。");
           Navigator.of(context).pop();
@@ -234,12 +231,10 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
           showToast("密码不一致，请重新输入。");
         }
       }
-    } else {
-
-    }
+    } else {}
   }
 
-  void saveNewPassword(String password) async{
+  void saveNewPassword(String password) async {
     Config config = await StoreManager.getConfig();
     //TODO 需要实现随机数
     config.randomSalt = "init";
@@ -248,7 +243,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
     StoreManager.saveUserData(UserDataStore(""));
   }
 
-  void resetNewPassword(String oldPassword,String newPassword) async{
+  void resetNewPassword(String oldPassword, String newPassword) async {
     UserDataStore userDataStore = await StoreManager.getUserData();
     StoreManager.secretKey = newPassword;
     StoreManager.saveUserData(userDataStore);
@@ -258,45 +253,38 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
     oldPasswrod = null;
     newPasswrod1 = null;
     newPasswrod2 = null;
-    currentInput = null;
     resetCal();
   }
 
   void resetCal() {
-    for(CalBase cal in calculators) {
+    for (CalBase cal in calculators) {
       cal.reset();
     }
   }
 
-  List<CalBase> calculators = <CalBase>[
-    CalGeneral((String value) {
-      currentInput = value;
-    }),
-    CalMathematical((String value) {
-      currentInput = value;
-    }),
-    CalFinancial((String value) {
-      currentInput = value;
-    }),
-//  CalBlockChain(),
-  ];
+  void initCalculators() {
+    if (calculators == null) {
+      calculators = <CalBase>[
+        CalGeneral((String p) {
+          passwordDown(p);
+        }),
+        CalMathematical((String p) {
+          passwordDown(p);
+        }),
+        CalFinancial((String p) {
+          passwordDown(p);
+        }),
+      ];
+    }
+  }
 
   void showToast(String msg) {
-    Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIos: 1,
-      backgroundColor: Colors.lime[100],
-      textColor: Colors.deepOrange,
-    );
+    ArdorToast.show(msg);
   }
 }
 
-
-
 class ChoiceKeyboard extends StatelessWidget {
-  const ChoiceKeyboard({ Key key, this.cal }) : super(key: key);
+  const ChoiceKeyboard({Key key, this.cal}) : super(key: key);
 
   final CalBase cal;
 
@@ -310,4 +298,3 @@ class ChoiceKeyboard extends StatelessWidget {
     );
   }
 }
-
