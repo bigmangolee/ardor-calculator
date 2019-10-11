@@ -105,11 +105,13 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
 
   String getTips() {
     if (passwordType == PasswordType.newPass) {
-      return "新设密码";
+      showToast("请输入新密码");
+      return "新设密码\r\n(连续点击3次=号确认输入)";
     } else if (passwordType == PasswordType.resetPass) {
-      return "重置密码";
+      showToast("请输入原密码");
+      return "重置密码\r\n(连续点击3次=号确认输入)";
     } else {
-      return "Input Password";
+      return "";
     }
   }
 

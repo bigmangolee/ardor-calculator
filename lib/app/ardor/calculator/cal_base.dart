@@ -21,6 +21,9 @@ abstract class CalBase extends StatelessWidget {
 
   StringCallback passwordInputCallback;
 
+  int _onClickTimes = 0;
+  int _lastClickTime = 0;
+
   CalBase(this.passwordInputCallback);
 
   String getName();
@@ -29,5 +32,21 @@ abstract class CalBase extends StatelessWidget {
 
   void reset();
 
-
+  //点击触发跳转。
+  void onClickToTreasure(String p) {
+    int newLastClickTime = new DateTime.now().millisecondsSinceEpoch;
+    if (newLastClickTime - _lastClickTime < 500) {
+      //有效连续点击
+      if (++_onClickTimes >= 3) {
+        //连续点击3次，则出发跳转
+        if (passwordInputCallback != null) {
+          passwordInputCallback(p);
+        }
+        _onClickTimes = 0;
+      }
+    } else {
+      _onClickTimes = 0;
+    }
+    _lastClickTime = newLastClickTime;
+  }
 }

@@ -16,7 +16,6 @@ import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'formula/formula.dart';
@@ -171,7 +170,7 @@ class CalGeneral extends CalBase {
     }));
     list.add(new _CalculateOperation(() {
       onKey(FormulaAction.Calculate);
-      onClickToTreasure();
+      onClickToTreasure(_outputInfo.getText());
     }));
     //row 6
     list.add(new _CalPercent(() {
@@ -184,24 +183,6 @@ class CalGeneral extends CalBase {
       onKey(key);
     }));
     return list[index];
-  }
-
-  int _onClickTimes = 0;
-  int _lastClickTime = 0;
-  void onClickToTreasure() {
-    int newLastClickTime = new DateTime.now().millisecondsSinceEpoch;
-    if (newLastClickTime - _lastClickTime < 500) {
-      //有效连续点击
-      if (++_onClickTimes >= 4) {
-        //连续点击4次，则出发跳转
-        if (passwordInputCallback != null) {
-          passwordInputCallback(_outputInfo.getText());
-        }
-      }
-    } else {
-      _onClickTimes = 0;
-    }
-    _lastClickTime = newLastClickTime;
   }
 
   MemoryOperation _getMemoryOperationMAMC() {
