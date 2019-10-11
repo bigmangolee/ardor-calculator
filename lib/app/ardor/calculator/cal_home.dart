@@ -14,7 +14,7 @@
 
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
-import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_init_page.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_init.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
