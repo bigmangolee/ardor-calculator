@@ -17,6 +17,7 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/account.dart
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
+import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -59,7 +60,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
         title: new Text(_group == null ? "" : _group.name),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.add_box),
+            icon: const Icon(Icons.person_add),
             tooltip: 'Add Account',
             onPressed: _addAccount,
           ),
@@ -355,13 +356,13 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
         context: context,
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: 280.0),
+            constraints: const BoxConstraints(minWidth: 280.0,maxHeight: 530.0),
             child: Material(
               color: backgroundColor ?? dialogTheme.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
               elevation: elevation ?? dialogTheme.elevation ?? _defaultElevation,
               shape: shape ?? dialogTheme.shape ?? _defaultDialogShape,
               type: MaterialType.card,
-              child: getContent(),
+              child: new ListView(children: <Widget>[getContent()]),
             ),
           ),
         ),
@@ -409,6 +410,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
     }
 
     return new Container(
+      padding: const EdgeInsets.all(5.0),
       constraints: BoxConstraints(
         maxHeight: 530,
       ),
@@ -420,7 +422,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                new Text("Group name:   ",
+                new Text("    Group: ",
                     style: AppStyle.getAppStyle().textField(isEditEnable)
                 ),
                 new Text(selectGroupvalue.name,
@@ -436,6 +438,20 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
                       itemBuilder: (BuildContext context) =>getGroupListData(),
                     )
                 ),
+                IconButton(
+                  icon: const Icon(Icons.content_copy),
+                  tooltip: 'Copy Data',
+                  onPressed: () {
+                    String content = "${accountEditCache.name}\r\n"
+                        "address:${accountEditCache.address}\r\n"
+                        "username:${accountEditCache.account}\r\n"
+                        "passwrod:${accountEditCache.password}\r\n"
+                        "remarks:${accountEditCache.remarks}\r\n";
+                    ClipboardData data = new ClipboardData(text:content);
+                    Clipboard.setData(data);
+                    ArdorToast.show("已复制到剪切板");
+                  },
+                ),
               ]
           ),
           new TextField(
@@ -448,8 +464,8 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             style: AppStyle.getAppStyle().textField(isEditEnable),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
-                icon: new Icon(Icons.nature_people),
-                labelText: "Account name"),
+                icon: new Icon(Icons.account_circle),
+                labelText: "Name"),
             onChanged: (String str) {
               accountEditCache.name = str;
             },
@@ -464,7 +480,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             style: AppStyle.getAppStyle().textField(isEditEnable),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
-                icon: new Icon(Icons.add_call),
+                icon: new Icon(Icons.add_location),
                 labelText: "Address"),
             onChanged: (String str) {
               accountEditCache.address = str;
@@ -480,8 +496,8 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             style: AppStyle.getAppStyle().textField(isEditEnable),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
-                icon: new Icon(Icons.accessibility),
-                labelText: "Username"),
+                icon: new Icon(Icons.person),
+                labelText: "Account"),
             onChanged: (String str) {
               accountEditCache.account = str;
             },
@@ -496,7 +512,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             style: AppStyle.getAppStyle().textField(isEditEnable),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
-                icon: new Icon(Icons.signal_cellular_4_bar),
+                icon: new Icon(Icons.vpn_key),
                 labelText: "Password"),
             onChanged: (String str) {
               accountEditCache.password = str;
@@ -564,7 +580,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             style: AppStyle.getAppStyle().textField(false),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
-                icon: new Icon(Icons.timer),
+                icon: new Icon(Icons.av_timer),
                 labelText: "Update time"),
             onChanged: (String str) {},
           ),

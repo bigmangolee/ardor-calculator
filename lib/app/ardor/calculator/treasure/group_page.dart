@@ -19,7 +19,6 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manag
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_export.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
-import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -57,7 +56,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     _initArguments(context);
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Group List"),
+        title: new Text("Groups"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.vpn_key),
@@ -70,7 +69,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
             onPressed: _export,
           ),
           IconButton(
-            icon: const Icon(Icons.add_box),
+            icon: const Icon(Icons.group_add),
             tooltip: 'Add Group',
             onPressed: _addGroup,
           ),
@@ -429,6 +428,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
     }
 
     return new Container(
+      padding: const EdgeInsets.all(5.0),
       constraints:BoxConstraints(
         maxHeight: 330,
       ),
@@ -505,7 +505,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
             style: AppStyle.getAppStyle().textField(false),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
-                icon: new Icon(Icons.timer),
+                icon: new Icon(Icons.av_timer),
                 labelText: "Update time"),
             onChanged: (String str) {},
           ),
