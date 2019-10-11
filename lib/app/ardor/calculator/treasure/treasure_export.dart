@@ -15,8 +15,10 @@
 import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
+import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/library/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TreasureExport {
   static Future<void> toExport(BuildContext context) async {
@@ -131,9 +133,13 @@ class _ExportPageState extends State<ExportPage> {
         title: new Text("导出数据"),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.assignment_returned),
-            tooltip: 'Save',
-            onPressed: () {},
+            icon: const Icon(Icons.content_copy),
+            tooltip: 'Copy Export Data',
+            onPressed: () {
+              ClipboardData data = new ClipboardData(text:content);
+              Clipboard.setData(data);
+              ArdorToast.show("已复制到剪切板");
+            },
           ),
         ],
       ),

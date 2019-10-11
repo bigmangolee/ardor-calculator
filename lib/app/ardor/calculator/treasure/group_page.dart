@@ -60,17 +60,17 @@ class _GroupHomePageState extends State<GroupHomePage> {
         title: new Text("Group List"),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.enhanced_encryption),
+            icon: const Icon(Icons.vpn_key),
             tooltip: 'Reset Passwrod',
             onPressed: _resetPass,
           ),
           IconButton(
-            icon: const Icon(Icons.navigate_next),
+            icon: const Icon(Icons.import_export),
             tooltip: 'Export',
             onPressed: _export,
           ),
           IconButton(
-            icon: const Icon(Icons.add_alert),
+            icon: const Icon(Icons.add_box),
             tooltip: 'Add Group',
             onPressed: _addGroup,
           ),

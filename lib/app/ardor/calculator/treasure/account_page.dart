@@ -59,7 +59,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
         title: new Text(_group == null ? "" : _group.name),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.add_alert),
+            icon: const Icon(Icons.add_box),
             tooltip: 'Add Account',
             onPressed: _addAccount,
           ),
