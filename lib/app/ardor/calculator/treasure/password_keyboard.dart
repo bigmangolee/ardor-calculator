@@ -12,22 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
-import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_financial.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_mathematicall.dart';
+import 'package:ardor_calculator/library/callback.dart';
 import 'package:flutter/material.dart';
 
-enum PasswordType { newPass, resetPass }
+enum PasswordType { newPass, resetPass ,exportPass}
 
 // ignore: must_be_immutable
 class PasswordKeybordDialog extends StatefulWidget {
   PasswordType passwordType;
-  VoidCallback passwordOk;
+  StringCallback passwordOk;
 
   PasswordKeybordDialog({
     Key key,
@@ -43,7 +42,7 @@ class PasswordKeybordDialog extends StatefulWidget {
 
 class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
   PasswordType passwordType;
-  VoidCallback passwordOk;
+  StringCallback passwordOk;
 
   String oldPasswrod;
   String newPasswrod1;
@@ -110,8 +109,9 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
     } else if (passwordType == PasswordType.resetPass) {
       showToast("请输入原密码");
       return "重置密码\r\n(连续点击3次=号确认输入)";
-    } else {
-      return "";
+    } else if (passwordType == PasswordType.exportPass){
+      showToast("请输入导出密码");
+      return "导出密码\r\n(连续点击3次=号确认输入)";
     }
   }
 
@@ -169,24 +169,18 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
       } else if (newPasswrod2 == null || newPasswrod2.isEmpty) {
         if (currentInput == newPasswrod1) {
           newPasswrod2 = currentInput;
-          saveNewPassword(newPasswrod2);
           resetCal();
-          showToast("完成密码设置。");
-          Navigator.of(context).pop();
           if (passwordOk != null) {
-            passwordOk();
+            passwordOk(newPasswrod2);
           }
         } else {
           showToast("密码不一致，请重新输入。");
         }
       } else {
         if (newPasswrod2 == newPasswrod1) {
-          saveNewPassword(newPasswrod2);
           resetCal();
-          showToast("完成密码设置。");
-          Navigator.of(context).pop();
           if (passwordOk != null) {
-            passwordOk();
+            passwordOk(newPasswrod2);
           }
         } else {
           showToast("密码不一致，请重新输入。");
@@ -210,45 +204,49 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
       } else if (newPasswrod2 == null || newPasswrod2.isEmpty) {
         if (currentInput == newPasswrod1) {
           newPasswrod2 = currentInput;
-          resetNewPassword(oldPasswrod, newPasswrod2);
           resetCal();
-          showToast("完成密码重置。");
-          Navigator.of(context).pop();
           if (passwordOk != null) {
-            passwordOk();
+            passwordOk(newPasswrod2);
           }
         } else {
           showToast("密码不一致，请重新输入。");
         }
       } else {
         if (newPasswrod2 == newPasswrod1) {
-          resetNewPassword(oldPasswrod, newPasswrod2);
           resetCal();
-          showToast("完成密码重置。");
-          Navigator.of(context).pop();
           if (passwordOk != null) {
-            passwordOk();
+            passwordOk(newPasswrod2);
           }
         } else {
           showToast("密码不一致，请重新输入。");
         }
       }
-    } else {}
-  }
-
-  void saveNewPassword(String password) async {
-    Config config = await StoreManager.getConfig();
-    //TODO 需要实现随机数
-    config.randomSalt = "init";
-    StoreManager.saveConfig(config);
-    StoreManager.secretKey = password;
-    StoreManager.saveUserData(UserDataStore(""));
-  }
-
-  void resetNewPassword(String oldPassword, String newPassword) async {
-    UserDataStore userDataStore = await StoreManager.getUserData();
-    StoreManager.secretKey = newPassword;
-    StoreManager.saveUserData(userDataStore);
+    } else if (passwordType == PasswordType.exportPass) {
+      if (newPasswrod1 == null || newPasswrod1.isEmpty) {
+        newPasswrod1 = currentInput;
+        showToast("请再次输入密码。");
+        resetCal();
+      } else if (newPasswrod2 == null || newPasswrod2.isEmpty) {
+        if (currentInput == newPasswrod1) {
+          newPasswrod2 = currentInput;
+          resetCal();
+          if (passwordOk != null) {
+            passwordOk(newPasswrod2);
+          }
+        } else {
+          showToast("密码不一致，请重新输入。");
+        }
+      } else {
+        if (newPasswrod2 == newPasswrod1) {
+          resetCal();
+          if (passwordOk != null) {
+            passwordOk(newPasswrod2);
+          }
+        } else {
+          showToast("密码不一致，请重新输入。");
+        }
+      }
+    }
   }
 
   void cleanCache() {

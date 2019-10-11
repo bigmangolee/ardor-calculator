@@ -1,9 +1,23 @@
-
+// Copyright 2019-present the Ardor.App authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
+import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,11 +27,11 @@ class TreasureInit{
     //App need init.
     Config config = await StoreManager.getConfig();
     if (config.randomSalt == null) {
-      selectInitType(context);
+      _selectInitType(context);
     }
   }
 
-  static Future<void> selectInitType(BuildContext context) async {
+  static Future<void> _selectInitType(BuildContext context) async {
     int i = await showDialog<int>(
         context: context,
         builder: (BuildContext context) {
@@ -72,10 +86,16 @@ class TreasureInit{
         builder: (BuildContext context) {
           return PasswordKeybordDialog(
             passwordType: PasswordType.newPass,
-            passwordOk: () async {
-
-            },
-          );
+            passwordOk: (String p) async {
+              Navigator.of(context).pop();
+              Config config = await StoreManager.getConfig();
+              //TODO 需要实现随机数
+              config.randomSalt = "init";
+              StoreManager.saveConfig(config);
+              StoreManager.secretKey = p;
+              StoreManager.saveUserData(UserDataStore(""));
+              ArdorToast.show("完成密码设置。");
+            });
         });
   }
 }

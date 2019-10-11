@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/library/callback.dart';
 import 'package:flutter/material.dart';
-
-typedef StringCallback = void Function(String value);
 
 // ignore: must_be_immutable
 abstract class CalBase extends StatelessWidget {

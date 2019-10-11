@@ -17,6 +17,8 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_export.dart';
+import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -255,11 +257,21 @@ class _GroupHomePageState extends State<GroupHomePage> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return PasswordKeybordDialog(passwordType: PasswordType.resetPass);
+          return PasswordKeybordDialog(
+              passwordType: PasswordType.resetPass,
+              passwordOk: (String p) async {
+                Navigator.of(context).pop();
+                UserDataStore userDataStore = await StoreManager.getUserData();
+                StoreManager.secretKey = p;
+                StoreManager.saveUserData(userDataStore);
+                ArdorToast.show("完成密码重置。");
+              });
         });
   }
 
-  void _export() {}
+  void _export() {
+    TreasureExport.toExport(context);
+  }
 
   void _onClickGroupItem(Group group) {
     Navigator.pushNamed(context, '/account',
