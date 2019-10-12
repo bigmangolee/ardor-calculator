@@ -12,18 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+enum ImportType {
+  unencryptedData,
+  encryptionData,
+}
 
-class TreasureInit{
-
-  static Future<void> toInit(BuildContext context) async{
+class TreasureInit {
+  static Future<void> toInit(BuildContext context) async {
     //App need init.
     Config config = await StoreManager.getConfig();
     if (config.randomSalt == null) {
@@ -32,7 +35,7 @@ class TreasureInit{
   }
 
   static Future<void> _selectInitType(BuildContext context) async {
-    int i = await showDialog<int>(
+    int t = await showDialog<int>(
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
@@ -72,9 +75,23 @@ class TreasureInit{
           );
         });
 
-    if (i != null) {
-      if (i == 1) {
+    if (t != null) {
+      if (t == 1) {
         _setNewPassword(context);
+      } else if (t == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ImportPage(ImportType.unencryptedData),
+          ),
+        );
+      } else if (t == 3) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ImportPage(ImportType.encryptionData),
+          ),
+        );
       }
     }
   }
@@ -85,20 +102,142 @@ class TreasureInit{
         barrierDismissible: false,
         builder: (BuildContext context) {
           return PasswordKeybordDialog(
-            passwordType: PasswordType.newPass,
-            passwordOk: (String p) async {
-              Navigator.of(context).pop();
-              Config config = await StoreManager.getConfig();
-              //TODO 需要实现随机数
-              config.randomSalt = "init";
-              StoreManager.saveConfig(config);
-              StoreManager.secretKey = p;
-              StoreManager.saveUserData(UserDataStore(""));
-              ArdorToast.show("完成密码设置。");
-            });
+              passwordType: PasswordType.newPass,
+              passwordOk: (String p) async {
+                Navigator.of(context).pop();
+                Config config = await StoreManager.getConfig();
+                //TODO 需要实现随机数
+                config.randomSalt = "init";
+                StoreManager.saveConfig(config);
+                StoreManager.secretKey = p;
+                StoreManager.saveUserData(UserDataStore(""));
+                ArdorToast.show("完成密码设置。");
+              });
         });
   }
 }
 
+// ignore: must_be_immutable
+class ImportPage extends StatefulWidget {
+  ImportType type;
 
+  ImportPage(this.type);
 
+  @override
+  State<StatefulWidget> createState() {
+    return _ImportPageState(type);
+  }
+}
+
+class _ImportPageState extends State<ImportPage> {
+  ImportType type;
+  String content = "";
+
+  _ImportPageState(this.type);
+
+  String getTitle() {
+    return type == ImportType.encryptionData ? "导入加密数据" : "导入明文数据";
+  }
+
+  String getNext() {
+    return type == ImportType.encryptionData ? "下一步（输入加密数据密码）" : "下一步（设置新密码）";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text(getTitle()),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.content_paste),
+            tooltip: 'Pasete Import Data',
+            onPressed: () async {
+              var clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+              if (clipboardData != null) {
+                ///将获取的粘贴板的内容进行展示
+                setState(() {
+                  content = clipboardData.text;
+                });
+              }
+            },
+          ),
+        ],
+      ),
+      body: new ListView(children: <Widget>[new Text(content)]),
+      bottomNavigationBar:
+          RaisedButton(child: new Text(getNext()), onPressed: doNext),
+    );
+  }
+
+  void doNext() {
+    if (content == null || content.isEmpty) {
+      ArdorToast.show("请导入数据源，或从剪切版粘贴数据源。");
+      return;
+    }
+    if (type == ImportType.encryptionData) {
+      _getOldPassword(content);
+    } else {
+      try {
+        UserDataStore dataStore = UserDataStore.parseJson(content);
+        if (dataStore == null) {
+          ArdorToast.show("数据格式解析失败，请确认数据源是否正确。");
+        } else {
+          _setNewPassword(dataStore);
+        }
+      } catch (e) {
+        ArdorToast.show("数据格式解析失败，请确认数据源是否正确。");
+      }
+    }
+  }
+
+  void _setNewPassword(UserDataStore userDataStore) async {
+    int i = await showDialog<int>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return PasswordKeybordDialog(
+              passwordType: PasswordType.newPass,
+              passwordOk: (String p) async {
+                Navigator.of(context).pop(1);
+                Config config = await StoreManager.getConfig();
+                //TODO 需要实现随机数
+                config.randomSalt = "init";
+                StoreManager.saveConfig(config);
+                StoreManager.secretKey = p;
+                StoreManager.saveUserData(userDataStore);
+                ArdorToast.show("完成明文数据导入。");
+              });
+        });
+    if (i == 1) {
+      //退出数据导入页面。
+      Navigator.of(context).pop();
+    }
+  }
+
+  void _getOldPassword(String data) async {
+    int i = await showDialog<int>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return PasswordKeybordDialog(
+              passwordType: PasswordType.importPass,
+              encryptionData: data,
+              importCallback: (String p, UserDataStore userDataStore) async {
+                Navigator.of(context).pop(1);
+                Config config = await StoreManager.getConfig();
+                //TODO 需要实现随机数
+                config.randomSalt = "init";
+                StoreManager.saveConfig(config);
+                StoreManager.secretKey = p;
+                StoreManager.saveUserData(userDataStore);
+                ArdorToast.show("完成密文数据导入。");
+              });
+        });
+
+    if (i == 1) {
+      //退出数据导入页面。
+      Navigator.of(context).pop();
+    }
+  }
+}

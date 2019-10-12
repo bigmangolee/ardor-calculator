@@ -13,36 +13,48 @@
 // limitations under the License.
 
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_financial.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_mathematicall.dart';
 import 'package:ardor_calculator/library/callback.dart';
+import 'package:ardor_calculator/library/crypto.dart';
 import 'package:flutter/material.dart';
 
-enum PasswordType { newPass, resetPass ,exportPass}
+enum PasswordType { newPass, resetPass, exportPass, importPass }
+
+typedef ImportCallback = void Function(
+    String pass, UserDataStore userDataStore);
 
 // ignore: must_be_immutable
 class PasswordKeybordDialog extends StatefulWidget {
   PasswordType passwordType;
   StringCallback passwordOk;
+  ImportCallback importCallback;
+  String encryptionData;
 
   PasswordKeybordDialog({
     Key key,
     this.passwordType,
     this.passwordOk,
+    this.importCallback,
+    this.encryptionData,
   }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return new _PasswordKeybordDialogState(passwordType, passwordOk);
+    return new _PasswordKeybordDialogState(
+        passwordType, passwordOk, importCallback, encryptionData);
   }
 }
 
 class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
   PasswordType passwordType;
   StringCallback passwordOk;
+  ImportCallback importCallback;
+  String encryptionData;
 
   String oldPasswrod;
   String newPasswrod1;
@@ -65,7 +77,8 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
           borderRadius: BorderRadius.all(Radius.circular(2.0)));
   static const double _defaultElevation = 24.0;
 
-  _PasswordKeybordDialogState(this.passwordType, this.passwordOk) {
+  _PasswordKeybordDialogState(this.passwordType, this.passwordOk,
+      this.importCallback, this.encryptionData) {
     initCalculators();
   }
 
@@ -109,10 +122,14 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
     } else if (passwordType == PasswordType.resetPass) {
       showToast("请输入原密码");
       return "重置密码\r\n(连续点击3次=号确认输入)";
-    } else if (passwordType == PasswordType.exportPass){
+    } else if (passwordType == PasswordType.exportPass) {
       showToast("请输入导出密码");
       return "导出密码\r\n(连续点击3次=号确认输入)";
+    } else if (passwordType == PasswordType.importPass) {
+      showToast("请输入导入密码");
+      return "导入密码\r\n(连续点击3次=号确认输入)";
     }
+    return "";
   }
 
   Widget getContent() {
@@ -246,6 +263,23 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
           showToast("密码不一致，请重新输入。");
         }
       }
+    } else if (passwordType == PasswordType.importPass) {
+      ArdorCrypto.decrypt(currentInput, encryptionData).then((onValue) {
+        if (onValue == null || onValue.isEmpty) {
+          ArdorToast.show("数据解密失败，请重新输入正确的密文密码。");
+          return;
+        }
+        try {
+          UserDataStore dataStore = UserDataStore.parseJson(onValue);
+          if (dataStore == null) {
+            ArdorToast.show("数据格式解析失败，请确认数据源是否正确。");
+          } else {
+            importCallback(currentInput, dataStore);
+          }
+        } catch (e) {
+          ArdorToast.show("数据格式解析失败，请确认数据源是否正确。");
+        }
+      });
     }
   }
 
