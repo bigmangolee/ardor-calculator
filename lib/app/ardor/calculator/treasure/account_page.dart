@@ -21,12 +21,142 @@ import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+typedef ChangeGroupCallback = void Function(Account account, int toGroupId);
+typedef AccountCallback = void Function(Account account);
 
 // ignore: must_be_immutable
 class AccountHomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new _AccountHomePageState();
+  }
+
+  static void showAccount(BuildContext context,Account acc,List<Group> groups, bool isEditEnable,ChangeGroupCallback changeGroupCallback,AccountCallback saveAccountCallback) {
+
+    showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AccountEditDialog(
+            account : acc,
+            groups : groups,
+            isEditEnable : isEditEnable,
+            onSaveAccount : (Account account){
+              if (acc.groupId != account.groupId) {
+                //组id有变化，则县移除，后保存新组
+                int gid = acc.groupId;
+                acc.resetValues(account);
+                acc.groupId = gid;
+                if (changeGroupCallback != null) {
+                  changeGroupCallback(acc,account.groupId);
+                }
+              } else {
+                if (saveAccountCallback != null) {
+                  saveAccountCallback(account);
+                }
+              }
+            },
+          );
+        });
+  }
+
+  static void showEditOrNotDialog(BuildContext context,Account account,List<Group> groups,ChangeGroupCallback changeGroupCallback,AccountCallback saveAccountCallback,AccountCallback deleteAccountCallback) {
+    showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text(
+              '请选择对(${account.name})操作。',
+              style: AppStyle.getAppStyle().dialog.titleText,
+            ),
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  new Text(
+                    '删除：此操作会将(${account.name})信息删除，请谨慎操作。',
+                    style: AppStyle.getAppStyle().dialog.contentText,
+                  ),
+                  new Text(""),
+                  new Text(
+                    '取消：不做任何操作。',
+                    style: AppStyle.getAppStyle().dialog.contentText,
+                  ),
+                  new Text(""),
+                  new Text(
+                    '查看：仅查看(${account.name})信息。',
+                    style: AppStyle.getAppStyle().dialog.contentText,
+                  ),
+                  new Text(""),
+                  new Text(
+                    '编辑：对(${account.name})信息进行编辑。',
+                    style: AppStyle.getAppStyle().dialog.contentText,
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              Container(
+                height: 30,
+                width: 60,
+                child: new RaisedButton(
+                  child: new Text(
+                    '删除',
+                    style: AppStyle.getAppStyle().dialog.buttonText,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    if (deleteAccountCallback != null) {
+                      deleteAccountCallback(account);
+                    }
+//                    _deleteAccount(account);
+                  },
+                ),
+              ),
+              Container(
+                height: 30,
+                width: 60,
+                child: new RaisedButton(
+                  child: new Text(
+                    '取消',
+                    style: AppStyle.getAppStyle().dialog.buttonText,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              Container(
+                height: 30,
+                width: 60,
+                child: new RaisedButton(
+                  child: new Text(
+                    '查看',
+                    style: AppStyle.getAppStyle().dialog.buttonText,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    showAccount(context,account,groups, false,changeGroupCallback,saveAccountCallback);
+                  },
+                ),
+              ),
+              Container(
+                height: 30,
+                width: 60,
+                child: new RaisedButton(
+                  child: new Text(
+                    '编辑',
+                    style: AppStyle.getAppStyle().dialog.buttonText,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    showAccount(context,account,groups, true,changeGroupCallback,saveAccountCallback);
+                  },
+                ),
+              ),
+            ],
+          );
+        });
   }
 }
 
@@ -59,6 +189,11 @@ class _AccountHomePageState extends State<AccountHomePage> {
       appBar: new AppBar(
         title: new Text(_group == null ? "" : _group.name),
         actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.reorder),
+            tooltip: 'Reorder',
+            onPressed: _reorder,
+          ),
           IconButton(
             icon: const Icon(Icons.person_add),
             tooltip: 'Add Account',
@@ -116,140 +251,23 @@ class _AccountHomePageState extends State<AccountHomePage> {
     return list;
   }
 
+  void _reorder() {
+
+  }
+
   void _addAccount() {
     if (_userDataStore == null) {
       _userDataStore = UserDataStore("");
     }
-    _showAccount(new Account(_groupId), true);
-  }
-
-  void _showAccount(Account acc, bool isEditEnable) {
-
-    showDialog<Null>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AccountEditDialog(
-            account : acc,
-            groups : _userDataStore.getGroups(),
-            isEditEnable : isEditEnable,
-            onSaveAccount : (Account account){
-              if (acc.groupId != account.groupId) {
-                //组id有变化，则县移除，后保存新组
-                int gid = acc.groupId;
-                acc.resetValues(account);
-                acc.groupId = gid;
-                changeGroup(acc,account.groupId);
-              } else {
-                _saveAccount(account);
-              }
-            },
-          );
-        });
-  }
-
-  void _showEditOrNotDialog(Account account) {
-    showDialog<Null>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return new AlertDialog(
-            title: new Text(
-              '请选择对(${account.name})操作。',
-              style: AppStyle.getAppStyle().dialog.titleText,
-            ),
-            content: new SingleChildScrollView(
-              child: new ListBody(
-                children: <Widget>[
-                  new Text(
-                    '删除：此操作会将(${account.name})信息删除，请谨慎操作。',
-                    style: AppStyle.getAppStyle().dialog.contentText,
-                  ),
-                  new Text(""),
-                  new Text(
-                    '取消：不做任何操作。',
-                    style: AppStyle.getAppStyle().dialog.contentText,
-                  ),
-                  new Text(""),
-                  new Text(
-                    '查看：仅查看(${account.name})信息。',
-                    style: AppStyle.getAppStyle().dialog.contentText,
-                  ),
-                  new Text(""),
-                  new Text(
-                    '编辑：对(${account.name})信息进行编辑。',
-                    style: AppStyle.getAppStyle().dialog.contentText,
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              Container(
-                height: 30,
-                width: 60,
-                child: new RaisedButton(
-                  child: new Text(
-                    '删除',
-                    style: AppStyle.getAppStyle().dialog.buttonText,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _deleteAccount(account);
-                  },
-                ),
-              ),
-              Container(
-                height: 30,
-                width: 60,
-                child: new RaisedButton(
-                  child: new Text(
-                    '取消',
-                    style: AppStyle.getAppStyle().dialog.buttonText,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ),
-              Container(
-                height: 30,
-                width: 60,
-                child: new RaisedButton(
-                  child: new Text(
-                    '查看',
-                    style: AppStyle.getAppStyle().dialog.buttonText,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _showAccount(account, false);
-                  },
-                ),
-              ),
-              Container(
-                height: 30,
-                width: 60,
-                child: new RaisedButton(
-                  child: new Text(
-                    '编辑',
-                    style: AppStyle.getAppStyle().dialog.buttonText,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    _showAccount(account, true);
-                  },
-                ),
-              ),
-            ],
-          );
-        });
+    AccountHomePage.showAccount(context,new Account(_groupId),_userDataStore.getGroups(), true,changeGroup,_saveAccount);
   }
 
   void _onClickAccountItem(Account account) {
-    _showAccount(account, false);
+    AccountHomePage.showAccount(context,account,_userDataStore.getGroups(), false,null,null);
   }
 
   void _onLongPressAccountItem(Account account) {
-    _showEditOrNotDialog(account);
+    AccountHomePage.showEditOrNotDialog(context,account,_userDataStore.getGroups(),changeGroup,_saveAccount,_deleteAccount);
   }
 
   void _saveAccount(Account account) async {
@@ -271,15 +289,13 @@ class _AccountHomePageState extends State<AccountHomePage> {
   }
 }
 
-typedef OnSaveAccount = void Function(Account account);
-
 // ignore: must_be_immutable
 class AccountEditDialog extends StatefulWidget {
 
   Account account;
   List<Group> groups;
   bool isEditEnable;
-  OnSaveAccount onSaveAccount;
+  AccountCallback onSaveAccount;
 
   Color backgroundColor;
 
@@ -310,7 +326,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
   Account account;
   List<Group> groups;
   bool isEditEnable;
-  OnSaveAccount onSaveAccount;
+  AccountCallback onSaveAccount;
   Group selectGroupvalue ;
   Account accountEditCache;
 

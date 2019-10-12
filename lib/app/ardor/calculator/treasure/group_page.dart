@@ -13,6 +13,8 @@
 // limitations under the License.
 
 import 'package:ardor_calculator/app/ardor/calculator/style/style.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/account_page.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/account.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
@@ -36,6 +38,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
   UserDataStore _userDataStore;
   final _searchTextController = TextEditingController();
 
+  String searchKey;
+  List<Account> searchAccountList;
   @override
   void dispose() {
     super.dispose();
@@ -64,6 +68,11 @@ class _GroupHomePageState extends State<GroupHomePage> {
             onPressed: _resetPass,
           ),
           IconButton(
+            icon: const Icon(Icons.reorder),
+            tooltip: 'Reorder',
+            onPressed: _reorder,
+          ),
+          IconButton(
             icon: const Icon(Icons.import_export),
             tooltip: 'Export',
             onPressed: _export,
@@ -87,34 +96,25 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   contentPadding: const EdgeInsets.all(5.0),
                   icon: new Icon(Icons.search),
                   labelText: "What you need to search for."),
-              onChanged: (String str) {
+              onChanged: (String str) async {
                 //onChanged是每次输入框内每次文字变更触发的回调
                 Fluttertoast.showToast(msg: "input $str");
+                List<Account> list = await _searchAccounts(str);
+                setState(() {
+                  searchKey = str;
+                  searchAccountList = list;
+                });
               },
               onSubmitted: (String str) {
                 //onSubmitted是用户提交而触发的回调{当用户点击提交按钮（输入法回车键）}
-                Fluttertoast.showToast(msg: "最终 input $str");
+//                Fluttertoast.showToast(msg: "最终 input $str");
               },
             ),
           ),
           new Expanded(
             flex: 1,
             child: new Container(
-              child: new ListView.builder(
-                itemCount: getGroups().length,
-                itemBuilder: (context, index) {
-                  Group group = getGroups()[index];
-                  return new ListTile(
-                    title: new Text('${group.name}'),
-                    onTap: () {
-                      _onClickGroupItem(group);
-                    },
-                    onLongPress: () {
-                      _onLongPressGroupItem(group);
-                    },
-                  );
-                },
-              ),
+              child: getDataView(),
             ),
           ),
         ],
@@ -126,11 +126,78 @@ class _GroupHomePageState extends State<GroupHomePage> {
     dynamic obj = ModalRoute.of(context).settings.arguments;
   }
 
+  Widget getDataView() {
+    if (searchKey == null || searchKey.isEmpty) {
+      return new ListView.builder(
+        itemCount: getGroups().length,
+        itemBuilder: (context, index) {
+          Group group = getGroups()[index];
+          return new ListTile(
+            title: new Text('${group.name}'),
+            onTap: () {
+              _onClickGroupItem(group);
+            },
+            onLongPress: () {
+              _onLongPressGroupItem(group);
+            },
+          );
+        },
+      );
+    } else {
+      return new ListView.builder(
+        itemCount: searchAccountList.length,
+        itemBuilder: (context, index) {
+          Account account = searchAccountList[index];
+          return new ListTile(
+            title: new Text('${account.name}'),
+            onTap: () {
+              _onClickAccountItem(account);
+            },
+            onLongPress: () {
+              _onLongPressAccountItem(account);
+            },
+          );
+        },
+      );
+    }
+  }
+
   List<Group> getGroups() {
     if (_userDataStore != null) {
       return _userDataStore.getGroups();
     }
     return new List();
+  }
+
+  Future<List<Account>> _searchAccounts(String key) async{
+    if (_userDataStore == null) {
+      return new List();
+    }
+    List<Account> resultList = new List();
+    List<Group> listGroups =_userDataStore.getGroups();
+    for (Group g in listGroups) {
+      List<Account> listAccounts = _userDataStore.getAccountsByGroup(g.groupId);
+      if (listAccounts == null) {
+        continue;
+      }
+      for (Account a in listAccounts) {
+        if (_searchMatchKey(a,key)) {
+          resultList.add(a);
+        }
+      }
+    }
+    return resultList;
+  }
+
+  bool _searchMatchKey(Account a ,String key){
+    if(a.name != null && a.name.contains(key)){
+      return true;
+    }else if(a.address != null && a.address.contains(key)){
+      return true;
+    }else if(a.remarks != null && a.remarks.contains(key)){
+      return true;
+    }
+    return false;
   }
 
   void _addGroup() {
@@ -268,6 +335,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
         });
   }
 
+  void _reorder() {
+
+  }
+
   void _export() {
     TreasureExport.toExport(context);
   }
@@ -295,6 +366,32 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
   void _deleteGroup(int groupId) async {
     _userDataStore.removeGroup(groupId);
+    setState(() {});
+    await StoreManager.saveUserData(_userDataStore);
+  }
+
+  void _onClickAccountItem(Account account) {
+    AccountHomePage.showAccount(context,account,_userDataStore.getGroups(), false,null,null);
+  }
+
+  void _onLongPressAccountItem(Account account) {
+    AccountHomePage.showEditOrNotDialog(context,account,_userDataStore.getGroups(),changeGroup,_saveAccount,_deleteAccount);
+  }
+
+  void _saveAccount(Account account) async {
+    _userDataStore.updateAccount(account);
+    setState(() {});
+    await StoreManager.saveUserData(_userDataStore);
+  }
+
+  void _deleteAccount(Account account) async {
+    _userDataStore.removeAccount(account);
+    setState(() {});
+    await StoreManager.saveUserData(_userDataStore);
+  }
+
+  void changeGroup( Account account, int toGroupId) async{
+    _userDataStore.changeGroup(account, toGroupId);
     setState(() {});
     await StoreManager.saveUserData(_userDataStore);
   }
