@@ -40,6 +40,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
   String searchKey;
   List<Account> searchAccountList;
+
+  bool isReorderEdit = false;
+
+  List<Group> reorderGroups;
   @override
   void dispose() {
     super.dispose();
@@ -68,7 +72,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
             onPressed: _resetPass,
           ),
           IconButton(
-            icon: const Icon(Icons.reorder),
+            icon: Icon(isReorderEdit? Icons.save : Icons.reorder),
             tooltip: 'Reorder',
             onPressed: _reorder,
           ),
@@ -91,6 +95,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
         children: <Widget>[
           new Container(
             child: new TextField(
+              enabled: !isReorderEdit,
               controller: _searchTextController,
               decoration: new InputDecoration(
                   contentPadding: const EdgeInsets.all(5.0),
@@ -126,45 +131,87 @@ class _GroupHomePageState extends State<GroupHomePage> {
     dynamic obj = ModalRoute.of(context).settings.arguments;
   }
 
+  List<Widget> getGroupWidget(List<Group> items) {
+    List<Widget> listWidget = new List();
+    for (Group group in items) {
+      listWidget.add(ListTile(
+        key: ValueKey(group.groupId),
+        title: new TextField(
+          enabled: false,
+          controller: TextEditingController.fromValue(
+              TextEditingValue(
+                // 设置内容
+                text: group.name,
+              )),
+          decoration: new InputDecoration(
+              contentPadding: const EdgeInsets.all(5.0),
+              suffixIcon: new Icon(Icons.reorder)),
+        ),
+      ));
+    }
+    return listWidget;
+  }
+
   Widget getDataView() {
-    if (searchKey == null || searchKey.isEmpty) {
-      return new ListView.builder(
-        itemCount: getGroups().length,
-        itemBuilder: (context, index) {
-          Group group = getGroups()[index];
-          return new ListTile(
-            title: new Text('${group.name}'),
-            onTap: () {
-              _onClickGroupItem(group);
-            },
-            onLongPress: () {
-              _onLongPressGroupItem(group);
-            },
-          );
+    if (isReorderEdit) {
+      List<Widget> listWidget = getGroupWidget(reorderGroups);
+      return ReorderableListView(
+        onReorder: (int oldIndex, int newIndex) {
+          var element = reorderGroups[oldIndex];
+          if (newIndex >= reorderGroups.length) newIndex = reorderGroups.length - 1;
+          setState(() {
+            reorderGroups.removeAt(oldIndex);
+            reorderGroups.insert(newIndex, element);
+            for (int i = 0;i<reorderGroups.length;i++) {
+                Group g = reorderGroups[i];
+                g.order = i;
+            }
+          });
         },
+        children: listWidget,
       );
     } else {
-      return new ListView.builder(
-        itemCount: searchAccountList.length,
-        itemBuilder: (context, index) {
-          Account account = searchAccountList[index];
-          return new ListTile(
-            title: new Text('${account.name}'),
-            onTap: () {
-              _onClickAccountItem(account);
-            },
-            onLongPress: () {
-              _onLongPressAccountItem(account);
-            },
-          );
-        },
-      );
+      if (searchKey == null || searchKey.isEmpty) {
+        return new ListView.builder(
+          itemCount: getGroups().length,
+          itemBuilder: (context, index) {
+            Group group = getGroups()[index];
+            return new ListTile(
+              title: new Text('${group.name}'),
+              onTap: () {
+                _onClickGroupItem(group);
+              },
+              onLongPress: () {
+                _onLongPressGroupItem(group);
+              },
+            );
+          },
+        );
+      } else {
+        return new ListView.builder(
+          itemCount: searchAccountList.length,
+          itemBuilder: (context, index) {
+            Account account = searchAccountList[index];
+            return new ListTile(
+              title: new Text('${account.name}'),
+              onTap: () {
+                _onClickAccountItem(account);
+              },
+              onLongPress: () {
+                _onLongPressAccountItem(account);
+              },
+            );
+          },
+        );
+      }
     }
   }
 
   List<Group> getGroups() {
     if (_userDataStore != null) {
-      return _userDataStore.getGroups();
+      List<Group> list = _userDataStore.getGroups();
+      list.sort((left,right){return left.order - right.order;});
+      return list;
     }
     return new List();
   }
@@ -336,7 +383,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
   }
 
   void _reorder() {
-
+    if (isReorderEdit) {
+      //保存编辑的排序
+      StoreManager.saveUserData(_userDataStore);
+    } else {
+      reorderGroups = getGroups();
+    }
+    setState(() {
+      isReorderEdit = !isReorderEdit;
+    });
   }
 
   void _export() {
