@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:io';
+
 import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
 
 class TreasureExport {
   static Future<void> toExport(BuildContext context) async {
@@ -133,6 +138,21 @@ class _ExportPageState extends State<ExportPage> {
         title: new Text("导出数据"),
         actions: <Widget>[
           IconButton(
+            icon: const Icon(Icons.save),
+            tooltip: 'Save Export Data',
+            onPressed: () async{
+              String path = await saveExport(content);
+              ArdorToast.show("内容已保存至文件：$path");
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.share),
+            tooltip: 'Share Export Data',
+            onPressed: () async {
+              Share.share(content);
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.content_copy),
             tooltip: 'Copy Export Data',
             onPressed: () {
@@ -145,5 +165,18 @@ class _ExportPageState extends State<ExportPage> {
       ),
       body: new ListView(children: <Widget>[new Text(content)]),
     );
+  }
+
+  Future<String> saveExport(String content) async{
+      String t = DateTime.now().toString();
+      String dir = (await getExternalStorageDirectory()).path;
+      String type = "unencrypted";
+      if (password != null && password.isNotEmpty) {
+        type = "encrypt";
+      }
+      String fileName = "export_${type}_$t.txt";
+      File f = new File('$dir/$fileName');
+      f.writeAsString(content);
+      return f.absolute.path;
   }
 }
