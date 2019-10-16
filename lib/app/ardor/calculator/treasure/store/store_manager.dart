@@ -60,6 +60,10 @@ class StoreManager {
     return userDataStore != null;
   }
 
+  static void reCacheUserData() {
+    _userDataStore = null;
+  }
+
   static Future<UserDataStore> getUserData() async{
     if (_userDataStore != null) {
       return _userDataStore;

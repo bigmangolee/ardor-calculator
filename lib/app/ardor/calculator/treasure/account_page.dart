@@ -18,6 +18,7 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -42,6 +43,7 @@ class AccountHomePage extends StatefulWidget {
             groups : groups,
             isEditEnable : isEditEnable,
             onSaveAccount : (Account account){
+              AppLog.i(tag,"onSaveAccount $account");
               if (acc.groupId != account.groupId) {
                 //组id有变化，则县移除，后保存新组
                 int gid = acc.groupId;
@@ -164,10 +166,18 @@ class _AccountHomePageState extends State<AccountHomePage> {
   UserDataStore _userDataStore;
   int _groupId = 0;
   Group _group;
+
+  bool isReorderEdit = false;
+
+  List<Account> reorderAccounts;
+
   _AccountHomePageState();
 
   @override
   void dispose() {
+    if (isReorderEdit) {
+      StoreManager.reCacheUserData();
+    }
     super.dispose();
   }
 
@@ -190,7 +200,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
         title: new Text(_group == null ? "" : _group.name),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.reorder),
+            icon: Icon(isReorderEdit? Icons.save : Icons.reorder),
             tooltip: 'Reorder',
             onPressed: _reorder,
           ),
@@ -209,21 +219,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
           new Expanded(
             flex: 1,
             child: new Container(
-              child: new ListView.builder(
-                itemCount: getAccounts().length,
-                itemBuilder: (context, index) {
-                  Account account = getAccounts()[index];
-                  return new ListTile(
-                    title: new Text('${account.name}'),
-                    onTap: () {
-                      _onClickAccountItem(account);
-                    },
-                    onLongPress: () {
-                      _onLongPressAccountItem(account);
-                    },
-                  );
-                },
-              ),
+              child: getDataView(),
             ),
           ),
         ],
@@ -240,6 +236,64 @@ class _AccountHomePageState extends State<AccountHomePage> {
     }
   }
 
+  List<Widget> getAccountWidget(List<Account> items) {
+    List<Widget> listWidget = new List();
+    for (Account account in items) {
+      listWidget.add(ListTile(
+        key: ValueKey(account.id),
+        title: new TextField(
+          enabled: false,
+          controller: TextEditingController.fromValue(
+              TextEditingValue(
+                // 设置内容
+                text: account.name,
+              )),
+          decoration: new InputDecoration(
+              contentPadding: const EdgeInsets.all(5.0),
+              suffixIcon: new Icon(Icons.reorder)),
+        ),
+      ));
+    }
+    return listWidget;
+  }
+
+  Widget getDataView() {
+    if (isReorderEdit) {
+      List<Widget> listWidget = getAccountWidget(reorderAccounts);
+      return ReorderableListView(
+        onReorder: (int oldIndex, int newIndex) {
+          var element = reorderAccounts[oldIndex];
+          if (newIndex >= reorderAccounts.length) newIndex = reorderAccounts.length - 1;
+          setState(() {
+            reorderAccounts.removeAt(oldIndex);
+            reorderAccounts.insert(newIndex, element);
+            for (int i = 0;i<reorderAccounts.length;i++) {
+              Account a = reorderAccounts[i];
+              a.order = i;
+            }
+          });
+        },
+        children: listWidget,
+      );
+    } else {
+      return new ListView.builder(
+        itemCount: getAccounts().length,
+        itemBuilder: (context, index) {
+          Account account = getAccounts()[index];
+          return new ListTile(
+            title: new Text('${account.name}'),
+            onTap: () {
+              _onClickAccountItem(account);
+            },
+            onLongPress: () {
+              _onLongPressAccountItem(account);
+            },
+          );
+        },
+      );
+    }
+  }
+
   List<Account> getAccounts() {
     List<Account> list;
     if (_userDataStore != null) {
@@ -247,12 +301,22 @@ class _AccountHomePageState extends State<AccountHomePage> {
     }
     if (list == null) {
       list = new List();
+    } else {
+      list.sort((left,right){return left.order - right.order;});
     }
     return list;
   }
 
   void _reorder() {
-
+    if (isReorderEdit) {
+      //保存编辑的排序
+      StoreManager.saveUserData(_userDataStore);
+    } else {
+      reorderAccounts = List.from(getAccounts());
+    }
+    setState(() {
+      isReorderEdit = !isReorderEdit;
+    });
   }
 
   void _addAccount() {
@@ -271,6 +335,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
   }
 
   void _saveAccount(Account account) async {
+    AppLog.i(tag, "_saveAccount $account");
     _userDataStore.updateAccount(account);
     setState(() {});
     await StoreManager.saveUserData(_userDataStore);

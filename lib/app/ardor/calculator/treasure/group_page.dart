@@ -46,6 +46,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
   List<Group> reorderGroups;
   @override
   void dispose() {
+    if (isReorderEdit) {
+      StoreManager.reCacheUserData();
+    }
     super.dispose();
   }
 
