@@ -30,6 +30,7 @@ dependencies:
   share: ^0.6.1+1
   simple_permissions: ^0.1.9
   intl: ^0.15.8
+  crypto: ^2.0.6
 
 dev_dependencies:
   flutter_test:

@@ -14,8 +14,11 @@
 
 import 'dart:io';
 import 'dart:async';
+import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/crypto.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class SafeFileStore {
 
@@ -32,11 +35,12 @@ class SafeFileStore {
   Future<File> _getLocalFile() async {
     String dir = (await getApplicationDocumentsDirectory()).path;
     String fileName = _getFilePath();
+    AppLog.i("SafeFileStore", "fileName: $fileName");
     return new File('$dir/$fileName');
   }
 
   String _getFilePath() {
-    return _fileName;
+    return md5.convert(utf8.encode(_fileName)).toString();
   }
 
   Future<Null> write(String content) async{

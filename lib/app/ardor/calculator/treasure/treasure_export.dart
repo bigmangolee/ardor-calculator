@@ -18,7 +18,6 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
-import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

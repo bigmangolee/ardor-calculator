@@ -21,6 +21,7 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_s
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/file_selector.dart';
+import 'package:ardor_calculator/library/random_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -110,8 +111,7 @@ class TreasureInit {
               passwordOk: (String p) async {
                 Navigator.of(context).pop();
                 Config config = await StoreManager.getConfig();
-                //TODO 需要实现随机数
-                config.randomSalt = "init";
+                config.randomSalt = RandomUtils.generateString(20);
                 StoreManager.saveConfig(config);
                 StoreManager.secretKey = p;
                 StoreManager.saveUserData(UserDataStore(""));
@@ -225,8 +225,7 @@ class _ImportPageState extends State<ImportPage> {
               passwordOk: (String p) async {
                 Navigator.of(context).pop(1);
                 Config config = await StoreManager.getConfig();
-                //TODO 需要实现随机数
-                config.randomSalt = "init";
+                config.randomSalt = RandomUtils.generateString(20);
                 StoreManager.saveConfig(config);
                 StoreManager.secretKey = p;
                 StoreManager.saveUserData(userDataStore);
@@ -250,8 +249,7 @@ class _ImportPageState extends State<ImportPage> {
               importCallback: (String p, UserDataStore userDataStore) async {
                 Navigator.of(context).pop(1);
                 Config config = await StoreManager.getConfig();
-                //TODO 需要实现随机数
-                config.randomSalt = "init";
+                config.randomSalt = RandomUtils.generateString(20);
                 StoreManager.saveConfig(config);
                 StoreManager.secretKey = p;
                 StoreManager.saveUserData(userDataStore);
