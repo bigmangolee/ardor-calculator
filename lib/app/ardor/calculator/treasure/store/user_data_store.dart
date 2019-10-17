@@ -18,7 +18,7 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/account.dart
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../app_global.dart';
+import '../../app_global.dart';
 
 part 'user_data_store.g.dart';
 

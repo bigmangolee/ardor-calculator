@@ -31,6 +31,7 @@ dependencies:
   simple_permissions: ^0.1.9
   intl: ^0.15.8
   crypto: ^2.0.6
+  device_info: 0.4.0+2
 
 dev_dependencies:
   flutter_test:

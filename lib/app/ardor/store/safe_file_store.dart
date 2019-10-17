@@ -14,7 +14,6 @@
 
 import 'dart:io';
 import 'dart:async';
-import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/crypto.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:crypto/crypto.dart';
@@ -35,7 +34,6 @@ class SafeFileStore {
   Future<File> _getLocalFile() async {
     String dir = (await getApplicationDocumentsDirectory()).path;
     String fileName = _getFilePath();
-    AppLog.i("SafeFileStore", "fileName: $fileName");
     return new File('$dir/$fileName');
   }
 

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/app_global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_home.dart';
@@ -21,7 +22,7 @@ import 'app/ardor/calculator//treasure/account_page.dart';
 import 'app/ardor/calculator//treasure/group_page.dart';
 
 void main(){
-  Future.wait([initializeDateFormatting("zh_CN", null)]).then((result) {
+  Future.wait([initializeDateFormatting("zh_CN", null),AppGlobal.instance.init()]).then((result) {
     runApp(ArdorApp());
   });
 }
