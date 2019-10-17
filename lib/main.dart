@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_home.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'app/ardor/calculator//treasure/account_page.dart';
 import 'app/ardor/calculator//treasure/group_page.dart';
 
-void main() => runApp(ArdorApp());
+void main(){
+  Future.wait([initializeDateFormatting("zh_CN", null)]).then((result) {
+    runApp(ArdorApp());
+  });
+}
 
 
 class ArdorApp extends StatelessWidget {

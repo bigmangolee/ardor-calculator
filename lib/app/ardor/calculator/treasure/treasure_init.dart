@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:io';
+
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/library/applog.dart';
+import 'package:ardor_calculator/library/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -149,6 +153,26 @@ class _ImportPageState extends State<ImportPage> {
       appBar: new AppBar(
         title: new Text(getTitle()),
         actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.open_in_browser),
+            tooltip: 'Read Import Data',
+            onPressed: () async {
+              String path = await FileSelector.pickFile(context);
+                AppLog.i(tag,"Import $path");
+              if (path != null) {
+                try {
+                  String text = await new File(path).readAsString();
+                  if (text != null) {
+                    setState(() {
+                      content = text;
+                    });
+                  }
+                } on FileSystemException {
+                  ArdorToast.show("文件读取失败：$path");
+                }
+              }
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.content_paste),
             tooltip: 'Pasete Import Data',
