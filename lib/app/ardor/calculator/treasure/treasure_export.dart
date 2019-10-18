@@ -140,8 +140,13 @@ class _ExportPageState extends State<ExportPage> {
             icon: const Icon(Icons.save),
             tooltip: 'Save Export Data',
             onPressed: () async{
-              String path = await saveExport(content);
-              ArdorToast.show("内容已保存至文件：$path");
+              try {
+                String path = await saveExport(content);
+                ArdorToast.show("内容已保存至文件：$path");
+              } catch (e) {
+                ArdorToast.show("文件保存失败，请检查<存储>权限是否打开");
+              }
+
             },
           ),
           IconButton(
@@ -174,7 +179,10 @@ class _ExportPageState extends State<ExportPage> {
         type = "encrypt";
       }
       String fileName = "export_${type}_$t.txt";
-      File f = new File('$dir/$fileName');
+      File f = new File('$dir/ardor/calculator/$fileName');
+      if(!f.existsSync()){
+        f.createSync(recursive:true);
+      }
       f.writeAsString(content);
       return f.absolute.path;
   }

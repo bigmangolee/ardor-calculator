@@ -15,6 +15,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/callback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -140,6 +141,7 @@ class _FileSelectorState extends State<FileSelector> {
                   controller: controller,
                   itemCount: files.length,
                   itemBuilder: (BuildContext context, int index) {
+                    AppLog.i("FileSelector",files[index].path);
                     if (path.basename(files[index].path).substring(0, 1) == '.')
                       return Container();
 
