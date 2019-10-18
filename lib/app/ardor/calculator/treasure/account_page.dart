@@ -21,6 +21,7 @@ import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 typedef ChangeGroupCallback = void Function(Account account, int toGroupId);
 typedef AccountCallback = void Function(Account account);
@@ -32,25 +33,30 @@ class AccountHomePage extends StatefulWidget {
     return new _AccountHomePageState();
   }
 
-  static void showAccount(BuildContext context,Account acc,List<Group> groups, bool isEditEnable,ChangeGroupCallback changeGroupCallback,AccountCallback saveAccountCallback) {
-
+  static void showAccount(
+      BuildContext context,
+      Account acc,
+      List<Group> groups,
+      bool isEditEnable,
+      ChangeGroupCallback changeGroupCallback,
+      AccountCallback saveAccountCallback) {
     showDialog<Null>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return AccountEditDialog(
-            account : acc,
-            groups : groups,
-            isEditEnable : isEditEnable,
-            onSaveAccount : (Account account){
-              AppLog.i(tag,"onSaveAccount $account");
+            account: acc,
+            groups: groups,
+            isEditEnable: isEditEnable,
+            onSaveAccount: (Account account) {
+              AppLog.i(tag, "onSaveAccount $account");
               if (acc.groupId != account.groupId) {
                 //组id有变化，则县移除，后保存新组
                 int gid = acc.groupId;
                 acc.resetValues(account);
                 acc.groupId = gid;
                 if (changeGroupCallback != null) {
-                  changeGroupCallback(acc,account.groupId);
+                  changeGroupCallback(acc, account.groupId);
                 }
               } else {
                 if (saveAccountCallback != null) {
@@ -62,7 +68,13 @@ class AccountHomePage extends StatefulWidget {
         });
   }
 
-  static void showEditOrNotDialog(BuildContext context,Account account,List<Group> groups,ChangeGroupCallback changeGroupCallback,AccountCallback saveAccountCallback,AccountCallback deleteAccountCallback) {
+  static void showEditOrNotDialog(
+      BuildContext context,
+      Account account,
+      List<Group> groups,
+      ChangeGroupCallback changeGroupCallback,
+      AccountCallback saveAccountCallback,
+      AccountCallback deleteAccountCallback) {
     showDialog<Null>(
         context: context,
         barrierDismissible: false,
@@ -138,7 +150,8 @@ class AccountHomePage extends StatefulWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showAccount(context,account,groups, false,changeGroupCallback,saveAccountCallback);
+                    showAccount(context, account, groups, false,
+                        changeGroupCallback, saveAccountCallback);
                   },
                 ),
               ),
@@ -152,7 +165,8 @@ class AccountHomePage extends StatefulWidget {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
-                    showAccount(context,account,groups, true,changeGroupCallback,saveAccountCallback);
+                    showAccount(context, account, groups, true,
+                        changeGroupCallback, saveAccountCallback);
                   },
                 ),
               ),
@@ -163,6 +177,8 @@ class AccountHomePage extends StatefulWidget {
 }
 
 class _AccountHomePageState extends State<AccountHomePage> {
+  static DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss', 'zh_CN');
+
   UserDataStore _userDataStore;
   int _groupId = 0;
   Group _group;
@@ -200,7 +216,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
         title: new Text(_group == null ? "" : _group.name),
         actions: <Widget>[
           IconButton(
-            icon: Icon(isReorderEdit? Icons.save : Icons.reorder),
+            icon: Icon(isReorderEdit ? Icons.save : Icons.reorder),
             tooltip: 'Reorder',
             onPressed: _reorder,
           ),
@@ -230,7 +246,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
   void _initArguments(BuildContext context) {
     dynamic obj = ModalRoute.of(context).settings.arguments;
     if (obj != null) {
-      if (obj["groupId"] != null && obj["groupId"] is int){
+      if (obj["groupId"] != null && obj["groupId"] is int) {
         _groupId = obj["groupId"];
       }
     }
@@ -238,20 +254,18 @@ class _AccountHomePageState extends State<AccountHomePage> {
 
   List<Widget> getAccountWidget(List<Account> items) {
     List<Widget> listWidget = new List();
+
     for (Account account in items) {
+      String subtitle = account.address.isEmpty
+          ? _dateFormat
+              .format(DateTime.fromMillisecondsSinceEpoch(account.updateTime))
+          : account.address;
+
       listWidget.add(ListTile(
         key: ValueKey(account.id),
-        title: new TextField(
-          enabled: false,
-          controller: TextEditingController.fromValue(
-              TextEditingValue(
-                // 设置内容
-                text: account.name,
-              )),
-          decoration: new InputDecoration(
-              contentPadding: const EdgeInsets.all(5.0),
-              suffixIcon: new Icon(Icons.reorder)),
-        ),
+        title: new Text('${account.name}'),
+        subtitle: Text(subtitle, style: TextStyle(fontSize: 12.0)),
+        trailing: new Icon(Icons.reorder),
       ));
     }
     return listWidget;
@@ -263,13 +277,14 @@ class _AccountHomePageState extends State<AccountHomePage> {
       return ReorderableListView(
         onReorder: (int oldIndex, int newIndex) {
           var element = reorderAccounts[oldIndex];
-          if (newIndex >= reorderAccounts.length) newIndex = reorderAccounts.length - 1;
+          if (newIndex >= reorderAccounts.length)
+            newIndex = reorderAccounts.length - 1;
           setState(() {
             reorderAccounts.removeAt(oldIndex);
             reorderAccounts.insert(newIndex, element);
-            for (int i = 0;i<reorderAccounts.length;i++) {
+            for (int i = 0; i < reorderAccounts.length; i++) {
               Account a = reorderAccounts[i];
-              a.order = i;
+              a.order = i + 1;
             }
           });
         },
@@ -280,8 +295,16 @@ class _AccountHomePageState extends State<AccountHomePage> {
         itemCount: getAccounts().length,
         itemBuilder: (context, index) {
           Account account = getAccounts()[index];
+          String subtitle = account.address.isEmpty
+              ? _dateFormat.format(
+                  DateTime.fromMillisecondsSinceEpoch(account.updateTime))
+              : account.address;
+
           return new ListTile(
             title: new Text('${account.name}'),
+            subtitle: Text(subtitle, style: TextStyle(fontSize: 12.0)),
+            trailing: new Text(_dateFormat.format(
+                DateTime.fromMillisecondsSinceEpoch(account.updateTime))),
             onTap: () {
               _onClickAccountItem(account);
             },
@@ -302,7 +325,9 @@ class _AccountHomePageState extends State<AccountHomePage> {
     if (list == null) {
       list = new List();
     } else {
-      list.sort((left,right){return left.order - right.order;});
+      list.sort((left, right) {
+        return left.order - right.order;
+      });
     }
     return list;
   }
@@ -323,15 +348,18 @@ class _AccountHomePageState extends State<AccountHomePage> {
     if (_userDataStore == null) {
       _userDataStore = UserDataStore("");
     }
-    AccountHomePage.showAccount(context,new Account(_groupId),_userDataStore.getGroups(), true,changeGroup,_saveAccount);
+    AccountHomePage.showAccount(context, new Account(_groupId),
+        _userDataStore.getGroups(), true, changeGroup, _saveAccount);
   }
 
   void _onClickAccountItem(Account account) {
-    AccountHomePage.showAccount(context,account,_userDataStore.getGroups(), false,null,null);
+    AccountHomePage.showAccount(
+        context, account, _userDataStore.getGroups(), false, null, null);
   }
 
   void _onLongPressAccountItem(Account account) {
-    AccountHomePage.showEditOrNotDialog(context,account,_userDataStore.getGroups(),changeGroup,_saveAccount,_deleteAccount);
+    AccountHomePage.showEditOrNotDialog(context, account,
+        _userDataStore.getGroups(), changeGroup, _saveAccount, _deleteAccount);
   }
 
   void _saveAccount(Account account) async {
@@ -347,7 +375,7 @@ class _AccountHomePageState extends State<AccountHomePage> {
     await StoreManager.saveUserData(_userDataStore);
   }
 
-  void changeGroup( Account account, int toGroupId) async{
+  void changeGroup(Account account, int toGroupId) async {
     _userDataStore.changeGroup(account, toGroupId);
     setState(() {});
     await StoreManager.saveUserData(_userDataStore);
@@ -356,7 +384,6 @@ class _AccountHomePageState extends State<AccountHomePage> {
 
 // ignore: must_be_immutable
 class AccountEditDialog extends StatefulWidget {
-
   Account account;
   List<Group> groups;
   bool isEditEnable;
@@ -382,17 +409,17 @@ class AccountEditDialog extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _AccountEditDialogState(account,groups,isEditEnable,onSaveAccount);
+    return new _AccountEditDialogState(
+        account, groups, isEditEnable, onSaveAccount);
   }
 }
 
 class _AccountEditDialogState extends State<AccountEditDialog> {
-
   Account account;
   List<Group> groups;
   bool isEditEnable;
   AccountCallback onSaveAccount;
-  Group selectGroupvalue ;
+  Group selectGroupvalue;
   Account accountEditCache;
 
   Color backgroundColor;
@@ -406,11 +433,12 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
   ShapeBorder shape;
 
   static const RoundedRectangleBorder _defaultDialogShape =
-  RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0)));
+      RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(2.0)));
   static const double _defaultElevation = 24.0;
 
-  _AccountEditDialogState(this.account, this.groups, this.isEditEnable,
-      this.onSaveAccount) {
+  _AccountEditDialogState(
+      this.account, this.groups, this.isEditEnable, this.onSaveAccount) {
     accountEditCache = new Account(account.groupId);
     accountEditCache.resetValues(account);
     if (selectGroupvalue == null) {
@@ -426,7 +454,8 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
   Widget build(BuildContext context) {
     final DialogTheme dialogTheme = DialogTheme.of(context);
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+      padding: MediaQuery.of(context).viewInsets +
+          const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
       duration: insetAnimationDuration,
       curve: insetAnimationCurve,
       child: MediaQuery.removeViewInsets(
@@ -437,10 +466,14 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
         context: context,
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minWidth: 280.0,maxHeight: 530.0),
+            constraints:
+                const BoxConstraints(minWidth: 280.0, maxHeight: 530.0),
             child: Material(
-              color: backgroundColor ?? dialogTheme.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
-              elevation: elevation ?? dialogTheme.elevation ?? _defaultElevation,
+              color: backgroundColor ??
+                  dialogTheme.backgroundColor ??
+                  Theme.of(context).dialogBackgroundColor,
+              elevation:
+                  elevation ?? dialogTheme.elevation ?? _defaultElevation,
               shape: shape ?? dialogTheme.shape ?? _defaultDialogShape,
               type: MaterialType.card,
               child: new ListView(children: <Widget>[getContent()]),
@@ -452,7 +485,6 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
   }
 
   Widget getContent() {
-
     List<Widget> getActionSelect() {
       if (isEditEnable) {
         return <Widget>[
@@ -504,21 +536,18 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 new Text("    Group: ",
-                    style: AppStyle.getAppStyle().textField(isEditEnable)
-                ),
+                    style: AppStyle.getAppStyle().textField(isEditEnable)),
                 new Text(selectGroupvalue.name,
-                    style: AppStyle.getAppStyle().textField(isEditEnable)
-                ),
+                    style: AppStyle.getAppStyle().textField(isEditEnable)),
                 new Center(
-                    child:new PopupMenuButton(
-                      enabled: isEditEnable,
-                      icon: new Icon(Icons.arrow_drop_down),
-                      onSelected: (Group value){
-                        _updateOnSelectedGroup(value);
-                      },
-                      itemBuilder: (BuildContext context) =>getGroupListData(),
-                    )
-                ),
+                    child: new PopupMenuButton(
+                  enabled: isEditEnable,
+                  icon: new Icon(Icons.arrow_drop_down),
+                  onSelected: (Group value) {
+                    _updateOnSelectedGroup(value);
+                  },
+                  itemBuilder: (BuildContext context) => getGroupListData(),
+                )),
                 IconButton(
                   icon: const Icon(Icons.content_copy),
                   tooltip: 'Copy Data',
@@ -528,17 +557,15 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
                         "username:${accountEditCache.account}\r\n"
                         "passwrod:${accountEditCache.password}\r\n"
                         "remarks:${accountEditCache.remarks}\r\n";
-                    ClipboardData data = new ClipboardData(text:content);
+                    ClipboardData data = new ClipboardData(text: content);
                     Clipboard.setData(data);
                     ArdorToast.show("已复制到剪切板");
                   },
                 ),
-              ]
-          ),
+              ]),
           new TextField(
             enabled: isEditEnable,
-            controller:
-            TextEditingController.fromValue(TextEditingValue(
+            controller: TextEditingController.fromValue(TextEditingValue(
               // 设置内容
               text: accountEditCache.name,
             )),
@@ -553,8 +580,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
           ),
           new TextField(
             enabled: isEditEnable,
-            controller:
-            TextEditingController.fromValue(TextEditingValue(
+            controller: TextEditingController.fromValue(TextEditingValue(
               // 设置内容
               text: accountEditCache.address,
             )),
@@ -569,8 +595,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
           ),
           new TextField(
             enabled: isEditEnable,
-            controller:
-            TextEditingController.fromValue(TextEditingValue(
+            controller: TextEditingController.fromValue(TextEditingValue(
               // 设置内容
               text: accountEditCache.account,
             )),
@@ -585,8 +610,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
           ),
           new TextField(
             enabled: isEditEnable,
-            controller:
-            TextEditingController.fromValue(TextEditingValue(
+            controller: TextEditingController.fromValue(TextEditingValue(
               // 设置内容
               text: accountEditCache.password,
             )),
@@ -599,47 +623,44 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
               accountEditCache.password = str;
             },
           ),
-          new TextField(
+//          new TextField(
+//            enabled: isEditEnable,
+//            controller: TextEditingController.fromValue(TextEditingValue(
+//              // 设置内容
+//              text: accountEditCache.order.toString(),
+//            )),
+//            style: AppStyle.getAppStyle().textField(isEditEnable),
+//            keyboardType: TextInputType.number,
+//            decoration: new InputDecoration(
+//                contentPadding: const EdgeInsets.all(5.0),
+//                icon: new Icon(Icons.reorder),
+//                labelText: "Display Order"),
+//            onChanged: (String str) {
+//              accountEditCache.order = int.parse(str);
+//            },
+//          ),
+          Expanded(child: new TextField(
             enabled: isEditEnable,
-            controller:
-            TextEditingController.fromValue(TextEditingValue(
-              // 设置内容
-              text: accountEditCache.order.toString(),
-            )),
-            style: AppStyle.getAppStyle().textField(isEditEnable),
-            keyboardType: TextInputType.number,
-            decoration: new InputDecoration(
-                contentPadding: const EdgeInsets.all(5.0),
-                icon: new Icon(Icons.reorder),
-                labelText: "Display Order"),
-            onChanged: (String str) {
-              accountEditCache.order = int.parse(str);
-            },
-          ),
-          new TextField(
-            enabled: isEditEnable,
-            controller:
-            TextEditingController.fromValue(TextEditingValue(
+            controller: TextEditingController.fromValue(TextEditingValue(
               // 设置内容
               text: accountEditCache.remarks,
             )),
+            maxLines: null,
             style: AppStyle.getAppStyle().textField(isEditEnable),
-            maxLines: 3,
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.bookmark),
-                labelText: "Account Remarks"),
+                labelText: "Remarks"),
             onChanged: (String str) {
               accountEditCache.remarks = str;
             },
-          ),
+          )),
           new TextField(
             enabled: false,
-            controller:
-            TextEditingController.fromValue(TextEditingValue(
+            controller: TextEditingController.fromValue(TextEditingValue(
               // 设置内容
               text: DateTime.fromMillisecondsSinceEpoch(
-                  accountEditCache.createTime)
+                      accountEditCache.createTime)
                   .toString(),
             )),
             style: AppStyle.getAppStyle().textField(false),
@@ -651,11 +672,10 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
           ),
           new TextField(
             enabled: false,
-            controller:
-            TextEditingController.fromValue(TextEditingValue(
+            controller: TextEditingController.fromValue(TextEditingValue(
               // 设置内容
               text: DateTime.fromMillisecondsSinceEpoch(
-                  accountEditCache.updateTime)
+                      accountEditCache.updateTime)
                   .toString(),
             )),
             style: AppStyle.getAppStyle().textField(false),
@@ -681,13 +701,10 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
     });
   }
 
-  List<PopupMenuItem<Group>> getGroupListData(){
-    List<PopupMenuItem<Group>> items=new List();
+  List<PopupMenuItem<Group>> getGroupListData() {
+    List<PopupMenuItem<Group>> items = new List();
     for (Group g in groups) {
-          items.add(new PopupMenuItem(
-          value:g,
-          child: new Text(g.name)
-      ));
+      items.add(new PopupMenuItem(value: g, child: new Text(g.name)));
     }
     return items;
   }

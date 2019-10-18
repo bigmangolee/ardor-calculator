@@ -25,7 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:intl/intl.dart';
 
 class GroupHomePage extends StatefulWidget {
   @override
@@ -35,6 +35,8 @@ class GroupHomePage extends StatefulWidget {
 }
 
 class _GroupHomePageState extends State<GroupHomePage> {
+  static DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss', 'zh_CN');
+
   UserDataStore _userDataStore;
   final _searchTextController = TextEditingController();
 
@@ -75,7 +77,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
             onPressed: _resetPass,
           ),
           IconButton(
-            icon: Icon(isReorderEdit? Icons.save : Icons.reorder),
+            icon: Icon(isReorderEdit ? Icons.save : Icons.reorder),
             tooltip: 'Reorder',
             onPressed: _reorder,
           ),
@@ -137,19 +139,25 @@ class _GroupHomePageState extends State<GroupHomePage> {
   List<Widget> getGroupWidget(List<Group> items) {
     List<Widget> listWidget = new List();
     for (Group group in items) {
+      int count = getGroupCount(group.groupId);
+      String subtitle = group.remarks.isEmpty
+          ? _dateFormat.format(
+          DateTime.fromMillisecondsSinceEpoch(group.updateTime))
+          : group.remarks;
+
       listWidget.add(ListTile(
         key: ValueKey(group.groupId),
-        title: new TextField(
-          enabled: false,
-          controller: TextEditingController.fromValue(
-              TextEditingValue(
-                // 设置内容
-                text: group.name,
-              )),
-          decoration: new InputDecoration(
-              contentPadding: const EdgeInsets.all(5.0),
-              suffixIcon: new Icon(Icons.reorder)),
+        title: Row(
+          children: <Widget>[
+            Expanded(child: Text(group.name)),
+            Text(
+              '$count 项',
+              style: TextStyle(color: Colors.grey),
+            )
+          ],
         ),
+        trailing: new Icon(Icons.reorder),
+        subtitle: Text(subtitle, style: TextStyle(fontSize: 12.0)),
       ));
     }
     return listWidget;
@@ -161,13 +169,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
       return ReorderableListView(
         onReorder: (int oldIndex, int newIndex) {
           var element = reorderGroups[oldIndex];
-          if (newIndex >= reorderGroups.length) newIndex = reorderGroups.length - 1;
+          if (newIndex >= reorderGroups.length)
+            newIndex = reorderGroups.length - 1;
           setState(() {
             reorderGroups.removeAt(oldIndex);
             reorderGroups.insert(newIndex, element);
-            for (int i = 0;i<reorderGroups.length;i++) {
-                Group g = reorderGroups[i];
-                g.order = i;
+            for (int i = 0; i < reorderGroups.length; i++) {
+              Group g = reorderGroups[i];
+              g.order = i + 1;
             }
           });
         },
@@ -179,8 +188,23 @@ class _GroupHomePageState extends State<GroupHomePage> {
           itemCount: getGroups().length,
           itemBuilder: (context, index) {
             Group group = getGroups()[index];
+            int count = getGroupCount(group.groupId);
+            String subtitle = group.remarks.isEmpty
+                ? _dateFormat.format(
+                    DateTime.fromMillisecondsSinceEpoch(group.updateTime))
+                : group.remarks;
             return new ListTile(
-              title: new Text('${group.name}'),
+              title: Row(
+                children: <Widget>[
+                  Expanded(child: Text(group.name)),
+                  Text(
+                    '$count 项',
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
+              ),
+              trailing: new Icon(Icons.chevron_right),
+              subtitle: Text(subtitle, style: TextStyle(fontSize: 12.0)),
               onTap: () {
                 _onClickGroupItem(group);
               },
@@ -195,8 +219,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
           itemCount: searchAccountList.length,
           itemBuilder: (context, index) {
             Account account = searchAccountList[index];
+            String subtitle = account.address.isEmpty
+                ? _dateFormat.format(
+                DateTime.fromMillisecondsSinceEpoch(account.updateTime))
+                : account.address;
             return new ListTile(
               title: new Text('${account.name}'),
+              subtitle: Text(subtitle, style: TextStyle(fontSize: 12.0)),
+              trailing: new Text(_dateFormat.format(
+                  DateTime.fromMillisecondsSinceEpoch(account.updateTime))),
               onTap: () {
                 _onClickAccountItem(account);
               },
@@ -213,25 +244,35 @@ class _GroupHomePageState extends State<GroupHomePage> {
   List<Group> getGroups() {
     if (_userDataStore != null) {
       List<Group> list = _userDataStore.getGroups();
-      list.sort((left,right){return left.order - right.order;});
+      list.sort((left, right) {
+        return left.order - right.order;
+      });
       return list;
     }
     return new List();
   }
 
-  Future<List<Account>> _searchAccounts(String key) async{
+  int getGroupCount(int groupId) {
+    if (_userDataStore != null) {
+      List<Account> list = _userDataStore.getAccountsByGroup(groupId);
+      return list == null ? 0 : list.length;
+    }
+    return 0;
+  }
+
+  Future<List<Account>> _searchAccounts(String key) async {
     if (_userDataStore == null) {
       return new List();
     }
     List<Account> resultList = new List();
-    List<Group> listGroups =_userDataStore.getGroups();
+    List<Group> listGroups = _userDataStore.getGroups();
     for (Group g in listGroups) {
       List<Account> listAccounts = _userDataStore.getAccountsByGroup(g.groupId);
       if (listAccounts == null) {
         continue;
       }
       for (Account a in listAccounts) {
-        if (_searchMatchKey(a,key)) {
+        if (_searchMatchKey(a, key)) {
           resultList.add(a);
         }
       }
@@ -239,12 +280,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return resultList;
   }
 
-  bool _searchMatchKey(Account a ,String key){
-    if(a.name != null && a.name.contains(key)){
+  bool _searchMatchKey(Account a, String key) {
+    if (a.name != null && a.name.contains(key)) {
       return true;
-    }else if(a.address != null && a.address.contains(key)){
+    } else if (a.address != null && a.address.contains(key)) {
       return true;
-    }else if(a.remarks != null && a.remarks.contains(key)){
+    } else if (a.remarks != null && a.remarks.contains(key)) {
       return true;
     }
     return false;
@@ -263,9 +304,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return GroupEditDialog(
-            group : g,
-            isEditEnable : isEditEnable,
-            onSaveGroup : (Group group){
+            group: g,
+            isEditEnable: isEditEnable,
+            onSaveGroup: (Group group) {
               _saveGroup(group);
             },
           );
@@ -429,11 +470,13 @@ class _GroupHomePageState extends State<GroupHomePage> {
   }
 
   void _onClickAccountItem(Account account) {
-    AccountHomePage.showAccount(context,account,_userDataStore.getGroups(), false,null,null);
+    AccountHomePage.showAccount(
+        context, account, _userDataStore.getGroups(), false, null, null);
   }
 
   void _onLongPressAccountItem(Account account) {
-    AccountHomePage.showEditOrNotDialog(context,account,_userDataStore.getGroups(),changeGroup,_saveAccount,_deleteAccount);
+    AccountHomePage.showEditOrNotDialog(context, account,
+        _userDataStore.getGroups(), changeGroup, _saveAccount, _deleteAccount);
   }
 
   void _saveAccount(Account account) async {
@@ -448,7 +491,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     await StoreManager.saveUserData(_userDataStore);
   }
 
-  void changeGroup( Account account, int toGroupId) async{
+  void changeGroup(Account account, int toGroupId) async {
     _userDataStore.changeGroup(account, toGroupId);
     setState(() {});
     await StoreManager.saveUserData(_userDataStore);
@@ -456,9 +499,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
 }
 
 typedef OnSaveGroup = void Function(Group group);
+
 // ignore: must_be_immutable
 class GroupEditDialog extends StatefulWidget {
-
   Group group;
   bool isEditEnable;
   OnSaveGroup onSaveGroup;
@@ -472,12 +515,11 @@ class GroupEditDialog extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _GroupEditDialogState(group,isEditEnable,onSaveGroup);
+    return new _GroupEditDialogState(group, isEditEnable, onSaveGroup);
   }
 }
 
 class _GroupEditDialogState extends State<GroupEditDialog> {
-
   Group group;
   bool isEditEnable;
   OnSaveGroup onSaveGroup;
@@ -492,18 +534,19 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
 
   ShapeBorder shape;
 
-  _GroupEditDialogState(this.group, this.isEditEnable,
-      this.onSaveGroup);
+  _GroupEditDialogState(this.group, this.isEditEnable, this.onSaveGroup);
 
   static const RoundedRectangleBorder _defaultDialogShape =
-  RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(2.0)));
+      RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(2.0)));
   static const double _defaultElevation = 24.0;
 
   @override
   Widget build(BuildContext context) {
     final DialogTheme dialogTheme = DialogTheme.of(context);
     return AnimatedPadding(
-      padding: MediaQuery.of(context).viewInsets + const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
+      padding: MediaQuery.of(context).viewInsets +
+          const EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
       duration: insetAnimationDuration,
       curve: insetAnimationCurve,
       child: MediaQuery.removeViewInsets(
@@ -516,8 +559,11 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 280.0),
             child: Material(
-              color: backgroundColor ?? dialogTheme.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
-              elevation: elevation ?? dialogTheme.elevation ?? _defaultElevation,
+              color: backgroundColor ??
+                  dialogTheme.backgroundColor ??
+                  Theme.of(context).dialogBackgroundColor,
+              elevation:
+                  elevation ?? dialogTheme.elevation ?? _defaultElevation,
               shape: shape ?? dialogTheme.shape ?? _defaultDialogShape,
               type: MaterialType.card,
               child: getContent(),
@@ -528,11 +574,11 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
     );
   }
 
-  Widget getContent () {
+  Widget getContent() {
     Group groupEditCache = new Group("");
     groupEditCache.resetValues(group);
 
-    List<Widget> getActionSelect(){
+    List<Widget> getActionSelect() {
       if (isEditEnable) {
         return <Widget>[
           Container(
@@ -584,7 +630,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
 
     return new Container(
       padding: const EdgeInsets.all(5.0),
-      constraints:BoxConstraints(
+      constraints: BoxConstraints(
         maxHeight: 330,
       ),
       child: new Column(
@@ -593,11 +639,10 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
         children: <Widget>[
           new TextField(
             enabled: isEditEnable,
-            controller: TextEditingController.fromValue(
-                TextEditingValue(
-                  // 设置内容
-                  text: groupEditCache.name,
-                )),
+            controller: TextEditingController.fromValue(TextEditingValue(
+              // 设置内容
+              text: groupEditCache.name,
+            )),
             style: AppStyle.getAppStyle().textField(isEditEnable),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
@@ -607,42 +652,45 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
               groupEditCache.name = str;
             },
           ),
-          new TextField(
+//          new TextField(
+//            enabled: isEditEnable,
+//            controller: TextEditingController.fromValue(TextEditingValue(
+//              // 设置内容
+//              text: groupEditCache.order.toString(),
+//            )),
+//            style: AppStyle.getAppStyle().textField(isEditEnable),
+//            keyboardType: TextInputType.number,
+//            decoration: new InputDecoration(
+//                contentPadding: const EdgeInsets.all(5.0),
+//                icon: new Icon(Icons.reorder),
+//                labelText: "Display Order"),
+//            onChanged: (String str) {
+//              groupEditCache.order = int.parse(str);
+//            },
+//          ),
+          Expanded(child: new TextField(
             enabled: isEditEnable,
-            controller: TextEditingController.fromValue(
-                TextEditingValue(
-                  // 设置内容
-                  text: groupEditCache.order.toString(),
-                )),
+            controller: TextEditingController.fromValue(TextEditingValue(
+              // 设置内容
+              text: groupEditCache.remarks,
+            )),
+            maxLines: null,
             style: AppStyle.getAppStyle().textField(isEditEnable),
-            keyboardType: TextInputType.number,
-            decoration: new InputDecoration(
-                contentPadding: const EdgeInsets.all(5.0),
-                icon: new Icon(Icons.reorder),
-                labelText: "Display Order"),
-            onChanged: (String str) {
-              groupEditCache.order = int.parse(str);
-            },
-          ),
-          new TextField(
-            enabled: isEditEnable,
-            style: AppStyle.getAppStyle().textField(isEditEnable),
-            maxLines: 3,
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.bookmark),
-                labelText: "Group Remarks"),
+                labelText: "Remarks"),
             onChanged: (String str) {
               groupEditCache.remarks = str;
             },
-          ),
+          )),
           new TextField(
             enabled: false,
-            controller: TextEditingController.fromValue(
-                TextEditingValue(
-                  // 设置内容
-                  text: DateTime.fromMillisecondsSinceEpoch(group.createTime).toString(),
-                )),
+            controller: TextEditingController.fromValue(TextEditingValue(
+              // 设置内容
+              text: DateTime.fromMillisecondsSinceEpoch(group.createTime)
+                  .toString(),
+            )),
             style: AppStyle.getAppStyle().textField(false),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
@@ -652,11 +700,11 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
           ),
           new TextField(
             enabled: false,
-            controller: TextEditingController.fromValue(
-                TextEditingValue(
-                  // 设置内容
-                  text: DateTime.fromMillisecondsSinceEpoch(group.updateTime).toString(),
-                )),
+            controller: TextEditingController.fromValue(TextEditingValue(
+              // 设置内容
+              text: DateTime.fromMillisecondsSinceEpoch(group.updateTime)
+                  .toString(),
+            )),
             style: AppStyle.getAppStyle().textField(false),
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
@@ -672,5 +720,4 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
       ),
     );
   }
-
 }

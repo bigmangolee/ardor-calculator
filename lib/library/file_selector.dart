@@ -258,13 +258,15 @@ class _FileSelectorState extends State<FileSelector> {
 
 ///文件夹描述
 class FolderDescribe {
+
+  static DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss', 'zh_CN');
+
   FileSystemEntity file;
 
   FolderDescribe(this.file);
 
   String getModifiedTime() {
-    return DateFormat('yyyy-MM-dd HH:mm:ss', 'zh_CN')
-        .format(file.statSync().modified.toLocal());
+    return _dateFormat.format(file.statSync().modified.toLocal());
   }
 
   Widget getIcon() {
@@ -299,13 +301,13 @@ class FolderDescribe {
 
 ///文件描述
 class FileDescribe {
+  static DateFormat _dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss', 'zh_CN');
   FileSystemEntity file;
 
   FileDescribe(this.file);
 
   String getModifiedTime() {
-    return DateFormat('yyyy-MM-dd HH:mm:ss', 'zh_CN')
-        .format(file.statSync().modified.toLocal());
+    return _dateFormat.format(file.statSync().modified.toLocal());
   }
 
   Widget getIcon() {
