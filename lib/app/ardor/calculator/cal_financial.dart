@@ -37,9 +37,7 @@ class CalFinancial extends CalBase {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text("CalFinancial1"),
-          new Text("CalFinancial2"),
-          new Text("CalFinancial3"),
+          new Text("Under development, stay tuned."),
         ],
       ),
     );

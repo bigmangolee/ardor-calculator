@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/cal_blockchain.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_init.dart';
@@ -90,6 +91,9 @@ class _CalHomeState extends State<CalHome> {
           startTreasure(p);
         }),
         CalFinancial((String p) {
+          startTreasure(p);
+        }),
+        CalBlockChain((String p) {
           startTreasure(p);
         }),
       ];

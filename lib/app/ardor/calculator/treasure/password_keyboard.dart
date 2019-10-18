@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/cal_blockchain.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
@@ -306,6 +307,9 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
           passwordDown(p);
         }),
         CalFinancial((String p) {
+          passwordDown(p);
+        }),
+        CalBlockChain((String p) {
           passwordDown(p);
         }),
       ];

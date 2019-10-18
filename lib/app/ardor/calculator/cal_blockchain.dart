@@ -39,9 +39,7 @@ class CalBlockChain extends CalBase {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text("CalBlockChain1"),
-          new Text("CalBlockChain2"),
-          new Text("CalBlockChain3"),
+          new Text("Under development, stay tuned."),
         ],
       ),
     );

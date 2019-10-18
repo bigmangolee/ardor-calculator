@@ -38,9 +38,7 @@ class CalMathematical extends CalBase {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text("Mathematical1"),
-          new Text("Mathematical2"),
-          new Text("Mathematical3"),
+          new Text("Under development, stay tuned."),
         ],
       ),
     );
