@@ -22,6 +22,22 @@ class S implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   String get app_name => "Ardor Calculator";
+  String get calBlockChain_name => "BlockChain";
+  String get calFinancial_name => "Financial";
+  String get calGeneral_name => "General";
+  String get calMathematical_name => "Mathematical";
+  String get formula_warning_can_not_input_null => "Can not input null";
+  String get formula_warning_logic_illegal_can_not_add_formula => "Formula logic illegal: can't add formula";
+  String get formula_warning_logic_illegal_can_not_be_brackets => "Formula logic illegal: It can't be )";
+  String get formula_warning_logic_illegal_can_not_match_brackets => "Formula logic illegal: Can't match (";
+  String get formula_warning_logic_illegal_formula_is_null => "Formula logic illegal: formula is null";
+  String get formula_warning_memory_cache_is_empty => "Memory cache is empty.";
+  String get formula_warning_not_a_legitimate_number => "It's not a legitimate number";
+  String get formula_warning_nothing_can_be_deleted => "Nothing can be deleted！";
+  String get formula_warning_nothing_to_memory_cache => "There is nothing to memory cache.";
+  String get home_tips_check_failure => "Check failure.";
+  String get tips_under_development => "Under development, stay tuned.";
+  String formula_warning_cannot_add_memoryCache_to_currentNumber(String memoryCache, String currentNumber) => "Cannot add $memoryCache to the end of $currentNumber.";
 }
 
 class $en extends S {
@@ -35,7 +51,39 @@ class $zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
+  String get formula_warning_can_not_input_null => "输入不能为空。";
+  @override
+  String get calGeneral_name => "通用";
+  @override
+  String get home_tips_check_failure => "校验失败。";
+  @override
+  String get calMathematical_name => "科学";
+  @override
+  String get formula_warning_not_a_legitimate_number => "非法数字。";
+  @override
+  String get formula_warning_logic_illegal_can_not_match_brackets => "公式逻辑错误:: 不能比配 (";
+  @override
+  String get formula_warning_memory_cache_is_empty => "缓存已为空";
+  @override
   String get app_name => "Ardor 计算器";
+  @override
+  String get calFinancial_name => "金融";
+  @override
+  String get formula_warning_nothing_can_be_deleted => "没有需要删除的信息。";
+  @override
+  String get formula_warning_logic_illegal_can_not_add_formula => "公式逻辑错误:  不能增加公式";
+  @override
+  String get formula_warning_nothing_to_memory_cache => "没有需要清空的缓存。";
+  @override
+  String get formula_warning_logic_illegal_can_not_be_brackets => "公式逻辑错误:  不能输入 )";
+  @override
+  String get tips_under_development => "正在开发中，敬请期待。";
+  @override
+  String get formula_warning_logic_illegal_formula_is_null => "公式逻辑错误: 公式为空";
+  @override
+  String get calBlockChain_name => "区块链";
+  @override
+  String formula_warning_cannot_add_memoryCache_to_currentNumber(String memoryCache, String currentNumber) => "不能将缓存 $memoryCache 添加到数字 $currentNumber 的末尾。";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {

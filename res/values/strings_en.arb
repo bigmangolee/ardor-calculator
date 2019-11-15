@@ -1,3 +1,24 @@
 {
+
+  "home_tips_check_failure":"Check failure.",
+  "tips_under_development":"Under development, stay tuned.",
+
+  "calGeneral_name":"General",
+  "calMathematical_name":"Mathematical",
+  "calFinancial_name":"Financial",
+  "calBlockChain_name":"BlockChain",
+
+  "formula_warning_can_not_input_null":"Can not input null",
+  "formula_warning_nothing_to_memory_cache":"There is nothing to memory cache.",
+  "formula_warning_memory_cache_is_empty":"Memory cache is empty.",
+  "formula_warning_cannot_add_memoryCache_to_currentNumber":"Cannot add $memoryCache to the end of $currentNumber.",
+  "formula_warning_not_a_legitimate_number":"It's not a legitimate number",
+  "formula_warning_logic_illegal_formula_is_null":"Formula logic illegal: formula is null",
+  "formula_warning_logic_illegal_can_not_add_formula":"Formula logic illegal: can't add formula",
+  "formula_warning_logic_illegal_can_not_be_brackets":"Formula logic illegal: It can't be )",
+  "formula_warning_logic_illegal_can_not_match_brackets":"Formula logic illegal: Can't match (",
+  "formula_warning_nothing_can_be_deleted":"Nothing can be deleted！",
+
   "app_name":"Ardor Calculator"
+
 }

@@ -109,7 +109,7 @@ class _CalHomeState extends State<CalHome> {
       Navigator.pushNamed(_context, '/group');
     } else {
       //密码校验失败
-      ArdorToast.show("校验失败");
+      ArdorToast.show(S.of(context).home_tips_check_failure);
     }
   }
 }

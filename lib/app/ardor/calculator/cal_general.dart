@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -53,7 +54,7 @@ class CalGeneral extends CalBase {
 
   @override
   String getName() {
-    return "General";
+    return S.current.calGeneral_name;
   }
 
   @override

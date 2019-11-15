@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
@@ -22,7 +23,7 @@ class CalFinancial extends CalBase {
 
   @override
   String getName() {
-    return "Financial";
+    return S.current.calFinancial_name;
   }
 
   @override
@@ -37,7 +38,7 @@ class CalFinancial extends CalBase {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text("Under development, stay tuned."),
+          new Text(S.current.tips_under_development),
         ],
       ),
     );

@@ -1,3 +1,24 @@
 {
+
+  "home_tips_check_failure":"校验失败。",
+
+  "tips_under_development":"正在开发中，敬请期待。",
+
+  "calGeneral_name":"通用",
+  "calMathematical_name":"科学",
+  "calFinancial_name":"金融",
+  "calBlockChain_name":"区块链",
+
+  "formula_warning_can_not_input_null":"输入不能为空。",
+  "formula_warning_nothing_to_memory_cache":"没有需要清空的缓存。",
+  "formula_warning_memory_cache_is_empty":"缓存已为空",
+  "formula_warning_cannot_add_memoryCache_to_currentNumber":"不能将缓存 $memoryCache 添加到数字 $currentNumber 的末尾。",
+  "formula_warning_not_a_legitimate_number":"非法数字。",
+  "formula_warning_logic_illegal_formula_is_null":"公式逻辑错误: 公式为空",
+  "formula_warning_logic_illegal_can_not_add_formula":"公式逻辑错误:  不能增加公式",
+  "formula_warning_logic_illegal_can_not_be_brackets":"公式逻辑错误:  不能输入 )",
+  "formula_warning_logic_illegal_can_not_match_brackets":"公式逻辑错误:: 不能比配 (",
+  "formula_warning_nothing_can_be_deleted":"没有需要删除的信息。",
+
   "app_name":"Ardor 计算器"
 }
