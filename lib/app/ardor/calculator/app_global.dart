@@ -18,6 +18,7 @@ import 'dart:io';
 import 'package:ardor_calculator/app/ardor/store/safe_file_store.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter/cupertino.dart';
 
 class AppGlobal {
 
@@ -29,12 +30,15 @@ class AppGlobal {
 
   static AppGlobal get instance => _instance;
 
+  Locale _locale;
+
   AppGlobal();
 
   Future<void> init() async{
     String key = await getDeviceInfo();
     AppLog.i("AppGlobal", "init : $key");
     SafeFileStore.setStoreKey(key);
+    _locale = Locale('zh', 'CN');
   }
 
   Future<String> getDeviceInfo() async{
@@ -46,5 +50,9 @@ class AppGlobal {
       return "${androidDeviceInfo.androidId}${androidDeviceInfo.device}${androidDeviceInfo.model}";
     }
     return "AppGlobal";
+  }
+
+  Locale getLocale() {
+    return _locale;
   }
 }

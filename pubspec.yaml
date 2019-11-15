@@ -32,6 +32,9 @@ dependencies:
   intl: ^0.15.8
   crypto: ^2.0.6
   device_info: 0.4.0+2
+  flutter_localizations: #多语言
+    sdk: flutter
+  flutter_i18n: ^0.5.2
 
 dev_dependencies:
   flutter_test:
@@ -98,3 +101,4 @@ flutter:
     - assets/images/file/psd.png
     - assets/images/file/unknown.png
     - assets/images/file/image.jpg
+    - res/values/

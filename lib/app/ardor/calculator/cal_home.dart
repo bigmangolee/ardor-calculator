@@ -17,6 +17,7 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manag
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_init.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
@@ -54,7 +55,7 @@ class _CalHomeState extends State<CalHome> {
       length: calculators.length,
       child: new Scaffold(
         appBar: new AppBar(
-          title: const Text('Ardor Calculator'),
+          title: Text(S.of(context).app_name),
           bottom: new TabBar(
             isScrollable: true,
             tabs: calculators.map((CalBase cal) {

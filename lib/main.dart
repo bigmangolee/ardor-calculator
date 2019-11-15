@@ -13,25 +13,36 @@
 // limitations under the License.
 
 import 'package:ardor_calculator/app/ardor/calculator/app_global.dart';
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_home.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'app/ardor/calculator//treasure/account_page.dart';
 import 'app/ardor/calculator//treasure/group_page.dart';
 
 void main(){
-  Future.wait([initializeDateFormatting("zh_CN", null),AppGlobal.instance.init()]).then((result) {
+  Future.wait([AppGlobal.instance.init()]).then((result) {
     runApp(ArdorApp());
   });
 }
-
 
 class ArdorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      onGenerateTitle: (BuildContext context) => S.of(context).app_name,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        S.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+      localeResolutionCallback:
+      S.delegate.resolution(fallback: AppGlobal.instance.getLocale()),
+      localeListResolutionCallback:
+      S.delegate.listResolution(fallback: AppGlobal.instance.getLocale()),
       theme: ThemeData(
         // This is the theme of your application.
         //
