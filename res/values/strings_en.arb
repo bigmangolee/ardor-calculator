@@ -1,5 +1,6 @@
 {
 
+  "language_change":"Language change",
 
   "common_delete":"Delete",
   "common_view":"View",
@@ -13,7 +14,7 @@
   "common_label_update_time":"Update time",
 
   "home_tips_check_failure":"Check failure.",
-  "tips_under_development":"Under development, stay tuned.",
+  "tips_under_development":"The function is to be developed, so stay tuned.",
 
   "calGeneral_name":"General",
   "calMathematical_name":"Mathematical",
@@ -102,6 +103,9 @@
   "account_edit_label_address":"Address",
   "account_edit_label_account":"Account",
   "account_edit_label_password":"Password",
+
+  "abouts_title":"Abouts",
+  "abouts_info":"Welcome to the Ardor calculator",
 
   "app_name":"Ardor Calculator"
 

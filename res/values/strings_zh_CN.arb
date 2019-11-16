@@ -1,5 +1,7 @@
 {
 
+  "language_change":"选择语言",
+
   "common_delete":"删除",
   "common_view":"查看",
   "common_edit":"编辑",
@@ -12,7 +14,7 @@
   "common_label_update_time":"更新时间",
 
   "home_tips_check_failure":"校验失败。",
-  "tips_under_development":"正在开发中，敬请期待。",
+  "tips_under_development":"功能待开发，敬请期待。",
 
   "calGeneral_name":"通用",
   "calMathematical_name":"科学",
@@ -100,6 +102,9 @@
   "account_edit_label_address":"地址",
   "account_edit_label_account":"账号",
   "account_edit_label_password":"密码",
+
+  "abouts_title":"关于我们",
+  "abouts_info":"欢迎使用Ardor计算器",
 
   "app_name":"Ardor 计算器"
 }

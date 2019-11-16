@@ -38,7 +38,6 @@ class AppGlobal {
     String key = await getDeviceInfo();
     AppLog.i("AppGlobal", "init : $key");
     SafeFileStore.setStoreKey(key);
-    _locale = Locale('zh', 'CN');
   }
 
   Future<String> getDeviceInfo() async{
@@ -52,7 +51,9 @@ class AppGlobal {
     return "AppGlobal";
   }
 
-  Locale getLocale() {
+  Locale getLocale(BuildContext context) {
+    //获取当前设备语言
+    _locale = Locale("en","");
     return _locale;
   }
 }

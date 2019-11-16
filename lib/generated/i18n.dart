@@ -21,6 +21,8 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String get abouts_info => "Welcome to the Ardor calculator";
+  String get abouts_title => "Abouts";
   String get account_edit_label_account => "Account";
   String get account_edit_label_address => "Address";
   String get account_edit_label_name => "Name";
@@ -63,6 +65,7 @@ class S implements WidgetsLocalizations {
   String get group_tooltip_reorder => "Reorder";
   String get group_tooltip_reset_passwrod => "Reset Passwrod";
   String get home_tips_check_failure => "Check failure.";
+  String get language_change => "Language change";
   String get passwordKeybord_tips_data_decryption_failed => "Data decryption failed. Please re-enter the correct cipher text password.";
   String get passwordKeybord_tips_data_format_parsing_failed => "Data format parsing failed. Please confirm that the data source is correct.";
   String get passwordKeybord_tips_export_password => "Export password\r\n (continuous click 3 times = confirmation input)";
@@ -78,7 +81,7 @@ class S implements WidgetsLocalizations {
   String get passwordKeybord_tips_please_input => "Please input";
   String get passwordKeybord_tips_reset_password => "Reset password\r\n (continuous click 3 times = confirmation input)";
   String get passwordKeybord_tips_to_confirm_the_new_password_again => "Please enter it again to confirm the new password.";
-  String get tips_under_development => "Under development, stay tuned.";
+  String get tips_under_development => "The function is to be developed, so stay tuned.";
   String get treasureExport_export_data => "Export data";
   String get treasureExport_select_export_ciphertext_data => "2. Export ciphertext data";
   String get treasureExport_select_export_plaintext_data => "1. Export plaintext data";
@@ -145,9 +148,13 @@ class $zh_CN extends S {
   @override
   String get treasureInit_next_step_enter_password => "下一步（输入加密数据密码）";
   @override
+  String get abouts_info => "欢迎使用Ardor计算器";
+  @override
   String get treasureExport_tooltip_CopyExportData => "复制导出数据";
   @override
   String get account_edit_label_password => "密码";
+  @override
+  String get language_change => "选择语言";
   @override
   String get group_tooltip_reorder => "排序";
   @override
@@ -185,7 +192,7 @@ class $zh_CN extends S {
   @override
   String get formula_warning_nothing_can_be_deleted => "没有需要删除的信息。";
   @override
-  String get tips_under_development => "正在开发中，敬请期待。";
+  String get tips_under_development => "功能待开发，敬请期待。";
   @override
   String get treasureInit_select_init_no_data => "1.无数据导入初始化";
   @override
@@ -290,6 +297,8 @@ class $zh_CN extends S {
   String get treasureInit_select_init_plaintext_data => "2.明文数据导入初始化";
   @override
   String get passwordKeybord_tips_new_password => "新设密码\r\n(连续点击3次=号确认输入)";
+  @override
+  String get abouts_title => "关于我们";
   @override
   String group_tips_select_operation_delete(String group) => "删除：此操作会将($group)组及组名下的信息都删除，请谨慎操作。";
   @override

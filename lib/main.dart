@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/abouts.dart';
 import 'package:ardor_calculator/app/ardor/calculator/app_global.dart';
 import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,15 @@ void main(){
   });
 }
 
-class ArdorApp extends StatelessWidget {
+class ArdorApp extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ArdorAppState();
+  }
+}
+
+class _ArdorAppState extends State<ArdorApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,9 +49,9 @@ class ArdorApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
       localeResolutionCallback:
-      S.delegate.resolution(fallback: AppGlobal.instance.getLocale()),
+      S.delegate.resolution(fallback: AppGlobal.instance.getLocale(context)),
       localeListResolutionCallback:
-      S.delegate.listResolution(fallback: AppGlobal.instance.getLocale()),
+      S.delegate.listResolution(fallback: AppGlobal.instance.getLocale(context)),
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -61,7 +70,9 @@ class ArdorApp extends StatelessWidget {
         '/': (BuildContext context) => CalHome(),
         '/group': (BuildContext context) => GroupHomePage(),
         '/account': (BuildContext context) => AccountHomePage(),
+        '/abouts': (BuildContext context) => Abouts(),
       },
     );
   }
+
 }
