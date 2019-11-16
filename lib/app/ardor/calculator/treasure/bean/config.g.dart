@@ -9,10 +9,14 @@ part of 'config.dart';
 Config _$ConfigFromJson(Map<String, dynamic> json) {
   return Config()
     ..randomSalt = json['randomSalt'] as String
-    ..defCalKeyboard = json['defCalKeyboard'] as String;
+    ..defCalKeyboard = json['defCalKeyboard'] as String
+    ..localeLanguageCode = json['localeLanguageCode'] as String
+    ..localeCountryCode = json['localeCountryCode'] as String;
 }
 
 Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'randomSalt': instance.randomSalt,
-      'defCalKeyboard': instance.defCalKeyboard
+      'defCalKeyboard': instance.defCalKeyboard,
+      'localeLanguageCode': instance.localeLanguageCode,
+      'localeCountryCode': instance.localeCountryCode
     };

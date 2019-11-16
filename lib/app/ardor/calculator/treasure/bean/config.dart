@@ -32,6 +32,10 @@ class Config{
   //默认计算输入键盘。
   String defCalKeyboard;
 
+  String localeLanguageCode;
+
+  String localeCountryCode;
+
   Config();
 
   ///将json字符串解析成对象。

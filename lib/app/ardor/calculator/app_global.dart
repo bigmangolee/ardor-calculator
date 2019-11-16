@@ -15,6 +15,8 @@
 
 import 'dart:io';
 
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/store/safe_file_store.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:device_info/device_info.dart';
@@ -38,6 +40,9 @@ class AppGlobal {
     String key = await getDeviceInfo();
     AppLog.i("AppGlobal", "init : $key");
     SafeFileStore.setStoreKey(key);
+    await initLocale();
+
+    AppLog.i("AppGlobal", "_locale : $_locale");
   }
 
   Future<String> getDeviceInfo() async{
@@ -51,9 +56,21 @@ class AppGlobal {
     return "AppGlobal";
   }
 
+  Future<void> initLocale() async {
+    Config config = await StoreManager.getConfig();
+    if (config.localeLanguageCode != null && config.localeLanguageCode.isNotEmpty) {
+      if (config.localeCountryCode != null && config.localeCountryCode.isNotEmpty) {
+        _locale = Locale(config.localeLanguageCode,config.localeCountryCode);
+      } else {
+        _locale = Locale(config.localeLanguageCode,"");
+      }
+    } else {
+      _locale = Locale("en","");
+    }
+  }
+
   Locale getLocale(BuildContext context) {
     //获取当前设备语言
-    _locale = Locale("en","");
     return _locale;
   }
 }

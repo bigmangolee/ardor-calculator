@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_blockchain.dart';
+import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_init.dart';
@@ -43,15 +44,14 @@ class _CalHomeState extends State<CalHome> {
     initCalculators();
   }
 
-//  @override
-//  void didChangeDependencies() {
-//    super.didChangeDependencies();
-//    //获取当前设备语言
-//    _locale = Localizations.localeOf(context);
-//  }
-
   ///动态切换子widget的语言
   void changeLanguage(Locale locale){
+    S.delegate.load(locale);
+    StoreManager.getConfig().then((Config config){
+      config.localeLanguageCode = locale.languageCode;
+      config.localeCountryCode = locale.countryCode;
+      StoreManager.saveConfig(config);
+    });
     setState(() {
       _locale=locale;
     });
@@ -152,12 +152,11 @@ class _CalHomeState extends State<CalHome> {
     for(Locale locale in S.delegate.supportedLocales) {
       supportedLanguages.add(SimpleDialogOption(
         onPressed: () {
-          // 返回1
           Navigator.pop(context, locale);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Text(locale.toString()),
+          child: Text(locale.languageCode + ((locale.countryCode == null || locale.countryCode.isEmpty) ? "" : "_" + locale.countryCode)),
         ),
       ));
     }
@@ -166,7 +165,7 @@ class _CalHomeState extends State<CalHome> {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: Text(S.current.language_change),
+            title: Text(S.current.language_switching),
             children: supportedLanguages,
           );
         });
@@ -178,23 +177,10 @@ class _CalHomeState extends State<CalHome> {
 }
 
 // ignore: must_be_immutable
-class ChoiceCalculator extends StatefulWidget {
+class ChoiceCalculator extends StatelessWidget {
   CalBase cal;
 
   ChoiceCalculator({Key key, this.cal}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return _ChoiceCalculatorState(cal:cal);
-  }
-}
-
-
-class _ChoiceCalculatorState extends State<ChoiceCalculator> {
-
-  CalBase cal;
-
-  _ChoiceCalculatorState({Key key, this.cal});
 
   @override
   Widget build(BuildContext context) {
@@ -205,5 +191,4 @@ class _ChoiceCalculatorState extends State<ChoiceCalculator> {
       ),
     );
   }
-
 }

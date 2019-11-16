@@ -29,15 +29,8 @@ void main(){
   });
 }
 
-class ArdorApp extends StatefulWidget {
+class ArdorApp extends StatelessWidget {
 
-  @override
-  State<StatefulWidget> createState() {
-    return _ArdorAppState();
-  }
-}
-
-class _ArdorAppState extends State<ArdorApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -74,5 +67,4 @@ class _ArdorAppState extends State<ArdorApp> {
       },
     );
   }
-
 }

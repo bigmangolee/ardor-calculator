@@ -65,7 +65,7 @@ class S implements WidgetsLocalizations {
   String get group_tooltip_reorder => "Reorder";
   String get group_tooltip_reset_passwrod => "Reset Passwrod";
   String get home_tips_check_failure => "Check failure.";
-  String get language_change => "Language change";
+  String get language_switching => "Language switching";
   String get passwordKeybord_tips_data_decryption_failed => "Data decryption failed. Please re-enter the correct cipher text password.";
   String get passwordKeybord_tips_data_format_parsing_failed => "Data format parsing failed. Please confirm that the data source is correct.";
   String get passwordKeybord_tips_export_password => "Export password\r\n (continuous click 3 times = confirmation input)";
@@ -154,8 +154,6 @@ class $zh_CN extends S {
   @override
   String get account_edit_label_password => "密码";
   @override
-  String get language_change => "选择语言";
-  @override
   String get group_tooltip_reorder => "排序";
   @override
   String get account_tooltip_add_account => "新增账号";
@@ -203,6 +201,8 @@ class $zh_CN extends S {
   String get common_ok => "好的";
   @override
   String get common_label_update_time => "更新时间";
+  @override
+  String get language_switching => "语言切换";
   @override
   String get passwordKeybord_tips_import_password => "导入密码\r\n(连续点击3次=号确认输入)";
   @override
