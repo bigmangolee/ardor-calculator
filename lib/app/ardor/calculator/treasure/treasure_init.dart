@@ -19,6 +19,7 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/file_selector.dart';
 import 'package:ardor_calculator/library/random_utils.dart';
@@ -44,7 +45,7 @@ class TreasureInit {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: const Text('请选择初始化方式'),
+            title: Text(S.current.treasureInit_select_init_type),
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
@@ -53,7 +54,7 @@ class TreasureInit {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: const Text('1.无数据导入初始化'),
+                  child: Text(S.current.treasureInit_select_init_no_data),
                 ),
               ),
               SimpleDialogOption(
@@ -63,7 +64,7 @@ class TreasureInit {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: const Text('2.明文数据导入初始化'),
+                  child: Text(S.current.treasureInit_select_init_plaintext_data),
                 ),
               ),
               SimpleDialogOption(
@@ -73,7 +74,7 @@ class TreasureInit {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: const Text('3.密文数据导入初始化'),
+                  child: Text(S.current.treasureInit_select_init_ciphertext_data),
                 ),
               ),
             ],
@@ -115,7 +116,7 @@ class TreasureInit {
                 StoreManager.saveConfig(config);
                 StoreManager.secretKey = p;
                 StoreManager.saveUserData(UserDataStore(""));
-                ArdorToast.show("完成密码设置。");
+                ArdorToast.show(S.current.treasureInit_tips_complete_password_setting);
               });
         });
   }
@@ -140,11 +141,13 @@ class _ImportPageState extends State<ImportPage> {
   _ImportPageState(this.type);
 
   String getTitle() {
-    return type == ImportType.encryptionData ? "导入加密数据" : "导入明文数据";
+    return type == ImportType.encryptionData ?
+    S.current.treasureInit_import_encrypted_data : S.current.treasureInit_import_plaintext_data;
   }
 
   String getNext() {
-    return type == ImportType.encryptionData ? "下一步（输入加密数据密码）" : "下一步（设置新密码）";
+    return type == ImportType.encryptionData ?
+    S.current.treasureInit_next_step_enter_password : S.current.treasureInit_next_step_new_password;
   }
 
   @override
@@ -155,7 +158,7 @@ class _ImportPageState extends State<ImportPage> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.open_in_browser),
-            tooltip: 'Read Import Data',
+            tooltip: S.current.treasureInit_tooltip_ReadImportData,
             onPressed: () async {
               String path = await FileSelector.pickFile(context);
                 AppLog.i(tag,"Import $path");
@@ -168,18 +171,18 @@ class _ImportPageState extends State<ImportPage> {
                     });
                   }
                 } on FileSystemException {
-                  ArdorToast.show("文件读取失败：$path");
+                  ArdorToast.show(S.current.treasureInit_tips_file_read_failed(path));
                 }
               }
             },
           ),
           IconButton(
             icon: const Icon(Icons.content_paste),
-            tooltip: 'Pasete Import Data',
+            tooltip: S.current.treasureInit_tooltip_PasteImportData,
             onPressed: () async {
               var clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
               if (clipboardData != null) {
-                ///将获取的粘贴板的内容进行展示
+                ///Display the content of the obtained pasteboard
                 setState(() {
                   content = clipboardData.text;
                 });
@@ -196,7 +199,7 @@ class _ImportPageState extends State<ImportPage> {
 
   void doNext() {
     if (content == null || content.isEmpty) {
-      ArdorToast.show("请导入数据源，或从剪切版粘贴数据源。");
+      ArdorToast.show(S.current.treasureInit_tips_please_import_the_data_source);
       return;
     }
     if (type == ImportType.encryptionData) {
@@ -205,12 +208,12 @@ class _ImportPageState extends State<ImportPage> {
       try {
         UserDataStore dataStore = UserDataStore.parseJson(content);
         if (dataStore == null) {
-          ArdorToast.show("数据格式解析失败，请确认数据源是否正确。");
+          ArdorToast.show(S.current.treasureInit_tips_data_format_parsing_failed);
         } else {
           _setNewPassword(dataStore);
         }
       } catch (e) {
-        ArdorToast.show("数据格式解析失败，请确认数据源是否正确。");
+        ArdorToast.show(S.current.treasureInit_tips_data_format_parsing_failed);
       }
     }
   }
@@ -229,7 +232,7 @@ class _ImportPageState extends State<ImportPage> {
                 StoreManager.saveConfig(config);
                 StoreManager.secretKey = p;
                 StoreManager.saveUserData(userDataStore);
-                ArdorToast.show("完成明文数据导入。");
+                ArdorToast.show(S.current.treasureInit_tips_complete_the_plaintext_data_import);
               });
         });
     if (i == 1) {
@@ -253,7 +256,7 @@ class _ImportPageState extends State<ImportPage> {
                 StoreManager.saveConfig(config);
                 StoreManager.secretKey = p;
                 StoreManager.saveUserData(userDataStore);
-                ArdorToast.show("完成密文数据导入。");
+                ArdorToast.show(S.current.treasureInit_tips_complete_the_ciphertext_data_import);
               });
         });
 

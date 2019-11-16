@@ -18,6 +18,7 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/group.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -81,29 +82,29 @@ class AccountHomePage extends StatefulWidget {
         builder: (BuildContext context) {
           return new AlertDialog(
             title: new Text(
-              '请选择对(${account.name})操作。',
+              S.current.account_tips_select_operation_for_account(account.name),
               style: AppStyle.getAppStyle().dialog.titleText,
             ),
             content: new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
                   new Text(
-                    '删除：此操作会将(${account.name})信息删除，请谨慎操作。',
+                    S.current.account_tips_select_operation_delete(account.name),
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
                   new Text(""),
                   new Text(
-                    '取消：不做任何操作。',
+                    S.current.account_tips_select_operation_cancel,
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
                   new Text(""),
                   new Text(
-                    '查看：仅查看(${account.name})信息。',
+                    S.current.account_tips_select_operation_view(account.name),
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
                   new Text(""),
                   new Text(
-                    '编辑：对(${account.name})信息进行编辑。',
+                    S.current.account_tips_select_operation_edit(account.name),
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
                 ],
@@ -115,7 +116,7 @@ class AccountHomePage extends StatefulWidget {
                 width: 60,
                 child: new RaisedButton(
                   child: new Text(
-                    '删除',
+                    S.current.common_delete,
                     style: AppStyle.getAppStyle().dialog.buttonText,
                   ),
                   onPressed: () {
@@ -132,7 +133,7 @@ class AccountHomePage extends StatefulWidget {
                 width: 60,
                 child: new RaisedButton(
                   child: new Text(
-                    '取消',
+                    S.current.common_cancel,
                     style: AppStyle.getAppStyle().dialog.buttonText,
                   ),
                   onPressed: () {
@@ -145,7 +146,7 @@ class AccountHomePage extends StatefulWidget {
                 width: 60,
                 child: new RaisedButton(
                   child: new Text(
-                    '查看',
+                    S.current.common_view,
                     style: AppStyle.getAppStyle().dialog.buttonText,
                   ),
                   onPressed: () {
@@ -160,7 +161,7 @@ class AccountHomePage extends StatefulWidget {
                 width: 60,
                 child: new RaisedButton(
                   child: new Text(
-                    '编辑',
+                    S.current.common_edit,
                     style: AppStyle.getAppStyle().dialog.buttonText,
                   ),
                   onPressed: () {
@@ -217,12 +218,12 @@ class _AccountHomePageState extends State<AccountHomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(isReorderEdit ? Icons.save : Icons.reorder),
-            tooltip: 'Reorder',
+            tooltip: S.current.account_tooltip_reorder,
             onPressed: _reorder,
           ),
           IconButton(
             icon: const Icon(Icons.person_add),
-            tooltip: 'Add Account',
+            tooltip: S.current.account_tooltip_add_account,
             onPressed: _addAccount,
           ),
         ],
@@ -490,7 +491,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
         return <Widget>[
           new RaisedButton(
               child: new Text(
-                "Cancel",
+                S.current.common_cancel,
                 style: AppStyle.getAppStyle().dialog.buttonText,
               ),
               onPressed: () {
@@ -499,7 +500,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
               }),
           new RaisedButton(
               child: new Text(
-                "Confirm",
+                S.current.common_confirm,
                 style: AppStyle.getAppStyle().dialog.buttonText,
               ),
               onPressed: () {
@@ -511,7 +512,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
         return <Widget>[
           new RaisedButton(
               child: new Text(
-                "Ok",
+                S.current.common_ok,
                 style: AppStyle.getAppStyle().dialog.buttonText,
               ),
               onPressed: () {
@@ -535,7 +536,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                new Text("    Group: ",
+                new Text("    ${S.current.group_title}: ",
                     style: AppStyle.getAppStyle().textField(isEditEnable)),
                 new Text(selectGroupvalue.name,
                     style: AppStyle.getAppStyle().textField(isEditEnable)),
@@ -550,13 +551,13 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
                 )),
                 IconButton(
                   icon: const Icon(Icons.content_copy),
-                  tooltip: 'Copy Data',
+                  tooltip: S.current.account_tooltip_copy_data,
                   onPressed: () {
-                    String content = "${accountEditCache.name}\r\n"
-                        "address:${accountEditCache.address}\r\n"
-                        "username:${accountEditCache.account}\r\n"
-                        "passwrod:${accountEditCache.password}\r\n"
-                        "remarks:${accountEditCache.remarks}\r\n";
+                    String content = "${S.current.account_edit_label_name}:${accountEditCache.name}\r\n"
+                        "${S.current.account_edit_label_address}:${accountEditCache.address}\r\n"
+                        "${S.current.account_edit_label_account}:${accountEditCache.account}\r\n"
+                        "${S.current.account_edit_label_password}:${accountEditCache.password}\r\n"
+                        "${S.current.common_label_remarks}:${accountEditCache.remarks}\r\n";
                     ClipboardData data = new ClipboardData(text: content);
                     Clipboard.setData(data);
                     ArdorToast.show("已复制到剪切板");
@@ -573,7 +574,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.account_circle),
-                labelText: "Name"),
+                labelText: S.current.account_edit_label_name),
             onChanged: (String str) {
               accountEditCache.name = str;
             },
@@ -588,7 +589,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.add_location),
-                labelText: "Address"),
+                labelText: S.current.account_edit_label_address),
             onChanged: (String str) {
               accountEditCache.address = str;
             },
@@ -603,7 +604,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.person),
-                labelText: "Account"),
+                labelText: S.current.account_edit_label_account),
             onChanged: (String str) {
               accountEditCache.account = str;
             },
@@ -618,7 +619,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.vpn_key),
-                labelText: "Password"),
+                labelText: S.current.account_edit_label_password),
             onChanged: (String str) {
               accountEditCache.password = str;
             },
@@ -650,7 +651,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.bookmark),
-                labelText: "Remarks"),
+                labelText: S.current.common_label_remarks),
             onChanged: (String str) {
               accountEditCache.remarks = str;
             },
@@ -667,7 +668,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.timer),
-                labelText: "Create time"),
+                labelText: S.current.common_label_create_time),
             onChanged: (String str) {},
           ),
           new TextField(
@@ -682,7 +683,7 @@ class _AccountEditDialogState extends State<AccountEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.av_timer),
-                labelText: "Update time"),
+                labelText: S.current.common_label_update_time),
             onChanged: (String str) {},
           ),
           new Row(

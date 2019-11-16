@@ -20,6 +20,7 @@ import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_financial.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_mathematicall.dart';
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/callback.dart';
 import 'package:ardor_calculator/library/crypto.dart';
 import 'package:flutter/material.dart';
@@ -118,17 +119,17 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
 
   String getTips() {
     if (passwordType == PasswordType.newPass) {
-      showToast("请输入新密码");
-      return "新设密码\r\n(连续点击3次=号确认输入)";
+      showToast(S.current.passwordKeybord_tips_please_enter_new_password);
+      return S.current.passwordKeybord_tips_new_password;
     } else if (passwordType == PasswordType.resetPass) {
-      showToast("请输入原密码");
-      return "重置密码\r\n(连续点击3次=号确认输入)";
+      showToast(S.current.passwordKeybord_tips_please_enter_original_password);
+      return S.current.passwordKeybord_tips_reset_password;
     } else if (passwordType == PasswordType.exportPass) {
-      showToast("请输入导出密码");
-      return "导出密码\r\n(连续点击3次=号确认输入)";
+      showToast(S.current.passwordKeybord_tips_please_enter_export_password);
+      return S.current.passwordKeybord_tips_export_password;
     } else if (passwordType == PasswordType.importPass) {
-      showToast("请输入导入密码");
-      return "导入密码\r\n(连续点击3次=号确认输入)";
+      showToast(S.current.passwordKeybord_tips_please_enter_import_password);
+      return S.current.passwordKeybord_tips_import_password;
     }
     return "";
   }
@@ -157,7 +158,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.cached),
-              tooltip: 'cancel',
+              tooltip: S.current.common_cancel,
               onPressed: cleanCache,
             ),
           ],
@@ -176,13 +177,13 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
 
   void passwordDown(String currentInput) {
     if (currentInput == null || currentInput.isEmpty) {
-      showToast("请输入");
+      showToast(S.current.passwordKeybord_tips_please_input);
       return;
     }
     if (passwordType == PasswordType.newPass) {
       if (newPasswrod1 == null || newPasswrod1.isEmpty) {
         newPasswrod1 = currentInput;
-        showToast("请再次输入密码。");
+        showToast(S.current.passwordKeybord_tips_please_enter_your_password_again);
         resetCal();
       } else if (newPasswrod2 == null || newPasswrod2.isEmpty) {
         if (currentInput == newPasswrod1) {
@@ -192,7 +193,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
             passwordOk(newPasswrod2);
           }
         } else {
-          showToast("密码不一致，请重新输入。");
+          showToast(S.current.passwordKeybord_tips_passwords_are_inconsistent);
         }
       } else {
         if (newPasswrod2 == newPasswrod1) {
@@ -201,7 +202,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
             passwordOk(newPasswrod2);
           }
         } else {
-          showToast("密码不一致，请重新输入。");
+          showToast(S.current.passwordKeybord_tips_passwords_are_inconsistent);
         }
       }
     } else if (passwordType == PasswordType.resetPass) {
@@ -210,14 +211,14 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
           if (bool) {
             oldPasswrod = currentInput;
             resetCal();
-            showToast("请输入新密码。");
+            showToast(S.current.passwordKeybord_tips_please_enter_new_password);
           } else {
-            showToast("原密码校验不通过，请重新输入。");
+            showToast(S.current.passwordKeybord_tips_original_password_verification_does_not_pass);
           }
         });
       } else if (newPasswrod1 == null || newPasswrod1.isEmpty) {
         newPasswrod1 = currentInput;
-        showToast("请再次输入，确认新密码。");
+        showToast(S.current.passwordKeybord_tips_to_confirm_the_new_password_again);
         resetCal();
       } else if (newPasswrod2 == null || newPasswrod2.isEmpty) {
         if (currentInput == newPasswrod1) {
@@ -227,7 +228,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
             passwordOk(newPasswrod2);
           }
         } else {
-          showToast("密码不一致，请重新输入。");
+          showToast(S.current.passwordKeybord_tips_passwords_are_inconsistent);
         }
       } else {
         if (newPasswrod2 == newPasswrod1) {
@@ -236,13 +237,13 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
             passwordOk(newPasswrod2);
           }
         } else {
-          showToast("密码不一致，请重新输入。");
+          showToast(S.current.passwordKeybord_tips_passwords_are_inconsistent);
         }
       }
     } else if (passwordType == PasswordType.exportPass) {
       if (newPasswrod1 == null || newPasswrod1.isEmpty) {
         newPasswrod1 = currentInput;
-        showToast("请再次输入密码。");
+        showToast(S.current.passwordKeybord_tips_please_enter_your_password_again);
         resetCal();
       } else if (newPasswrod2 == null || newPasswrod2.isEmpty) {
         if (currentInput == newPasswrod1) {
@@ -252,7 +253,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
             passwordOk(newPasswrod2);
           }
         } else {
-          showToast("密码不一致，请重新输入。");
+          showToast(S.current.passwordKeybord_tips_passwords_are_inconsistent);
         }
       } else {
         if (newPasswrod2 == newPasswrod1) {
@@ -261,24 +262,24 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
             passwordOk(newPasswrod2);
           }
         } else {
-          showToast("密码不一致，请重新输入。");
+          showToast(S.current.passwordKeybord_tips_passwords_are_inconsistent);
         }
       }
     } else if (passwordType == PasswordType.importPass) {
       ArdorCrypto.decrypt(currentInput, encryptionData).then((onValue) {
         if (onValue == null || onValue.isEmpty) {
-          ArdorToast.show("数据解密失败，请重新输入正确的密文密码。");
+          ArdorToast.show(S.current.passwordKeybord_tips_data_decryption_failed);
           return;
         }
         try {
           UserDataStore dataStore = UserDataStore.parseJson(onValue);
           if (dataStore == null) {
-            ArdorToast.show("数据格式解析失败，请确认数据源是否正确。");
+            ArdorToast.show(S.current.passwordKeybord_tips_data_format_parsing_failed);
           } else {
             importCallback(currentInput, dataStore);
           }
         } catch (e) {
-          ArdorToast.show("数据格式解析失败，请确认数据源是否正确。");
+          ArdorToast.show(S.current.passwordKeybord_tips_data_format_parsing_failed);
         }
       });
     }

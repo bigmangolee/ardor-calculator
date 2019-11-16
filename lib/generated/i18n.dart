@@ -21,11 +21,29 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String get account_edit_label_account => "Account";
+  String get account_edit_label_address => "Address";
+  String get account_edit_label_name => "Name";
+  String get account_edit_label_password => "Password";
+  String get account_tips_select_operation_cancel => "Cancel: Do nothing.";
+  String get account_tooltip_add_account => "Add Account";
+  String get account_tooltip_copy_data => "Copy Data";
+  String get account_tooltip_reorder => "Reorder";
   String get app_name => "Ardor Calculator";
   String get calBlockChain_name => "BlockChain";
   String get calFinancial_name => "Financial";
   String get calGeneral_name => "General";
   String get calMathematical_name => "Mathematical";
+  String get common_cancel => "Cancel";
+  String get common_confirm => "Confirm";
+  String get common_delete => "Delete";
+  String get common_edit => "Edit";
+  String get common_item => "item";
+  String get common_label_create_time => "Create time";
+  String get common_label_remarks => "Remarks";
+  String get common_label_update_time => "Update time";
+  String get common_ok => "Ok";
+  String get common_view => "View";
   String get formula_warning_can_not_input_null => "Can not input null";
   String get formula_warning_logic_illegal_can_not_add_formula => "Formula logic illegal: can't add formula";
   String get formula_warning_logic_illegal_can_not_be_brackets => "Formula logic illegal: It can't be )";
@@ -35,9 +53,67 @@ class S implements WidgetsLocalizations {
   String get formula_warning_not_a_legitimate_number => "It's not a legitimate number";
   String get formula_warning_nothing_can_be_deleted => "Nothing can be deleted！";
   String get formula_warning_nothing_to_memory_cache => "There is nothing to memory cache.";
+  String get group_edit_label_group => "Group name";
+  String get group_tips_password_reset_complete => "Complete the password reset.";
+  String get group_tips_search_text => "Please enter your search";
+  String get group_tips_select_operation_cancel => "Cancel: Do nothing.";
+  String get group_title => "Groups";
+  String get group_tooltip_add_group => "Add Group";
+  String get group_tooltip_export => "Export";
+  String get group_tooltip_reorder => "Reorder";
+  String get group_tooltip_reset_passwrod => "Reset Passwrod";
   String get home_tips_check_failure => "Check failure.";
+  String get passwordKeybord_tips_data_decryption_failed => "Data decryption failed. Please re-enter the correct cipher text password.";
+  String get passwordKeybord_tips_data_format_parsing_failed => "Data format parsing failed. Please confirm that the data source is correct.";
+  String get passwordKeybord_tips_export_password => "Export password\r\n (continuous click 3 times = confirmation input)";
+  String get passwordKeybord_tips_import_password => "Import password\r\n (continuous click 3 times = confirmation input)";
+  String get passwordKeybord_tips_new_password => "New password\r\n (continuous click 3 times = confirmation input)";
+  String get passwordKeybord_tips_original_password_verification_does_not_pass => "The original password verification does not pass, please re-enter.";
+  String get passwordKeybord_tips_passwords_are_inconsistent => "The passwords are inconsistent. Please re-enter.";
+  String get passwordKeybord_tips_please_enter_export_password => "Please enter export password";
+  String get passwordKeybord_tips_please_enter_import_password => "Please enter import password";
+  String get passwordKeybord_tips_please_enter_new_password => "Please enter a new password";
+  String get passwordKeybord_tips_please_enter_original_password => "Please enter original password";
+  String get passwordKeybord_tips_please_enter_your_password_again => "Please enter your password again.";
+  String get passwordKeybord_tips_please_input => "Please input";
+  String get passwordKeybord_tips_reset_password => "Reset password\r\n (continuous click 3 times = confirmation input)";
+  String get passwordKeybord_tips_to_confirm_the_new_password_again => "Please enter it again to confirm the new password.";
   String get tips_under_development => "Under development, stay tuned.";
+  String get treasureExport_export_data => "Export data";
+  String get treasureExport_select_export_ciphertext_data => "2. Export ciphertext data";
+  String get treasureExport_select_export_plaintext_data => "1. Export plaintext data";
+  String get treasureExport_select_export_type => "Please select export data type";
+  String get treasureExport_tips_export_data_copied_to_clipboard => "Has been copied to the clipboard";
+  String get treasureExport_tips_save_fail_no_permission => "File save failed, please check if <storage> permission is open";
+  String get treasureExport_tooltip_CopyExportData => "Copy Export Data";
+  String get treasureExport_tooltip_SaveExportData => "Save Export Data";
+  String get treasureExport_tooltip_ShareExportData => "Share Export Data";
+  String get treasureInit_import_encrypted_data => "Import encrypted data";
+  String get treasureInit_import_plaintext_data => "Import plaintext data";
+  String get treasureInit_next_step_enter_password => "Next step (enter the encrypted data password)";
+  String get treasureInit_next_step_new_password => "Next step (set a new password)";
+  String get treasureInit_select_init_ciphertext_data => "3.Ciphertext data import initialization";
+  String get treasureInit_select_init_no_data => "1.No data import initialization";
+  String get treasureInit_select_init_plaintext_data => "2.Plaintext data import initialization";
+  String get treasureInit_select_init_type => "Please select the initialization method";
+  String get treasureInit_tips_complete_password_setting => "Complete password setting.";
+  String get treasureInit_tips_complete_the_ciphertext_data_import => "The ciphertext data import complete.";
+  String get treasureInit_tips_complete_the_plaintext_data_import => "The plaintext data import complete.";
+  String get treasureInit_tips_data_format_parsing_failed => "Data format parsing failed. Please confirm that the data source is correct.";
+  String get treasureInit_tips_please_import_the_data_source => "Please import the data source or paste the data source from the cut version.";
+  String get treasureInit_tooltip_PasteImportData => "Paste Import Data";
+  String get treasureInit_tooltip_ReadImportData => "Read Import Data";
+  String account_tips_select_operation_delete(String account) => "Delete: This operation will delete the ($account) information, please be cautious.";
+  String account_tips_select_operation_edit(String account) => "Edit: Edit the ($account) information.";
+  String account_tips_select_operation_for_account(String account) => "Please select the pair ($account) operation.";
+  String account_tips_select_operation_view(String account) => "View: View only ($account) information.";
   String formula_warning_cannot_add_memoryCache_to_currentNumber(String memoryCache, String currentNumber) => "Cannot add $memoryCache to the end of $currentNumber.";
+  String group_tips_select_operation_delete(String group) => "Delete: This operation will delete the information under the ($group) group and the group name. Please be cautious.";
+  String group_tips_select_operation_edit(String group) => "Edit: Edit the ($group}) group information.";
+  String group_tips_select_operation_for_group(String group) => "Please select the pair ($group) group operation.";
+  String group_tips_select_operation_view(String group) => "View: View only ($group) group information.";
+  String treasureExport_tips_export_data_save(String path) => "The content has been saved to a file:$path";
+  String treasureInit_tips_file_read_failed(String path) => "File read failed:$path";
 }
 
 class $en extends S {
@@ -51,39 +127,191 @@ class $zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get formula_warning_can_not_input_null => "输入不能为空。";
+  String get common_label_remarks => "备注";
+  @override
+  String get treasureInit_tips_complete_password_setting => "完成密码设置。";
+  @override
+  String get treasureInit_tooltip_PasteImportData => "粘贴导入数据";
   @override
   String get calGeneral_name => "通用";
   @override
-  String get home_tips_check_failure => "校验失败。";
+  String get passwordKeybord_tips_please_enter_export_password => "请输入导出密码";
   @override
-  String get calMathematical_name => "科学";
+  String get treasureExport_tips_save_fail_no_permission => "文件保存失败，请检查<存储>权限是否打开";
+  @override
+  String get group_tips_search_text => "请输入查找内容";
+  @override
+  String get treasureExport_tooltip_SaveExportData => "保存导出数据";
+  @override
+  String get treasureInit_next_step_enter_password => "下一步（输入加密数据密码）";
+  @override
+  String get treasureExport_tooltip_CopyExportData => "复制导出数据";
+  @override
+  String get account_edit_label_password => "密码";
+  @override
+  String get group_tooltip_reorder => "排序";
+  @override
+  String get account_tooltip_add_account => "新增账号";
+  @override
+  String get passwordKeybord_tips_original_password_verification_does_not_pass => "原密码校验不通过，请重新输入。";
+  @override
+  String get group_title => "群组";
+  @override
+  String get treasureExport_select_export_type => "请选择导出数据类型";
+  @override
+  String get account_edit_label_address => "地址";
+  @override
+  String get passwordKeybord_tips_please_enter_new_password => "请输入新密码";
+  @override
+  String get common_item => "项";
+  @override
+  String get treasureInit_tips_complete_the_plaintext_data_import => "完成明文数据导入。";
+  @override
+  String get group_tooltip_reset_passwrod => "重置密码";
   @override
   String get formula_warning_not_a_legitimate_number => "非法数字。";
   @override
+  String get treasureExport_tooltip_ShareExportData => "分享导出数据";
+  @override
   String get formula_warning_logic_illegal_can_not_match_brackets => "公式逻辑错误:: 不能比配 (";
   @override
-  String get formula_warning_memory_cache_is_empty => "缓存已为空";
+  String get passwordKeybord_tips_data_decryption_failed => "数据解密失败，请重新输入正确的密文密码。";
   @override
-  String get app_name => "Ardor 计算器";
+  String get passwordKeybord_tips_data_format_parsing_failed => "数据格式解析失败，请确认数据源是否正确。";
   @override
-  String get calFinancial_name => "金融";
+  String get group_edit_label_group => "组名";
+  @override
+  String get treasureExport_select_export_plaintext_data => "1.导出明文数据";
   @override
   String get formula_warning_nothing_can_be_deleted => "没有需要删除的信息。";
   @override
-  String get formula_warning_logic_illegal_can_not_add_formula => "公式逻辑错误:  不能增加公式";
+  String get tips_under_development => "正在开发中，敬请期待。";
   @override
-  String get formula_warning_nothing_to_memory_cache => "没有需要清空的缓存。";
+  String get treasureInit_select_init_no_data => "1.无数据导入初始化";
+  @override
+  String get passwordKeybord_tips_reset_password => "重置密码\r\n(连续点击3次=号确认输入)";
+  @override
+  String get common_view => "查看";
+  @override
+  String get common_ok => "好的";
+  @override
+  String get common_label_update_time => "更新时间";
+  @override
+  String get passwordKeybord_tips_import_password => "导入密码\r\n(连续点击3次=号确认输入)";
+  @override
+  String get home_tips_check_failure => "校验失败。";
+  @override
+  String get treasureInit_select_init_type => "请选择初始化方式";
+  @override
+  String get treasureInit_tips_please_import_the_data_source => "请导入数据源，或从剪切版粘贴数据源。";
+  @override
+  String get account_edit_label_name => "名字";
+  @override
+  String get passwordKeybord_tips_please_enter_your_password_again => "请再次输入密码。";
+  @override
+  String get formula_warning_memory_cache_is_empty => "缓存已为空";
+  @override
+  String get calFinancial_name => "金融";
+  @override
+  String get group_tooltip_export => "导出";
+  @override
+  String get account_tips_select_operation_cancel => "取消：不做任何操作。";
+  @override
+  String get formula_warning_logic_illegal_can_not_add_formula => "公式逻辑错误:  不能增加公式";
   @override
   String get formula_warning_logic_illegal_can_not_be_brackets => "公式逻辑错误:  不能输入 )";
   @override
-  String get tips_under_development => "正在开发中，敬请期待。";
+  String get group_tooltip_add_group => "新增组";
+  @override
+  String get common_edit => "编辑";
+  @override
+  String get common_cancel => "取消";
+  @override
+  String get formula_warning_can_not_input_null => "输入不能为空。";
+  @override
+  String get treasureInit_tips_complete_the_ciphertext_data_import => "完成密文数据导入。";
+  @override
+  String get account_edit_label_account => "账号";
+  @override
+  String get treasureExport_select_export_ciphertext_data => "2.导出密文数据";
+  @override
+  String get treasureExport_export_data => "导出数据";
+  @override
+  String get common_delete => "删除";
+  @override
+  String get group_tips_password_reset_complete => "完成密码重置。";
+  @override
+  String get calMathematical_name => "科学";
+  @override
+  String get passwordKeybord_tips_please_input => "请输入";
+  @override
+  String get treasureInit_import_plaintext_data => "导入明文数据";
+  @override
+  String get treasureInit_import_encrypted_data => "导入加密数据";
+  @override
+  String get treasureExport_tips_export_data_copied_to_clipboard => "已复制到剪切板";
+  @override
+  String get passwordKeybord_tips_to_confirm_the_new_password_again => "请再次输入，确认新密码。";
+  @override
+  String get account_tooltip_reorder => "排序";
+  @override
+  String get treasureInit_tooltip_ReadImportData => "读取导入数据";
+  @override
+  String get passwordKeybord_tips_please_enter_original_password => "请输入原密码";
+  @override
+  String get account_tooltip_copy_data => "复制数据";
+  @override
+  String get treasureInit_tips_data_format_parsing_failed => "数据格式解析失败，请确认数据源是否正确。";
+  @override
+  String get app_name => "Ardor 计算器";
+  @override
+  String get passwordKeybord_tips_export_password => "导出密码\r\n(连续点击3次=号确认输入)";
+  @override
+  String get group_tips_select_operation_cancel => "取消：不做任何操作。";
+  @override
+  String get common_confirm => "确认";
+  @override
+  String get common_label_create_time => "创建时间";
+  @override
+  String get formula_warning_nothing_to_memory_cache => "没有需要清空的缓存。";
+  @override
+  String get treasureInit_next_step_new_password => "下一步（设置新密码）";
   @override
   String get formula_warning_logic_illegal_formula_is_null => "公式逻辑错误: 公式为空";
   @override
+  String get treasureInit_select_init_ciphertext_data => "3.密文数据导入初始化";
+  @override
+  String get passwordKeybord_tips_please_enter_import_password => "请输入导入密码";
+  @override
+  String get passwordKeybord_tips_passwords_are_inconsistent => "密码不一致，请重新输入。";
+  @override
   String get calBlockChain_name => "区块链";
   @override
+  String get treasureInit_select_init_plaintext_data => "2.明文数据导入初始化";
+  @override
+  String get passwordKeybord_tips_new_password => "新设密码\r\n(连续点击3次=号确认输入)";
+  @override
+  String group_tips_select_operation_delete(String group) => "删除：此操作会将($group)组及组名下的信息都删除，请谨慎操作。";
+  @override
   String formula_warning_cannot_add_memoryCache_to_currentNumber(String memoryCache, String currentNumber) => "不能将缓存 $memoryCache 添加到数字 $currentNumber 的末尾。";
+  @override
+  String treasureExport_tips_export_data_save(String path) => "内容已保存至文件：$path";
+  @override
+  String group_tips_select_operation_for_group(String group) => "请选择对($group)组操作。";
+  @override
+  String treasureInit_tips_file_read_failed(String path) => "文件读取失败：$path";
+  @override
+  String account_tips_select_operation_edit(String account) => "编辑：对($account)信息进行编辑。";
+  @override
+  String group_tips_select_operation_view(String group) => "查看：仅查看($group)组信息。";
+  @override
+  String account_tips_select_operation_for_account(String account) => "请选择对($account)操作。";
+  @override
+  String group_tips_select_operation_edit(String group) => "编辑：对($group})组信息进行编辑。";
+  @override
+  String account_tips_select_operation_view(String account) => "查看：仅查看($account)信息。";
+  @override
+  String account_tips_select_operation_delete(String account) => "删除：此操作会将($account)信息删除，请谨慎操作。";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {

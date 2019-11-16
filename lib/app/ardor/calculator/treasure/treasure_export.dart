@@ -18,6 +18,7 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/password_keyboard
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,7 +35,7 @@ class TreasureExport {
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
-            title: const Text('请选择导出数据类型'),
+            title: Text(S.current.treasureExport_select_export_type),
             children: <Widget>[
               SimpleDialogOption(
                 onPressed: () {
@@ -43,7 +44,7 @@ class TreasureExport {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: const Text('1.导出明文数据'),
+                  child: Text(S.current.treasureExport_select_export_plaintext_data),
                 ),
               ),
               SimpleDialogOption(
@@ -53,7 +54,7 @@ class TreasureExport {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: const Text('2.导出密文数据'),
+                  child: Text(S.current.treasureExport_select_export_ciphertext_data),
                 ),
               ),
             ],
@@ -134,35 +135,35 @@ class _ExportPageState extends State<ExportPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("导出数据"),
+        title: new Text(S.current.treasureExport_export_data),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.save),
-            tooltip: 'Save Export Data',
+            tooltip: S.current.treasureExport_tooltip_SaveExportData,
             onPressed: () async{
               try {
                 String path = await saveExport(content);
-                ArdorToast.show("内容已保存至文件：$path");
+                ArdorToast.show(S.current.treasureExport_tips_export_data_save(path));
               } catch (e) {
-                ArdorToast.show("文件保存失败，请检查<存储>权限是否打开");
+                ArdorToast.show(S.current.treasureExport_tips_save_fail_no_permission);
               }
 
             },
           ),
           IconButton(
             icon: const Icon(Icons.share),
-            tooltip: 'Share Export Data',
+            tooltip: S.current.treasureExport_tooltip_ShareExportData,
             onPressed: () async {
               Share.share(content);
             },
           ),
           IconButton(
             icon: const Icon(Icons.content_copy),
-            tooltip: 'Copy Export Data',
+            tooltip: S.current.treasureExport_tooltip_CopyExportData,
             onPressed: () {
               ClipboardData data = new ClipboardData(text:content);
               Clipboard.setData(data);
-              ArdorToast.show("已复制到剪切板");
+              ArdorToast.show(S.current.treasureExport_tips_export_data_copied_to_clipboard);
             },
           ),
         ],

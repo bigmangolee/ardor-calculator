@@ -21,10 +21,10 @@ import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manag
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/user_data_store.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/treasure_export.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 class GroupHomePage extends StatefulWidget {
@@ -69,26 +69,26 @@ class _GroupHomePageState extends State<GroupHomePage> {
     _initArguments(context);
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Groups"),
+        title: new Text(S.current.group_title),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.vpn_key),
-            tooltip: 'Reset Passwrod',
+            tooltip: S.current.group_tooltip_reset_passwrod,
             onPressed: _resetPass,
           ),
           IconButton(
             icon: Icon(isReorderEdit ? Icons.save : Icons.reorder),
-            tooltip: 'Reorder',
+            tooltip: S.current.group_tooltip_reorder,
             onPressed: _reorder,
           ),
           IconButton(
             icon: const Icon(Icons.import_export),
-            tooltip: 'Export',
+            tooltip: S.current.group_tooltip_export,
             onPressed: _export,
           ),
           IconButton(
             icon: const Icon(Icons.group_add),
-            tooltip: 'Add Group',
+            tooltip: S.current.group_tooltip_add_group,
             onPressed: _addGroup,
           ),
         ],
@@ -105,10 +105,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
               decoration: new InputDecoration(
                   contentPadding: const EdgeInsets.all(5.0),
                   icon: new Icon(Icons.search),
-                  labelText: "What you need to search for."),
+                  labelText: S.current.group_tips_search_text),
               onChanged: (String str) async {
                 //onChanged是每次输入框内每次文字变更触发的回调
-                Fluttertoast.showToast(msg: "input $str");
+//                Fluttertoast.showToast(msg: "input $str");
                 List<Account> list = await _searchAccounts(str);
                 setState(() {
                   searchKey = str;
@@ -151,7 +151,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
           children: <Widget>[
             Expanded(child: Text(group.name)),
             Text(
-              '$count 项',
+              '$count ${S.current.common_item}',
               style: TextStyle(color: Colors.grey),
             )
           ],
@@ -198,7 +198,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 children: <Widget>[
                   Expanded(child: Text(group.name)),
                   Text(
-                    '$count 项',
+                    '$count ${S.current.common_item}',
                     style: TextStyle(color: Colors.grey),
                   )
                 ],
@@ -320,29 +320,29 @@ class _GroupHomePageState extends State<GroupHomePage> {
         builder: (BuildContext context) {
           return new AlertDialog(
             title: new Text(
-              '请选择对(${group.name})操作。',
+              S.current.group_tips_select_operation_for_group(group.name),
               style: AppStyle.getAppStyle().dialog.titleText,
             ),
             content: new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
                   new Text(
-                    '删除：此操作会将(${group.name})组及(${group.name})组名下的信息都删除，请谨慎操作。',
+                    S.current.group_tips_select_operation_delete(group.name),
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
                   new Text(""),
                   new Text(
-                    '取消：不做任何操作。',
+                    S.current.group_tips_select_operation_cancel,
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
                   new Text(""),
                   new Text(
-                    '查看：仅查看(${group.name})组信息。',
+                    S.current.group_tips_select_operation_view(group.name),
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
                   new Text(""),
                   new Text(
-                    '编辑：对(${group.name})组信息进行编辑。',
+                    S.current.group_tips_select_operation_edit(group.name),
                     style: AppStyle.getAppStyle().dialog.contentText,
                   ),
                 ],
@@ -354,7 +354,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 width: 60,
                 child: new RaisedButton(
                   child: new Text(
-                    '删除',
+                    S.current.common_delete,
                     style: AppStyle.getAppStyle().dialog.buttonText,
                   ),
                   onPressed: () {
@@ -368,7 +368,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 width: 60,
                 child: new RaisedButton(
                   child: new Text(
-                    '取消',
+                    S.current.common_cancel,
                     style: AppStyle.getAppStyle().dialog.buttonText,
                   ),
                   onPressed: () {
@@ -381,7 +381,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 width: 60,
                 child: new RaisedButton(
                   child: new Text(
-                    '查看',
+                    S.current.common_view,
                     style: AppStyle.getAppStyle().dialog.buttonText,
                   ),
                   onPressed: () {
@@ -395,7 +395,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 width: 60,
                 child: new RaisedButton(
                   child: new Text(
-                    '编辑',
+                    S.current.common_edit,
                     style: AppStyle.getAppStyle().dialog.buttonText,
                   ),
                   onPressed: () {
@@ -421,7 +421,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 UserDataStore userDataStore = await StoreManager.getUserData();
                 StoreManager.secretKey = p;
                 StoreManager.saveUserData(userDataStore);
-                ArdorToast.show("完成密码重置。");
+                ArdorToast.show(S.current.group_tips_password_reset_complete);
               });
         });
   }
@@ -586,7 +586,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
             width: 90,
             child: new RaisedButton(
                 child: new Text(
-                  "Cancel",
+                  S.current.common_cancel,
                   style: AppStyle.getAppStyle().dialog.buttonText,
                 ),
                 onPressed: () {
@@ -599,7 +599,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
             width: 90,
             child: new RaisedButton(
                 child: new Text(
-                  "Confirm",
+                  S.current.common_confirm,
                   style: AppStyle.getAppStyle().dialog.buttonText,
                 ),
                 onPressed: () {
@@ -616,7 +616,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
             width: 90,
             child: new RaisedButton(
                 child: new Text(
-                  "OK",
+                  S.current.common_ok,
                   style: AppStyle.getAppStyle().dialog.buttonText,
                 ),
                 onPressed: () {
@@ -647,7 +647,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.group),
-                labelText: "Group name"),
+                labelText: S.current.group_edit_label_group),
             onChanged: (String str) {
               groupEditCache.name = str;
             },
@@ -679,7 +679,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.bookmark),
-                labelText: "Remarks"),
+                labelText: S.current.common_label_remarks),
             onChanged: (String str) {
               groupEditCache.remarks = str;
             },
@@ -695,7 +695,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.timer),
-                labelText: "Create time"),
+                labelText: S.current.common_label_create_time),
             onChanged: (String str) {},
           ),
           new TextField(
@@ -709,7 +709,7 @@ class _GroupEditDialogState extends State<GroupEditDialog> {
             decoration: new InputDecoration(
                 contentPadding: const EdgeInsets.all(5.0),
                 icon: new Icon(Icons.av_timer),
-                labelText: "Update time"),
+                labelText: S.current.common_label_update_time),
             onChanged: (String str) {},
           ),
           new Row(
