@@ -29,12 +29,14 @@ class Config{
   //随机数。
   String randomSalt;
 
-  //默认计算输入键盘。
-  String defCalKeyboard;
-
+  //语言代码
   String localeLanguageCode;
 
+  //语言代码国家
   String localeCountryCode;
+
+  //默认计算输入键盘索引。
+  int calculatorIndex = 0;
 
   Config();
 

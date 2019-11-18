@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/app_global.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_blockchain.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/bean/config.dart';
 import 'package:ardor_calculator/app/ardor/calculator/treasure/store/store_manager.dart';
@@ -34,26 +35,49 @@ class CalHome extends StatefulWidget {
   }
 }
 
-class _CalHomeState extends State<CalHome> {
+class _CalHomeState extends State<CalHome> with SingleTickerProviderStateMixin {
   static bool _isCheckInitApp = false;
 
   BuildContext _context;
   List<CalBase> calculators;
   Locale _locale;
+  TabController tabController;
+
   _CalHomeState() {
     initCalculators();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    //初始化controller并添加监听
+    tabController = TabController(
+        length: calculators.length,
+        initialIndex: AppGlobal.instance.calculatorIndex,
+        vsync: this);
+    tabController.addListener(() => _onTabChanged());
+  }
+
+  void _onTabChanged() {
+    if (tabController.index.toDouble() == tabController.animation.value) {
+      StoreManager.getConfig().then((Config config) {
+        AppGlobal.instance.calculatorIndex = tabController.index;
+        config.calculatorIndex = tabController.index;
+        StoreManager.saveConfig(config);
+      });
+    }
+  }
+
   ///动态切换子widget的语言
-  void changeLanguage(Locale locale){
+  void changeLanguage(Locale locale) {
     S.delegate.load(locale);
-    StoreManager.getConfig().then((Config config){
+    StoreManager.getConfig().then((Config config) {
       config.localeLanguageCode = locale.languageCode;
       config.localeCountryCode = locale.countryCode;
       StoreManager.saveConfig(config);
     });
     setState(() {
-      _locale=locale;
+      _locale = locale;
     });
   }
 
@@ -69,43 +93,42 @@ class _CalHomeState extends State<CalHome> {
     return Localizations.override(
       context: context,
       locale: _locale,
-      child: DefaultTabController(
-        length: calculators.length,
-        child: new Scaffold(
-          appBar: new AppBar(
-            title: Text(S.current.app_name),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.language),
-                onPressed: (){
-                  _selectLanguage(context);
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.info),
-                onPressed: (){
-                  Navigator.pushNamed(context, '/abouts');
-                },
-              ),
-            ],
-            bottom: new TabBar(
-              isScrollable: true,
-              tabs: calculators.map((CalBase cal) {
-                return new Tab(
-                  text: cal.getName(),
-                  icon: new Icon(cal.getIcon()),
-                );
-              }).toList(),
+      child: new Scaffold(
+        appBar: new AppBar(
+          title: Text(S.current.app_name),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.language),
+              onPressed: () {
+                _selectLanguage(context);
+              },
             ),
-          ),
-          body: new TabBarView(
-            children: calculators.map((CalBase cal) {
-              return new Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: new ChoiceCalculator(cal: cal),
+            IconButton(
+              icon: const Icon(Icons.info),
+              onPressed: () {
+                Navigator.pushNamed(context, '/abouts');
+              },
+            ),
+          ],
+          bottom: new TabBar(
+            isScrollable: true,
+            controller: tabController,
+            tabs: calculators.map((CalBase cal) {
+              return new Tab(
+                text: cal.getName(),
+                icon: new Icon(cal.getIcon()),
               );
             }).toList(),
           ),
+        ),
+        body: new TabBarView(
+          controller: tabController,
+          children: calculators.map((CalBase cal) {
+            return new Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: new ChoiceCalculator(cal: cal),
+            );
+          }).toList(),
         ),
       ),
     );
@@ -149,14 +172,17 @@ class _CalHomeState extends State<CalHome> {
   Future<void> _selectLanguage(BuildContext context) async {
     List<Widget> supportedLanguages = List<Widget>();
 
-    for(Locale locale in S.delegate.supportedLocales) {
+    for (Locale locale in S.delegate.supportedLocales) {
       supportedLanguages.add(SimpleDialogOption(
         onPressed: () {
           Navigator.pop(context, locale);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
-          child: Text(locale.languageCode + ((locale.countryCode == null || locale.countryCode.isEmpty) ? "" : "_" + locale.countryCode)),
+          child: Text(locale.languageCode +
+              ((locale.countryCode == null || locale.countryCode.isEmpty)
+                  ? ""
+                  : "_" + locale.countryCode)),
         ),
       ));
     }

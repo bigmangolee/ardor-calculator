@@ -34,14 +34,15 @@ class AppGlobal {
 
   Locale _locale;
 
+  int calculatorIndex = 0;
+
   AppGlobal();
 
   Future<void> init() async{
     String key = await getDeviceInfo();
     AppLog.i("AppGlobal", "init : $key");
     SafeFileStore.setStoreKey(key);
-    await initLocale();
-
+    await initConfig();
     AppLog.i("AppGlobal", "_locale : $_locale");
   }
 
@@ -56,7 +57,7 @@ class AppGlobal {
     return "AppGlobal";
   }
 
-  Future<void> initLocale() async {
+  Future<void> initConfig() async {
     Config config = await StoreManager.getConfig();
     if (config.localeLanguageCode != null && config.localeLanguageCode.isNotEmpty) {
       if (config.localeCountryCode != null && config.localeCountryCode.isNotEmpty) {
@@ -67,6 +68,8 @@ class AppGlobal {
     } else {
       _locale = Locale("en","");
     }
+
+    calculatorIndex = config.calculatorIndex;
   }
 
   Locale getLocale(BuildContext context) {
