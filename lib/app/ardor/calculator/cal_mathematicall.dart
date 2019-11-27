@@ -13,17 +13,18 @@
 // limitations under the License.
 
 
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 
 // ignore: must_be_immutable
 class CalMathematical extends CalBase {
-
+  CalMathematical(passwordInputCallback) : super(passwordInputCallback);
 
   @override
   String getName() {
-    return "Mathematical";
+    return S.current.calMathematical_name;
   }
 
   @override
@@ -38,12 +39,15 @@ class CalMathematical extends CalBase {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text("Mathematical1"),
-          new Text("Mathematical2"),
-          new Text("Mathematical3"),
+          new Text(S.current.tips_under_development),
         ],
       ),
     );
+  }
+
+  @override
+  void reset() {
+    // TODO: implement reset
   }
 
 }

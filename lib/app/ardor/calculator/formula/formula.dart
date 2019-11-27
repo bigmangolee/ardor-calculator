@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/stack.dart';
 
@@ -188,7 +189,7 @@ class FormulaController {
 
   FormulaController input(dynamic text) {
     if (text == null) {
-      onWarning("can not input null");
+      onWarning(S.current.formula_warning_can_not_input_null);
       return this;
     }
     AppLog.i(LogTag, "input:" + text.toString());
@@ -281,7 +282,7 @@ class FormulaController {
 
     if (MemoryOpera.Add == action) {
       if (currentNumber == "") {
-        this.onWarning("There is nothing to memory cache.");
+        this.onWarning(S.current.formula_warning_nothing_to_memory_cache);
       } else {
         this.onTools(MemoryOpera.Add.toString());
         memoryCache = currentNumber;
@@ -292,12 +293,12 @@ class FormulaController {
     } else if (MemoryOpera.Read == action) {
       this.onTools(MemoryOpera.Read.toString());
       if (memoryCache == "") {
-        this.onWarning("Memory cache is empty.");
+        this.onWarning(S.current.formula_warning_memory_cache_is_empty);
       } else {
         if ((memoryCache.contains(".") && currentNumber.contains(".")) ||
             (memoryCache.startsWith("-") && currentNumber != "")) {
           this.onWarning(
-              "Cannot add $memoryCache to the end of $currentNumber.");
+              S.current.formula_warning_cannot_add_memoryCache_to_currentNumber(memoryCache, currentNumber));
         } else {
           cacheInput();
         }
@@ -305,7 +306,7 @@ class FormulaController {
     } else if (MemoryOpera.Plus == action) {
       this.onTools(MemoryOpera.Plus.toString());
       if (memoryCache == "") {
-        this.onWarning("Memory cache is empty.");
+        this.onWarning(S.current.formula_warning_memory_cache_is_empty);
       } else {
         //新增减号公式
         Formula formula = Formula(FormulaType.Plus);
@@ -315,7 +316,7 @@ class FormulaController {
     } else if (MemoryOpera.Minus == action) {
       this.onTools(MemoryOpera.Minus.toString());
       if (memoryCache == "") {
-        this.onWarning("Memory cache is empty.");
+        this.onWarning(S.current.formula_warning_memory_cache_is_empty);
       } else {
         //新增减号公式
         Formula formula = Formula(FormulaType.Minus);
@@ -340,7 +341,7 @@ class FormulaController {
   void _doAddDecimal(String text) {
     if (currentNumber.contains(".")) {
       //已经包含小数点，不能重复添加，错误提示回调
-      onWarning("非数字！");
+      onWarning(S.current.formula_warning_not_a_legitimate_number);
     } else {
       if (currentNumber == "") {
         currentNumber = "0";
@@ -383,7 +384,7 @@ class FormulaLogic {
 
   void addFormula(Formula formula) {
     if (formula == null) {
-      this._onWarning("Formula logic illegal: formula is null");
+      this._onWarning(S.current.formula_warning_logic_illegal_formula_is_null);
       return;
     }
     formula.setPriorityAdd(_getPriority());
@@ -398,7 +399,7 @@ class FormulaLogic {
       if (d == "(") {
         //提示警告，公式逻辑错误，公式之前不能是'('。
         this._onWarning(
-            "Formula logic illegal: can't add formula. error code: 1");
+            S.current.formula_warning_logic_illegal_can_not_add_formula);
       } else if (d == ")") {
         //公式之前是')'，则可以添加公式
         _addFormula(formula);
@@ -516,7 +517,7 @@ class FormulaLogic {
       if (_logicList.length > 0) {
         _logicList.removeLast();
       } else {
-        _onWarning("Nothing can be deleted！");
+        _onWarning(S.current.formula_warning_nothing_can_be_deleted);
       }
     }
     AppLog.i(LogTag, "delete _logicList:"+_logicList.toString() + " _currentNumber:"+_currentNumber);
@@ -650,7 +651,7 @@ class FormulaLogic {
   //降低计算公式优先级，相当于输入)
   bool downPriorityWeight() {
     if (_logicList.length == 0) {
-      this._onWarning("Formula logic illegal: It can't be )");
+      this._onWarning(S.current.formula_warning_logic_illegal_can_not_be_brackets);
       return false;
     } else {
       dynamic d = _logicList[_logicList.length - 1];
@@ -663,11 +664,11 @@ class FormulaLogic {
             return true;
           } else {
             //不能匹配前括号(
-            this._onWarning("Formula logic illegal: Can't match (");
+            this._onWarning(S.current.formula_warning_logic_illegal_can_not_match_brackets);
           }
         } else {
           //)前面不能是多参数的公式
-          this._onWarning("Formula logic illegal: It can't be )");
+          this._onWarning(S.current.formula_warning_logic_illegal_can_not_be_brackets);
         }
       } else if (d == "(" || d == ")") {
         if (_priorityWeight > 0) {
@@ -676,7 +677,7 @@ class FormulaLogic {
           return true;
         } else {
           //不能匹配前括号(
-          this._onWarning("Formula logic illegal: Can't match (");
+          this._onWarning(S.current.formula_warning_logic_illegal_can_not_match_brackets);
         }
       } else if (d is String) {
         if (_priorityWeight > 0) {
@@ -685,7 +686,7 @@ class FormulaLogic {
           return true;
         } else {
           //不能匹配前括号(
-          this._onWarning("Formula logic illegal: Can't match (");
+          this._onWarning(S.current.formula_warning_logic_illegal_can_not_match_brackets);
         }
       }
     }

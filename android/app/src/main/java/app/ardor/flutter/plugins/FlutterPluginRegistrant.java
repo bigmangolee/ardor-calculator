@@ -1,6 +1,8 @@
 package app.ardor.flutter.plugins;
 
 
+import android.content.Context;
+
 import java.util.HashSet;
 
 import io.flutter.plugin.common.BinaryMessenger;
@@ -14,11 +16,11 @@ public class FlutterPluginRegistrant {
         pluginsContains.add(plugin);
     }
 
-    public static void registerWith(BinaryMessenger messenger) {
+    public static void registerWith(Context context, BinaryMessenger messenger) {
         for (Class<? extends FlutterPluginsBase> plugin : pluginsContains) {
             try {
                 FlutterPluginsBase flutterPlugin = plugin.newInstance();
-                flutterPlugin.init(messenger);
+                flutterPlugin.init(context,messenger);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

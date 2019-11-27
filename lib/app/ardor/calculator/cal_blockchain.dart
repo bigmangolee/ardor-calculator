@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
@@ -19,9 +20,12 @@ import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 // ignore: must_be_immutable
 class CalBlockChain extends CalBase {
 
+  CalBlockChain(passwordInputCallback) : super(passwordInputCallback);
+
+
   @override
   String getName() {
-    return "BlockChain";
+    return S.current.calBlockChain_name;
   }
 
   @override
@@ -36,11 +40,14 @@ class CalBlockChain extends CalBase {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          new Text("CalBlockChain1"),
-          new Text("CalBlockChain2"),
-          new Text("CalBlockChain3"),
+          new Text(S.current.tips_under_development),
         ],
       ),
     );
+  }
+
+  @override
+  void reset() {
+    // TODO: implement reset
   }
 }
