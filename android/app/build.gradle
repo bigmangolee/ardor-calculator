@@ -21,6 +21,10 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def releaseTime() {
+    return new Date().format("yyyy.MM.dd_HH.mm", TimeZone.getTimeZone("Asia/Shanghai"))
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -74,6 +78,19 @@ android {
             // 显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
             signingConfig signingConfigs.release
+        }
+    }
+
+    // 生成后的APK包重命名
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            def buildTypeName = variant.buildType.name
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 输出apk名称为 ArdorCalculator_v1.0.0_2019.11.27_18.13_release.apk
+                def fileName = "ArdorCalculator_v${defaultConfig.versionName}_${releaseTime()}_${buildTypeName}.apk"
+                outputFileName = fileName
+            }
         }
     }
 }
