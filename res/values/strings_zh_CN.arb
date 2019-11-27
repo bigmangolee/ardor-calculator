@@ -64,10 +64,10 @@
   "passwordKeybord_tips_please_enter_original_password":"请输入原密码",
   "passwordKeybord_tips_please_enter_export_password":"请输入导出密码",
   "passwordKeybord_tips_please_enter_import_password":"请输入导入密码",
-  "passwordKeybord_tips_new_password":"新设密码\r\n(连续点击3次=号确认输入)",
-  "passwordKeybord_tips_reset_password":"重置密码\r\n(连续点击3次=号确认输入)",
-  "passwordKeybord_tips_export_password":"导出密码\r\n(连续点击3次=号确认输入)",
-  "passwordKeybord_tips_import_password":"导入密码\r\n(连续点击3次=号确认输入)",
+  "passwordKeybord_tips_new_password":"新设密码\n(连续点击3次=号确认输入)",
+  "passwordKeybord_tips_reset_password":"重置密码\n(连续点击3次=号确认输入)",
+  "passwordKeybord_tips_export_password":"导出密码\n(连续点击3次=号确认输入)",
+  "passwordKeybord_tips_import_password":"导入密码\n(连续点击3次=号确认输入)",
   "passwordKeybord_tips_please_input":"请输入",
   "passwordKeybord_tips_please_enter_your_password_again":"请再次输入密码。",
   "passwordKeybord_tips_passwords_are_inconsistent":"密码不一致，请重新输入。",
@@ -104,7 +104,9 @@
   "account_edit_label_password":"密码",
 
   "abouts_title":"关于我们",
-  "abouts_info":"欢迎使用Ardor计算器",
+  "abouts_info_content":"\nArdor计算器是Ardor.App团队打造的实用数据加密&&计算器移动应用程序，本应用程序特点：\n\n1.安全：数据本地存储采用AES-CBC-256高强度加密算法进行数据加密。\n2.绿色：只需存储权限，无任何其他隐私权限申请（甚至网络访问权限都没有），不会收集和传输用户任何数据。\n3.开源：经得起审计，无后门，放心实用，如有需要，可进行二次定制开发，自行编译。 ",
+  "abouts_info_version":"\n\n当前版本号：$version \n应用签名信息(SHA256)：$singInfo\n\n获取更多支持和最新版本\n请自行访问:  ",
+  "abouts_info_url":"https://calculator.ardor.app",
 
   "app_name":"Ardor 计算器"
 }

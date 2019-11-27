@@ -21,7 +21,8 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  String get abouts_info => "Welcome to the Ardor calculator";
+  String get abouts_info_content => "\n\nArdor calculator is a practical data encryption & calculator mobile application created by ardor. App team.\n\n1. Security: local data storage adopts AES-CBC-256 high-strength encryption algorithm for data encryption.\n2. Green: only need to store the permission, without any other privacy permission application (even without network access permission), will not collect and transmit any user data.\n3. Open source: Stand up to audit, no backdoor, reliable and practical, if necessary, you can conduct secondary customized development and self-compilation.";
+  String get abouts_info_url => "https://calculator.ardor.app";
   String get abouts_title => "Abouts";
   String get account_edit_label_account => "Account";
   String get account_edit_label_address => "Address";
@@ -68,9 +69,9 @@ class S implements WidgetsLocalizations {
   String get language_switching => "Language switching";
   String get passwordKeybord_tips_data_decryption_failed => "Data decryption failed. Please re-enter the correct cipher text password.";
   String get passwordKeybord_tips_data_format_parsing_failed => "Data format parsing failed. Please confirm that the data source is correct.";
-  String get passwordKeybord_tips_export_password => "Export password\r\n (continuous click 3 times = confirmation input)";
-  String get passwordKeybord_tips_import_password => "Import password\r\n (continuous click 3 times = confirmation input)";
-  String get passwordKeybord_tips_new_password => "New password\r\n (continuous click 3 times = confirmation input)";
+  String get passwordKeybord_tips_export_password => "Export password\n (continuous click 3 times = confirmation input)";
+  String get passwordKeybord_tips_import_password => "Import password\n (continuous click 3 times = confirmation input)";
+  String get passwordKeybord_tips_new_password => "New password\n (continuous click 3 times = confirmation input)";
   String get passwordKeybord_tips_original_password_verification_does_not_pass => "The original password verification does not pass, please re-enter.";
   String get passwordKeybord_tips_passwords_are_inconsistent => "The passwords are inconsistent. Please re-enter.";
   String get passwordKeybord_tips_please_enter_export_password => "Please enter export password";
@@ -79,7 +80,7 @@ class S implements WidgetsLocalizations {
   String get passwordKeybord_tips_please_enter_original_password => "Please enter original password";
   String get passwordKeybord_tips_please_enter_your_password_again => "Please enter your password again.";
   String get passwordKeybord_tips_please_input => "Please input";
-  String get passwordKeybord_tips_reset_password => "Reset password\r\n (continuous click 3 times = confirmation input)";
+  String get passwordKeybord_tips_reset_password => "Reset password\n (continuous click 3 times = confirmation input)";
   String get passwordKeybord_tips_to_confirm_the_new_password_again => "Please enter it again to confirm the new password.";
   String get tips_under_development => "The function is to be developed, so stay tuned.";
   String get treasureExport_export_data => "Export data";
@@ -106,6 +107,7 @@ class S implements WidgetsLocalizations {
   String get treasureInit_tips_please_import_the_data_source => "Please import the data source or paste the data source from the cut version.";
   String get treasureInit_tooltip_PasteImportData => "Paste Import Data";
   String get treasureInit_tooltip_ReadImportData => "Read Import Data";
+  String abouts_info_version(String version, String singInfo) => "\n\nCurrent version number: $version\nApplication signature information (SHA256) : $singInfo\n\nGet more support and the latest version\nPlease visit: ";
   String account_tips_select_operation_delete(String account) => "Delete: This operation will delete the ($account) information, please be cautious.";
   String account_tips_select_operation_edit(String account) => "Edit: Edit the ($account) information.";
   String account_tips_select_operation_for_account(String account) => "Please select the pair ($account) operation.";
@@ -134,27 +136,17 @@ class $zh_CN extends S {
   @override
   String get treasureInit_tips_complete_password_setting => "完成密码设置。";
   @override
-  String get treasureInit_tooltip_PasteImportData => "粘贴导入数据";
-  @override
   String get calGeneral_name => "通用";
   @override
   String get passwordKeybord_tips_please_enter_export_password => "请输入导出密码";
-  @override
-  String get treasureExport_tips_save_fail_no_permission => "文件保存失败，请检查<存储>权限是否打开";
   @override
   String get group_tips_search_text => "请输入查找内容";
   @override
   String get treasureExport_tooltip_SaveExportData => "保存导出数据";
   @override
-  String get treasureInit_next_step_enter_password => "下一步（输入加密数据密码）";
-  @override
-  String get abouts_info => "欢迎使用Ardor计算器";
-  @override
   String get treasureExport_tooltip_CopyExportData => "复制导出数据";
   @override
   String get account_edit_label_password => "密码";
-  @override
-  String get group_tooltip_reorder => "排序";
   @override
   String get account_tooltip_add_account => "新增账号";
   @override
@@ -164,15 +156,7 @@ class $zh_CN extends S {
   @override
   String get treasureExport_select_export_type => "请选择导出数据类型";
   @override
-  String get account_edit_label_address => "地址";
-  @override
-  String get passwordKeybord_tips_please_enter_new_password => "请输入新密码";
-  @override
-  String get common_item => "项";
-  @override
   String get treasureInit_tips_complete_the_plaintext_data_import => "完成明文数据导入。";
-  @override
-  String get group_tooltip_reset_passwrod => "重置密码";
   @override
   String get formula_warning_not_a_legitimate_number => "非法数字。";
   @override
@@ -184,49 +168,101 @@ class $zh_CN extends S {
   @override
   String get passwordKeybord_tips_data_format_parsing_failed => "数据格式解析失败，请确认数据源是否正确。";
   @override
-  String get group_edit_label_group => "组名";
-  @override
-  String get treasureExport_select_export_plaintext_data => "1.导出明文数据";
-  @override
   String get formula_warning_nothing_can_be_deleted => "没有需要删除的信息。";
   @override
   String get tips_under_development => "功能待开发，敬请期待。";
   @override
   String get treasureInit_select_init_no_data => "1.无数据导入初始化";
   @override
-  String get passwordKeybord_tips_reset_password => "重置密码\r\n(连续点击3次=号确认输入)";
-  @override
   String get common_view => "查看";
-  @override
-  String get common_ok => "好的";
   @override
   String get common_label_update_time => "更新时间";
   @override
   String get language_switching => "语言切换";
   @override
-  String get passwordKeybord_tips_import_password => "导入密码\r\n(连续点击3次=号确认输入)";
+  String get passwordKeybord_tips_import_password => "导入密码\n(连续点击3次=号确认输入)";
   @override
   String get home_tips_check_failure => "校验失败。";
-  @override
-  String get treasureInit_select_init_type => "请选择初始化方式";
-  @override
-  String get treasureInit_tips_please_import_the_data_source => "请导入数据源，或从剪切版粘贴数据源。";
   @override
   String get account_edit_label_name => "名字";
   @override
   String get passwordKeybord_tips_please_enter_your_password_again => "请再次输入密码。";
   @override
-  String get formula_warning_memory_cache_is_empty => "缓存已为空";
-  @override
-  String get calFinancial_name => "金融";
-  @override
   String get group_tooltip_export => "导出";
-  @override
-  String get account_tips_select_operation_cancel => "取消：不做任何操作。";
   @override
   String get formula_warning_logic_illegal_can_not_add_formula => "公式逻辑错误:  不能增加公式";
   @override
   String get formula_warning_logic_illegal_can_not_be_brackets => "公式逻辑错误:  不能输入 )";
+  @override
+  String get abouts_info_url => "https://calculator.ardor.app";
+  @override
+  String get treasureExport_select_export_ciphertext_data => "2.导出密文数据";
+  @override
+  String get group_tips_password_reset_complete => "完成密码重置。";
+  @override
+  String get treasureInit_tooltip_ReadImportData => "读取导入数据";
+  @override
+  String get account_tooltip_copy_data => "复制数据";
+  @override
+  String get treasureInit_tips_data_format_parsing_failed => "数据格式解析失败，请确认数据源是否正确。";
+  @override
+  String get app_name => "Ardor 计算器";
+  @override
+  String get passwordKeybord_tips_export_password => "导出密码\n(连续点击3次=号确认输入)";
+  @override
+  String get group_tips_select_operation_cancel => "取消：不做任何操作。";
+  @override
+  String get common_confirm => "确认";
+  @override
+  String get treasureInit_next_step_new_password => "下一步（设置新密码）";
+  @override
+  String get passwordKeybord_tips_please_enter_import_password => "请输入导入密码";
+  @override
+  String get passwordKeybord_tips_passwords_are_inconsistent => "密码不一致，请重新输入。";
+  @override
+  String get calBlockChain_name => "区块链";
+  @override
+  String get treasureInit_select_init_plaintext_data => "2.明文数据导入初始化";
+  @override
+  String get passwordKeybord_tips_new_password => "新设密码\n(连续点击3次=号确认输入)";
+  @override
+  String get abouts_title => "关于我们";
+  @override
+  String get treasureInit_tooltip_PasteImportData => "粘贴导入数据";
+  @override
+  String get treasureExport_tips_save_fail_no_permission => "文件保存失败，请检查<存储>权限是否打开";
+  @override
+  String get treasureInit_next_step_enter_password => "下一步（输入加密数据密码）";
+  @override
+  String get group_tooltip_reorder => "排序";
+  @override
+  String get account_edit_label_address => "地址";
+  @override
+  String get passwordKeybord_tips_please_enter_new_password => "请输入新密码";
+  @override
+  String get common_item => "项";
+  @override
+  String get group_tooltip_reset_passwrod => "重置密码";
+  @override
+  String get group_edit_label_group => "组名";
+  @override
+  String get treasureExport_select_export_plaintext_data => "1.导出明文数据";
+  @override
+  String get passwordKeybord_tips_reset_password => "重置密码\n(连续点击3次=号确认输入)";
+  @override
+  String get abouts_info_content => "\nArdor计算器是Ardor.App团队打造的实用数据加密&&计算器移动应用程序，本应用程序特点：\n\n1.安全：数据本地存储采用AES-CBC-256高强度加密算法进行数据加密。\n2.绿色：只需存储权限，无任何其他隐私权限申请（甚至网络访问权限都没有），不会收集和传输用户任何数据。\n3.开源：经得起审计，无后门，放心实用，如有需要，可进行二次定制开发，自行编译。 ";
+  @override
+  String get common_ok => "好的";
+  @override
+  String get treasureInit_select_init_type => "请选择初始化方式";
+  @override
+  String get treasureInit_tips_please_import_the_data_source => "请导入数据源，或从剪切版粘贴数据源。";
+  @override
+  String get formula_warning_memory_cache_is_empty => "缓存已为空";
+  @override
+  String get calFinancial_name => "金融";
+  @override
+  String get account_tips_select_operation_cancel => "取消：不做任何操作。";
   @override
   String get group_tooltip_add_group => "新增组";
   @override
@@ -240,13 +276,9 @@ class $zh_CN extends S {
   @override
   String get account_edit_label_account => "账号";
   @override
-  String get treasureExport_select_export_ciphertext_data => "2.导出密文数据";
-  @override
   String get treasureExport_export_data => "导出数据";
   @override
   String get common_delete => "删除";
-  @override
-  String get group_tips_password_reset_complete => "完成密码重置。";
   @override
   String get calMathematical_name => "科学";
   @override
@@ -262,45 +294,15 @@ class $zh_CN extends S {
   @override
   String get account_tooltip_reorder => "排序";
   @override
-  String get treasureInit_tooltip_ReadImportData => "读取导入数据";
-  @override
   String get passwordKeybord_tips_please_enter_original_password => "请输入原密码";
-  @override
-  String get account_tooltip_copy_data => "复制数据";
-  @override
-  String get treasureInit_tips_data_format_parsing_failed => "数据格式解析失败，请确认数据源是否正确。";
-  @override
-  String get app_name => "Ardor 计算器";
-  @override
-  String get passwordKeybord_tips_export_password => "导出密码\r\n(连续点击3次=号确认输入)";
-  @override
-  String get group_tips_select_operation_cancel => "取消：不做任何操作。";
-  @override
-  String get common_confirm => "确认";
   @override
   String get common_label_create_time => "创建时间";
   @override
   String get formula_warning_nothing_to_memory_cache => "没有需要清空的缓存。";
   @override
-  String get treasureInit_next_step_new_password => "下一步（设置新密码）";
-  @override
   String get formula_warning_logic_illegal_formula_is_null => "公式逻辑错误: 公式为空";
   @override
   String get treasureInit_select_init_ciphertext_data => "3.密文数据导入初始化";
-  @override
-  String get passwordKeybord_tips_please_enter_import_password => "请输入导入密码";
-  @override
-  String get passwordKeybord_tips_passwords_are_inconsistent => "密码不一致，请重新输入。";
-  @override
-  String get calBlockChain_name => "区块链";
-  @override
-  String get treasureInit_select_init_plaintext_data => "2.明文数据导入初始化";
-  @override
-  String get passwordKeybord_tips_new_password => "新设密码\r\n(连续点击3次=号确认输入)";
-  @override
-  String get abouts_title => "关于我们";
-  @override
-  String group_tips_select_operation_delete(String group) => "删除：此操作会将($group)组及组名下的信息都删除，请谨慎操作。";
   @override
   String formula_warning_cannot_add_memoryCache_to_currentNumber(String memoryCache, String currentNumber) => "不能将缓存 $memoryCache 添加到数字 $currentNumber 的末尾。";
   @override
@@ -310,6 +312,12 @@ class $zh_CN extends S {
   @override
   String treasureInit_tips_file_read_failed(String path) => "文件读取失败：$path";
   @override
+  String account_tips_select_operation_view(String account) => "查看：仅查看($account)信息。";
+  @override
+  String group_tips_select_operation_delete(String group) => "删除：此操作会将($group)组及组名下的信息都删除，请谨慎操作。";
+  @override
+  String abouts_info_version(String version, String singInfo) => "\n\n当前版本号：$version \n应用签名信息(SHA256)：$singInfo\n\n获取更多支持和最新版本\n请自行访问:  ";
+  @override
   String account_tips_select_operation_edit(String account) => "编辑：对($account)信息进行编辑。";
   @override
   String group_tips_select_operation_view(String group) => "查看：仅查看($group)组信息。";
@@ -317,8 +325,6 @@ class $zh_CN extends S {
   String account_tips_select_operation_for_account(String account) => "请选择对($account)操作。";
   @override
   String group_tips_select_operation_edit(String group) => "编辑：对($group})组信息进行编辑。";
-  @override
-  String account_tips_select_operation_view(String account) => "查看：仅查看($account)信息。";
   @override
   String account_tips_select_operation_delete(String account) => "删除：此操作会将($account)信息删除，请谨慎操作。";
 }

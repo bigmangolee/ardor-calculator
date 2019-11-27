@@ -9,7 +9,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class AppInfoUtils {
+    public final static String MD5 = "MD5";
     public final static String SHA1 = "SHA1";
+    public final static String SHA256 = "SHA256";
 
     /**
      * 返回一个签名的对应类型的字符串
@@ -24,8 +26,14 @@ public class AppInfoUtils {
         String tmp = null;
         Signature[] signs = getSignatures(context, packageName);
         for (Signature sig : signs) {
-            if (SHA1.equals(type)) {
+            if (MD5.equalsIgnoreCase(type)) {
+                tmp = getSignatureString(sig, MD5);
+                break;
+            } else if (SHA1.equalsIgnoreCase(type)) {
                 tmp = getSignatureString(sig, SHA1);
+                break;
+            } else if (SHA256.equalsIgnoreCase(type)) {
+                tmp = getSignatureString(sig, SHA256);
                 break;
             }
         }

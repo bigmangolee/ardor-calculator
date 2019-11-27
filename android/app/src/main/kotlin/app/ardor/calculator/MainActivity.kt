@@ -1,6 +1,7 @@
 package app.ardor.calculator
 
 import android.os.Bundle
+import app.ardor.flutter.plugins.AppInfoPlugins
 import app.ardor.flutter.plugins.ArdorCryptoPlugins
 import app.ardor.flutter.plugins.FlutterPluginRegistrant
 import app.ardor.flutter.plugins.LogPlugins
@@ -17,6 +18,7 @@ class MainActivity: FlutterActivity() {
       GeneratedPluginRegistrant.registerWith(this)
       FlutterPluginRegistrant.addPlugins(LogPlugins::class.java)
       FlutterPluginRegistrant.addPlugins(ArdorCryptoPlugins::class.java)
+      FlutterPluginRegistrant.addPlugins(AppInfoPlugins::class.java)
       FlutterPluginRegistrant.registerWith(this,this.flutterView)
   }
 }

@@ -64,10 +64,10 @@
   "passwordKeybord_tips_please_enter_original_password":"Please enter original password",
   "passwordKeybord_tips_please_enter_export_password":"Please enter export password",
   "passwordKeybord_tips_please_enter_import_password":"Please enter import password",
-  "passwordKeybord_tips_new_password":"New password\r\n (continuous click 3 times = confirmation input)",
-  "passwordKeybord_tips_reset_password":"Reset password\r\n (continuous click 3 times = confirmation input)",
-  "passwordKeybord_tips_export_password":"Export password\r\n (continuous click 3 times = confirmation input)",
-  "passwordKeybord_tips_import_password":"Import password\r\n (continuous click 3 times = confirmation input)",
+  "passwordKeybord_tips_new_password":"New password\n (continuous click 3 times = confirmation input)",
+  "passwordKeybord_tips_reset_password":"Reset password\n (continuous click 3 times = confirmation input)",
+  "passwordKeybord_tips_export_password":"Export password\n (continuous click 3 times = confirmation input)",
+  "passwordKeybord_tips_import_password":"Import password\n (continuous click 3 times = confirmation input)",
   "passwordKeybord_tips_please_input":"Please input",
   "passwordKeybord_tips_please_enter_your_password_again":"Please enter your password again.",
   "passwordKeybord_tips_passwords_are_inconsistent":"The passwords are inconsistent. Please re-enter.",
@@ -105,7 +105,9 @@
   "account_edit_label_password":"Password",
 
   "abouts_title":"Abouts",
-  "abouts_info":"Welcome to the Ardor calculator",
+  "abouts_info_content":"\n\nArdor calculator is a practical data encryption & calculator mobile application created by ardor. App team.\n\n1. Security: local data storage adopts AES-CBC-256 high-strength encryption algorithm for data encryption.\n2. Green: only need to store the permission, without any other privacy permission application (even without network access permission), will not collect and transmit any user data.\n3. Open source: Stand up to audit, no backdoor, reliable and practical, if necessary, you can conduct secondary customized development and self-compilation.",
+  "abouts_info_version":"\n\nCurrent version number: $version\nApplication signature information (SHA256) : $singInfo\n\nGet more support and the latest version\nPlease visit: ",
+  "abouts_info_url":"https://calculator.ardor.app",
 
   "app_name":"Ardor Calculator"
 
