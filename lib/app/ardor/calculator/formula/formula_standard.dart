@@ -13,12 +13,15 @@
 // limitations under the License.
 
 import 'package:ardor_calculator/app/ardor/calculator/formula/formula.dart';
+import 'dart:math';
+
+import 'package:decimal/decimal.dart';
 
 //加法公式
 class Plus extends FormulaBase {
   @override
-  double operation() {
-    return getValue(0, 0) + getValue(1, 0);
+  Decimal operation() {
+    return getValue(0, Decimal.zero) + getValue(1, Decimal.zero);
   }
 
   @override
@@ -45,8 +48,8 @@ class Plus extends FormulaBase {
 //减法公式
 class Minus extends FormulaBase {
   @override
-  double operation() {
-    return getValue(0, 0) - getValue(1, 0);
+  Decimal operation() {
+    return getValue(0, Decimal.zero) - getValue(1, Decimal.zero);
   }
 
   @override
@@ -73,8 +76,8 @@ class Minus extends FormulaBase {
 //乘法公式
 class Multi extends FormulaBase {
   @override
-  double operation() {
-    return getValue(0, 1) * getValue(1, 1);
+  Decimal operation() {
+    return getValue(0, Decimal.one) * getValue(1, Decimal.one);
   }
 
   @override
@@ -101,8 +104,8 @@ class Multi extends FormulaBase {
 //除法公式
 class Devi extends FormulaBase {
   @override
-  double operation() {
-    return getValue(0, 1) / getValue(1, 1);
+  Decimal operation() {
+    return getValue(0, Decimal.one) / getValue(1, Decimal.one);
   }
 
   @override
@@ -130,8 +133,8 @@ class Devi extends FormulaBase {
 class Percent extends FormulaBase {
 
   @override
-  double operation() {
-    return getValue(0, 0) / 100 ;
+  Decimal operation() {
+    return getValue(0, Decimal.zero) / Decimal.parse("100") ;
   }
 
   @override
@@ -155,11 +158,67 @@ class Percent extends FormulaBase {
   }
 }
 
-//平方
+//幂运算
+class Pow extends FormulaBase {
+  @override
+  Decimal operation() {
+    return  Decimal.parse(pow(double.parse(getValue(0, Decimal.one).toString()) ,double.parse(getValue(1, Decimal.one).toString())).toString());
+  }
+
+  @override
+  String name() {
+    return "Pow";
+  }
+
+  @override
+  int priority() {
+    return 9;
+  }
+
+  @override
+  String symbol() {
+    return "pow";
+  }
+
+  @override
+  int valueCount() {
+    return 2;
+  }
+}
+
+//开平方根
+class Sqrt extends FormulaBase {
+  @override
+  Decimal operation() {
+    return Decimal.parse(sqrt(double.parse(getValue(0, Decimal.one).toString())).toString());
+  }
+
+  @override
+  String name() {
+    return "Sqrt";
+  }
+
+  @override
+  int priority() {
+    return 9;
+  }
+
+  @override
+  String symbol() {
+    return "sqrt";
+  }
+
+  @override
+  int valueCount() {
+    return 1;
+  }
+}
+
+//开平
 class Square extends FormulaBase {
   @override
-  double operation() {
-    return getValue(0, 1) * getValue(0, 1);
+  Decimal operation() {
+    return getValue(0, Decimal.one) * getValue(0, Decimal.one);
   }
 
   @override
@@ -174,7 +233,7 @@ class Square extends FormulaBase {
 
   @override
   String symbol() {
-    return "Square";
+    return "square";
   }
 
   @override
@@ -183,11 +242,81 @@ class Square extends FormulaBase {
   }
 }
 
+//exp
+class Exp extends FormulaBase {
+
+  @override
+  Decimal operation() {
+    if (valueSize() == 0) {
+      return Decimal.zero;
+    } else if (valueSize() == 1) {
+      return Decimal.parse(exp(double.parse(getValue(0, Decimal.one).toString())).toString());
+    } else {
+      return getValue(0, Decimal.one) * Decimal.parse(exp(double.parse(getValue(1, Decimal.one).toString())).toString());
+    }
+  }
+
+  @override
+  String name() {
+    return "Exp";
+  }
+
+  @override
+  int priority() {
+    return 9;
+  }
+
+  @override
+  String symbol() {
+    return "exp";
+  }
+
+  @override
+  int valueCount() {
+    return 2;
+  }
+}
+
+//log
+class Log extends FormulaBase {
+
+  @override
+  Decimal operation() {
+    if (valueSize() == 0) {
+      return Decimal.zero;
+    } else if (valueSize() == 1) {
+      return Decimal.parse(log(double.parse(getValue(0, Decimal.one).toString())).toString());
+    } else {
+      return getValue(0, Decimal.one) * Decimal.parse(log(double.parse(getValue(1, Decimal.one).toString())).toString());
+    }
+  }
+
+  @override
+  String name() {
+    return "Log";
+  }
+
+  @override
+  int priority() {
+    return 9;
+  }
+
+  @override
+  String symbol() {
+    return "log";
+  }
+
+  @override
+  int valueCount() {
+    return 2;
+  }
+}
+
 //3参数公式
 class F3 extends FormulaBase {
   @override
-  double operation() {
-    return getValue(0, 1) + getValue(1, 1) * getValue(2, 1);
+  Decimal operation() {
+    return getValue(0, Decimal.one) + getValue(1, Decimal.one) * getValue(2, Decimal.one);
   }
 
   @override
@@ -214,8 +343,8 @@ class F3 extends FormulaBase {
 //4参数公式
 class F4 extends FormulaBase {
   @override
-  double operation() {
-    return getValue(0, 1) + getValue(1, 1) * getValue(2, 1) - getValue(3, 0);
+  Decimal operation() {
+    return getValue(0, Decimal.one) + getValue(1, Decimal.one) * getValue(2, Decimal.one) - getValue(3, Decimal.zero);
   }
 
   @override
@@ -242,10 +371,10 @@ class F4 extends FormulaBase {
 //5参数公式
 class F5 extends FormulaBase {
   @override
-  double operation() {
-    return getValue(0, 1) +
-        getValue(1, 1) * getValue(2, 1) -
-        getValue(3, 0) / (1 + getValue(4, 0));
+  Decimal operation() {
+    return getValue(0, Decimal.one) +
+        getValue(1, Decimal.one) * getValue(2, Decimal.one) -
+        getValue(3, Decimal.zero) / (Decimal.one + getValue(4, Decimal.zero));
   }
 
   @override

@@ -17,6 +17,42 @@ import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/stack.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/formula/formula_standard.dart';
+import 'package:decimal/decimal.dart';
+
+
+/// Base of the natural logarithms.
+///
+/// Typically written as "e".
+Decimal e =  Decimal.parse("2.718281828459045");
+
+/// Natural logarithm of 10.
+///
+/// The natural logarithm of 10 is the number such that `pow(E, LN10) == 10`.
+/// This value is not exact, but it is the closest representable double to the
+/// exact mathematical value.
+Decimal ln10 =  Decimal.parse("2.302585092994046");
+
+/// Natural logarithm of 2.
+///
+/// The natural logarithm of 2 is the number such that `pow(E, LN2) == 2`.
+/// This value is not exact, but it is the closest representable double to the
+/// exact mathematical value.
+Decimal ln2 =  Decimal.parse("0.6931471805599453");
+
+/// Base-2 logarithm of [e].
+Decimal log2e =  Decimal.parse("1.4426950408889634");
+
+/// Base-10 logarithm of [e].
+Decimal log10e =  Decimal.parse("0.4342944819032518");
+
+/// The PI constant.
+Decimal pi =  Decimal.parse("3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989");
+
+/// Square root of 1/2.
+Decimal sqrt1_2 =  Decimal.parse("0.7071067811865476");
+
+/// Square root of 2.
+Decimal sqrt2 =  Decimal.parse("1.4142135623730951");
 
 typedef CalculatorCallback = void Function(String msg);
 const String LogTag = "Formula";
@@ -41,50 +77,10 @@ enum MemoryOpera {
   //读取缓存
   Read,
 }
-//数学运算符。
-enum FormulaType {
-  //加
-  Plus,
-  //减
-  Minus,
-  //乘
-  Multi,
-  //除
-  Devi,
-  Percent,
-  //平方
-  Square,
-  F3,
-  F4,
-  F5,
-}
 
 /// 公式类
 abstract class Formula {
   static var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-  factory Formula(FormulaType type) {
-    if (type == FormulaType.Plus) {
-      return Plus();
-    } else if (type == FormulaType.Minus) {
-      return Minus();
-    } else if (type == FormulaType.Multi) {
-      return Multi();
-    } else if (type == FormulaType.Devi) {
-      return Devi();
-    } else if (type == FormulaType.Percent) {
-      return Percent();
-    } else if (type == FormulaType.Square) {
-      return Square();
-    } else if (type == FormulaType.F3) {
-      return F3();
-    } else if (type == FormulaType.F4) {
-      return F4();
-    } else if (type == FormulaType.F5) {
-      return F5();
-    }
-    return null;
-  }
 
   int getId();
 
@@ -97,7 +93,7 @@ abstract class Formula {
   //公式计算优先级数值越高优先级越大，一般为1～9。
   int priority();
 
-  double operation();
+  Decimal operation();
 
   //参数值的数量
   int valueCount();
@@ -105,10 +101,10 @@ abstract class Formula {
   void initValue();
 
   //增加参数
-  bool addValue(double v);
+  bool addValue(Decimal v);
 
   //根据索引获取参数，index值为0-valueCount()之间,
-  double getValue(int index, double def);
+  Decimal getValue(int index, Decimal def);
 
   //设置提升的优先权限
   void setPriorityAdd(int priorityAdd);
@@ -118,7 +114,7 @@ abstract class Formula {
 }
 
 abstract class FormulaBase implements Formula {
-  List<double> _valuesList = new List();
+  List<Decimal> _valuesList = new List();
   int _priorityAdd = 0;
   static int _formulaid = 0;
 
@@ -130,6 +126,10 @@ abstract class FormulaBase implements Formula {
 
   int getId() {
     return _id;
+  }
+
+  int valueSize() {
+    return _valuesList.length;
   }
 
   @override
@@ -148,7 +148,7 @@ abstract class FormulaBase implements Formula {
   }
 
   @override
-  double getValue(int index, double def) {
+  Decimal getValue(int index, Decimal def) {
     if (_valuesList.length > index) {
       return _valuesList[index];
     }
@@ -156,7 +156,7 @@ abstract class FormulaBase implements Formula {
   }
 
   @override
-  bool addValue(double v) {
+  bool addValue(Decimal v) {
     if (_valuesList.length < valueCount()) {
       _valuesList.add(v);
     }
@@ -189,7 +189,7 @@ class FormulaController {
 
   FormulaController input(dynamic text) {
     if (text == null) {
-      onWarning(S.current.formula_warning_can_not_input_null);
+      onWarning(S.current?.formula_warning_can_not_input_null);
       return this;
     }
     AppLog.i(LogTag, "input:" + text.toString());
@@ -197,17 +197,17 @@ class FormulaController {
       _doFormulaAction(text);
     } else if (text is MemoryOpera) {
       _doMemoryOpera(text);
-    } else if (text is FormulaType) {
-      if (text == FormulaType.Minus) {
+    } else if (text is Formula) {
+      if (text is Minus) {
         //输入减号公式时，则有可能这两种可能需要转换为负数。
         dynamic last = _getFormulaLogic().lastLogic();
         if (last == null || "(" == last) {
           _doAddNegative();
         } else {
-          _doAddFormula(Formula(text));
+          _doAddFormula(text);
         }
       } else {
-        _doAddFormula(Formula(text));
+        _doAddFormula(text);
       }
     } else if (text is int) {
       _doAddNumber(text);
@@ -282,7 +282,7 @@ class FormulaController {
 
     if (MemoryOpera.Add == action) {
       if (currentNumber == "") {
-        this.onWarning(S.current.formula_warning_nothing_to_memory_cache);
+        this.onWarning(S.current?.formula_warning_nothing_to_memory_cache);
       } else {
         this.onTools(MemoryOpera.Add.toString());
         memoryCache = currentNumber;
@@ -293,12 +293,12 @@ class FormulaController {
     } else if (MemoryOpera.Read == action) {
       this.onTools(MemoryOpera.Read.toString());
       if (memoryCache == "") {
-        this.onWarning(S.current.formula_warning_memory_cache_is_empty);
+        this.onWarning(S.current?.formula_warning_memory_cache_is_empty);
       } else {
         if ((memoryCache.contains(".") && currentNumber.contains(".")) ||
             (memoryCache.startsWith("-") && currentNumber != "")) {
           this.onWarning(
-              S.current.formula_warning_cannot_add_memoryCache_to_currentNumber(memoryCache, currentNumber));
+              S.current?.formula_warning_cannot_add_memoryCache_to_currentNumber(memoryCache, currentNumber));
         } else {
           cacheInput();
         }
@@ -306,20 +306,20 @@ class FormulaController {
     } else if (MemoryOpera.Plus == action) {
       this.onTools(MemoryOpera.Plus.toString());
       if (memoryCache == "") {
-        this.onWarning(S.current.formula_warning_memory_cache_is_empty);
+        this.onWarning(S.current?.formula_warning_memory_cache_is_empty);
       } else {
         //新增减号公式
-        Formula formula = Formula(FormulaType.Plus);
+        Formula formula = Plus();
         _doAddFormula(formula);
         cacheInput();
       }
     } else if (MemoryOpera.Minus == action) {
       this.onTools(MemoryOpera.Minus.toString());
       if (memoryCache == "") {
-        this.onWarning(S.current.formula_warning_memory_cache_is_empty);
+        this.onWarning(S.current?.formula_warning_memory_cache_is_empty);
       } else {
         //新增减号公式
-        Formula formula = Formula(FormulaType.Minus);
+        Formula formula = Minus();
         _doAddFormula(formula);
         cacheInput();
       }
@@ -341,7 +341,7 @@ class FormulaController {
   void _doAddDecimal(String text) {
     if (currentNumber.contains(".")) {
       //已经包含小数点，不能重复添加，错误提示回调
-      onWarning(S.current.formula_warning_not_a_legitimate_number);
+      onWarning(S.current?.formula_warning_not_a_legitimate_number);
     } else {
       if (currentNumber == "") {
         currentNumber = "0";
@@ -384,7 +384,7 @@ class FormulaLogic {
 
   void addFormula(Formula formula) {
     if (formula == null) {
-      this._onWarning(S.current.formula_warning_logic_illegal_formula_is_null);
+      this._onWarning(S.current?.formula_warning_logic_illegal_formula_is_null);
       return;
     }
     formula.setPriorityAdd(_getPriority());
@@ -399,7 +399,7 @@ class FormulaLogic {
       if (d == "(") {
         //提示警告，公式逻辑错误，公式之前不能是'('。
         this._onWarning(
-            S.current.formula_warning_logic_illegal_can_not_add_formula);
+            S.current?.formula_warning_logic_illegal_can_not_add_formula);
       } else if (d == ")") {
         //公式之前是')'，则可以添加公式
         _addFormula(formula);
@@ -517,7 +517,7 @@ class FormulaLogic {
       if (_logicList.length > 0) {
         _logicList.removeLast();
       } else {
-        _onWarning(S.current.formula_warning_nothing_can_be_deleted);
+        _onWarning(S.current?.formula_warning_nothing_can_be_deleted);
       }
     }
     AppLog.i(LogTag, "delete _logicList:"+_logicList.toString() + " _currentNumber:"+_currentNumber);
@@ -564,17 +564,17 @@ class FormulaLogic {
       List<int> removeIndes = new List();
       if (f.valueCount() == 1) {
         if (index > 0) {
-          f.addValue(double.parse(logic[index - 1]));
+          f.addValue(Decimal.parse(logic[index - 1]));
           removeIndes.add(index - 1);
         }
       } else {
         if (index > 0) {
-          f.addValue(double.parse(logic[index - 1]));
+          f.addValue(Decimal.parse(logic[index - 1]));
           removeIndes.add(index - 1);
         }
         for (int i = 1; i < f.valueCount(); i++) {
           if (index + i < logic.length) {
-            f.addValue(double.parse(logic[index + i]));
+            f.addValue(Decimal.parse(logic[index + i]));
             removeIndes.add(index + i);
           }
         }
@@ -651,7 +651,7 @@ class FormulaLogic {
   //降低计算公式优先级，相当于输入)
   bool downPriorityWeight() {
     if (_logicList.length == 0) {
-      this._onWarning(S.current.formula_warning_logic_illegal_can_not_be_brackets);
+      this._onWarning(S.current?.formula_warning_logic_illegal_can_not_be_brackets);
       return false;
     } else {
       dynamic d = _logicList[_logicList.length - 1];
@@ -664,11 +664,11 @@ class FormulaLogic {
             return true;
           } else {
             //不能匹配前括号(
-            this._onWarning(S.current.formula_warning_logic_illegal_can_not_match_brackets);
+            this._onWarning(S.current?.formula_warning_logic_illegal_can_not_match_brackets);
           }
         } else {
           //)前面不能是多参数的公式
-          this._onWarning(S.current.formula_warning_logic_illegal_can_not_be_brackets);
+          this._onWarning(S.current?.formula_warning_logic_illegal_can_not_be_brackets);
         }
       } else if (d == "(" || d == ")") {
         if (_priorityWeight > 0) {
@@ -677,7 +677,7 @@ class FormulaLogic {
           return true;
         } else {
           //不能匹配前括号(
-          this._onWarning(S.current.formula_warning_logic_illegal_can_not_match_brackets);
+          this._onWarning(S.current?.formula_warning_logic_illegal_can_not_match_brackets);
         }
       } else if (d is String) {
         if (_priorityWeight > 0) {
@@ -686,7 +686,7 @@ class FormulaLogic {
           return true;
         } else {
           //不能匹配前括号(
-          this._onWarning(S.current.formula_warning_logic_illegal_can_not_match_brackets);
+          this._onWarning(S.current?.formula_warning_logic_illegal_can_not_match_brackets);
         }
       }
     }

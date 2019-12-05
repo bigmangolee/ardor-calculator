@@ -14,6 +14,7 @@
 
 
 import 'package:ardor_calculator/app/ardor/calculator/formula/formula.dart';
+import 'package:ardor_calculator/app/ardor/calculator/formula/formula_standard.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -31,7 +32,7 @@ void main() {
       formulaLogic.setCurrentNumber("1");
       expect(formulaLogic.toString(), "1");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "1+");
 
       formulaLogic.setCurrentNumber("1");
@@ -53,37 +54,37 @@ void main() {
       formulaLogic.setCurrentNumber("1");
       expect(formulaLogic.toString(), "1");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "1+");
 
       formulaLogic.setCurrentNumber("2");
       expect(formulaLogic.toString(), "1+2");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "1+2+");
 
       formulaLogic.setCurrentNumber("3");
       expect(formulaLogic.toString(), "1+2+3");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Multi));
+      formulaLogic.addFormula(Multi());
       expect(formulaLogic.toString(), "1+2+3×");
 
       formulaLogic.setCurrentNumber("4");
       expect(formulaLogic.toString(), "1+2+3×4");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Multi));
+      formulaLogic.addFormula(Multi());
       expect(formulaLogic.toString(), "1+2+3×4×");
 
       formulaLogic.setCurrentNumber("5");
       expect(formulaLogic.toString(), "1+2+3×4×5");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Minus));
+      formulaLogic.addFormula(Minus());
       expect(formulaLogic.toString(), "1+2+3×4×5-");
 
       formulaLogic.setCurrentNumber("6");
       expect(formulaLogic.toString(), "1+2+3×4×5-6");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Devi));
+      formulaLogic.addFormula(Devi());
       expect(formulaLogic.toString(), "1+2+3×4×5-6÷");
 
       formulaLogic.setCurrentNumber("8");
@@ -105,7 +106,7 @@ void main() {
       formulaLogic.setCurrentNumber("1");
       expect(formulaLogic.toString(), "(1");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "(1+");
 
       formulaLogic.setCurrentNumber("2");
@@ -114,13 +115,13 @@ void main() {
       formulaLogic.downPriorityWeight();
       expect(formulaLogic.toString(), "(1+2)");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Multi));
+      formulaLogic.addFormula(Multi());
       expect(formulaLogic.toString(), "(1+2)×");
 
       formulaLogic.setCurrentNumber("3");
       expect(formulaLogic.toString(), "(1+2)×3");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "(1+2)×3+");
 
       formulaLogic.upPriorityWeight();
@@ -131,7 +132,7 @@ void main() {
       formulaLogic.setCurrentNumber("4");
       expect(formulaLogic.toString(), "(1+2)×3+(((4");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "(1+2)×3+(((4+");
 
       formulaLogic.setCurrentNumber("5");
@@ -140,13 +141,13 @@ void main() {
       formulaLogic.downPriorityWeight();
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Multi));
+      formulaLogic.addFormula(Multi());
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×");
 
       formulaLogic.setCurrentNumber("6");
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+");
 
       formulaLogic.upPriorityWeight();
@@ -155,7 +156,7 @@ void main() {
       formulaLogic.setCurrentNumber("7");
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+(7");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Minus));
+      formulaLogic.addFormula(Minus());
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+(7-");
 
       formulaLogic.setCurrentNumber("1");
@@ -164,7 +165,7 @@ void main() {
       formulaLogic.downPriorityWeight();
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+(7-1)");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Devi));
+      formulaLogic.addFormula(Devi());
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+(7-1)÷");
 
       formulaLogic.setCurrentNumber("8");
@@ -173,7 +174,7 @@ void main() {
       formulaLogic.downPriorityWeight();
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+(7-1)÷8)");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "(1+2)×3+(((4+5)×6+(7-1)÷8)+");
 
       formulaLogic.setCurrentNumber("9");
@@ -188,7 +189,7 @@ void main() {
       expect(v.toString(), "72.75");
     });
 
-    test('1+2×3Square÷6-5', () {
+    test('1+2×3square÷6-5', () {
 
       String onWarning;
       FormulaLogic formulaLogic = new FormulaLogic(
@@ -197,41 +198,41 @@ void main() {
       formulaLogic.setCurrentNumber("1");
       expect(formulaLogic.toString(), "1");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "1+");
 
       formulaLogic.setCurrentNumber("2");
       expect(formulaLogic.toString(), "1+2");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Multi));
+      formulaLogic.addFormula(Multi());
       expect(formulaLogic.toString(), "1+2×");
 
       formulaLogic.setCurrentNumber("3");
       expect(formulaLogic.toString(), "1+2×3");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Square));
-      expect(formulaLogic.toString(), "1+2×3Square");
+      formulaLogic.addFormula(Square());
+      expect(formulaLogic.toString(), "1+2×3square");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Devi));
-      expect(formulaLogic.toString(), "1+2×3Square÷");
+      formulaLogic.addFormula(Devi());
+      expect(formulaLogic.toString(), "1+2×3square÷");
 
       formulaLogic.setCurrentNumber("6");
-      expect(formulaLogic.toString(), "1+2×3Square÷6");
+      expect(formulaLogic.toString(), "1+2×3square÷6");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Minus));
-      expect(formulaLogic.toString(), "1+2×3Square÷6-");
+      formulaLogic.addFormula(Minus());
+      expect(formulaLogic.toString(), "1+2×3square÷6-");
 
       formulaLogic.setCurrentNumber("5");
-      expect(formulaLogic.toString(), "1+2×3Square÷6-5");
+      expect(formulaLogic.toString(), "1+2×3square÷6-5");
 
-      expect(formulaLogic.toString(), "1+2×3Square÷6-5");
+      expect(formulaLogic.toString(), "1+2×3square÷6-5");
 
       double v = formulaLogic.calculate();
       expect(v.toString(), "-1.0");
     });
 
     //多参数公式嵌套
-    test('1+2<F4>(2×3Square÷6)-5(1+2×2)×2-1', () {
+    test('1+2<F4>(2×3square÷6)-5(1+2×2)×2-1', () {
       String onWarning;
       FormulaLogic formulaLogic = new FormulaLogic(
               (String msg) {onWarning =  msg;});
@@ -239,13 +240,13 @@ void main() {
       formulaLogic.setCurrentNumber("1");
       expect(formulaLogic.toString(), "1");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
+      formulaLogic.addFormula(Plus());
       expect(formulaLogic.toString(), "1+");
 
       formulaLogic.setCurrentNumber("2");
       expect(formulaLogic.toString(), "1+2");
 
-      formulaLogic.addFormula(new Formula(FormulaType.F4));
+      formulaLogic.addFormula(F4());
       expect(formulaLogic.toString(), "1+2<F4>");
 
       formulaLogic.upPriorityWeight();
@@ -254,59 +255,59 @@ void main() {
       formulaLogic.setCurrentNumber("2");
       expect(formulaLogic.toString(), "1+2<F4>(2");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Multi));
+      formulaLogic.addFormula(Multi());
       expect(formulaLogic.toString(), "1+2<F4>(2×");
 
       formulaLogic.setCurrentNumber("3");
       expect(formulaLogic.toString(), "1+2<F4>(2×3");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Square));
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square");
+      formulaLogic.addFormula(Square());
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Devi));
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷");
+      formulaLogic.addFormula(Devi());
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷");
 
       formulaLogic.setCurrentNumber("6");
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6");
 
       formulaLogic.downPriorityWeight();
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)");
 
       formulaLogic.setCurrentNumber("-5");
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5");
 
       formulaLogic.upPriorityWeight();
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(");
 
       formulaLogic.setCurrentNumber("1");
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Plus));
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+");
-
-      formulaLogic.setCurrentNumber("2");
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2");
-
-      formulaLogic.addFormula(new Formula(FormulaType.Multi));
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×");
+      formulaLogic.addFormula(Plus());
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+");
 
       formulaLogic.setCurrentNumber("2");
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×2");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+2");
+
+      formulaLogic.addFormula(Multi());
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+2×");
+
+      formulaLogic.setCurrentNumber("2");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+2×2");
 
       formulaLogic.downPriorityWeight();
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×2)");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+2×2)");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Multi));
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×2)×");
+      formulaLogic.addFormula(Multi());
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+2×2)×");
 
       formulaLogic.setCurrentNumber("2");
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×2)×2");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+2×2)×2");
 
-      formulaLogic.addFormula(new Formula(FormulaType.Minus));
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×2)×2-");
+      formulaLogic.addFormula(Minus());
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+2×2)×2-");
 
       formulaLogic.setCurrentNumber("1");
-      expect(formulaLogic.toString(), "1+2<F4>(2×3Square÷6)-5(1+2×2)×2-1");
+      expect(formulaLogic.toString(), "1+2<F4>(2×3square÷6)-5(1+2×2)×2-1");
 
       //F4=a+b*c-d
       double v = formulaLogic.calculate();

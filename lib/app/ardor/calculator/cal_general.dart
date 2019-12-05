@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/formula/formula_standard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/layout_notifier.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/generated/i18n.dart';
@@ -184,10 +185,10 @@ class _CalGeneralState extends State<CalGeneral> {
     list.add(new _CleanOperation(() {
       onKey(FormulaAction.Clean);
     }));
-    list.add(new _MathOperation(FormulaType.Devi, (dynamic key) {
+    list.add(new _MathOperation(Devi(), (dynamic key) {
       onKey(key);
     }));
-    list.add(new _MathOperation(FormulaType.Multi, (dynamic key) {
+    list.add(new _MathOperation(Multi(), (dynamic key) {
       onKey(key);
     }));
     list.add(new _DeleteOperation(() {
@@ -203,7 +204,7 @@ class _CalGeneralState extends State<CalGeneral> {
     list.add(new _CalInput(9, (int key) {
       onKey(key);
     }));
-    list.add(new _MathOperation(FormulaType.Minus, (dynamic key) {
+    list.add(new _MathOperation(Minus(), (dynamic key) {
       onKey(key);
     }));
     //row 4
@@ -216,7 +217,7 @@ class _CalGeneralState extends State<CalGeneral> {
     list.add(new _CalInput(6, (int key) {
       onKey(key);
     }));
-    list.add(new _MathOperation(FormulaType.Plus, (dynamic key) {
+    list.add(new _MathOperation(Plus(), (dynamic key) {
       onKey(key);
     }));
     //row 5
@@ -235,7 +236,7 @@ class _CalGeneralState extends State<CalGeneral> {
     }));
     //row 6
     list.add(new _CalPercent(() {
-      onKey(FormulaType.Percent);
+      onKey(Percent());
     }));
     list.add(new _CalInput(0, (int key) {
       onKey(key);
@@ -499,7 +500,7 @@ class _CalPercent extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         child: RaisedButton(
-            key: Key(FormulaType.Percent.toString()),
+            key: Key(Percent().name()),
             child: new Text(
               "%",
               style: getCalculateTextStyle(),
@@ -542,12 +543,12 @@ class _CalPoint extends StatelessWidget {
 }
 
 class _MathOperation extends StatelessWidget {
-  FormulaType mathOpera;
+  Formula  formula;
   final CalculatorCallbackDynamic callback;
-  _MathOperation(this.mathOpera, this.callback);
+  _MathOperation(this.formula, this.callback);
 
   String getDisplay() {
-    return Formula(mathOpera).symbol();
+    return formula.symbol();
   }
 
   @override
@@ -556,7 +557,7 @@ class _MathOperation extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         child: RaisedButton(
-            key: Key(mathOpera.toString()),
+            key: Key(formula.toString()),
             child: new Text(
               getDisplay(),
               style: getCalculateTextStyle(),
@@ -567,7 +568,7 @@ class _MathOperation extends StatelessWidget {
   }
 
   void doMathOpera() {
-    callback(mathOpera);
+    callback(formula);
   }
 }
 
