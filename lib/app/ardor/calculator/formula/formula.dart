@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/calculator_callback.dart';
 import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/applog.dart';
 import 'package:ardor_calculator/library/stack.dart';
@@ -54,7 +55,6 @@ Decimal sqrt1_2 =  Decimal.parse("0.7071067811865476");
 /// Square root of 2.
 Decimal sqrt2 =  Decimal.parse("1.4142135623730951");
 
-typedef CalculatorCallback = void Function(String msg);
 const String LogTag = "Formula";
 
 enum FormulaAction {

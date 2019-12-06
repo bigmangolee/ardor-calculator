@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:ardor_calculator/app/ardor/calculator/calculator_callback.dart';
 import 'package:ardor_calculator/app/ardor/calculator/formula/formula_standard.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/layout_notifier.dart';
 import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
@@ -24,10 +25,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'formula/formula.dart';
-
-typedef CalculatorCallback = void Function(String key);
-typedef CalculatorCallbackInt = void Function(int key);
-typedef CalculatorCallbackDynamic = void Function(dynamic key);
 
 // ignore: must_be_immutable
 class CalGeneral extends CalBase {
