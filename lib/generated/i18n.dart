@@ -38,7 +38,7 @@ class S implements WidgetsLocalizations {
   String get calBlockChain_name => "BlockChain";
   String get calFinancial_name => "Financial";
   String get calGeneral_name => "General";
-  String get calMathematical_name => "Mathematical";
+  String get calScientific_name => "Scientific";
   String get common_cancel => "Cancel";
   String get common_confirm => "Confirm";
   String get common_delete => "Delete";
@@ -153,6 +153,8 @@ class $zh_CN extends S {
   String get account_edit_label_password => "密码";
   @override
   String get account_tooltip_add_account => "新增账号";
+  @override
+  String get calScientific_name => "科学";
   @override
   String get passwordKeybord_tips_original_password_verification_does_not_pass => "原密码校验不通过，请重新输入。";
   @override
@@ -285,8 +287,6 @@ class $zh_CN extends S {
   String get treasureExport_export_data => "导出数据";
   @override
   String get common_delete => "删除";
-  @override
-  String get calMathematical_name => "科学";
   @override
   String get passwordKeybord_tips_please_input => "请输入";
   @override

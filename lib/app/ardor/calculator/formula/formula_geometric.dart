@@ -250,3 +250,38 @@ class ATan extends FormulaGeometric {
     return 2;
   }
 }
+
+//atan2
+class ATan2 extends FormulaGeometric {
+
+  @override
+  Decimal operation() {
+    if (valueSize() == 0) {
+      return Decimal.zero;
+    } else if (valueSize() == 1) {
+      return Decimal.parse(atan2(double.parse(getRadiansValue(0, Decimal.one).toString()),1).toString());
+    } else {
+      return Decimal.parse(atan2(double.parse(getRadiansValue(0, Decimal.one).toString()),double.parse(getRadiansValue(0, Decimal.one).toString())).toString());
+    }
+  }
+
+  @override
+  String name() {
+    return "ATan2";
+  }
+
+  @override
+  int priority() {
+    return 9;
+  }
+
+  @override
+  String symbol() {
+    return "atan2";
+  }
+
+  @override
+  int valueCount() {
+    return 2;
+  }
+}

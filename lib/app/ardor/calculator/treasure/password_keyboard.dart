@@ -19,7 +19,7 @@ import 'package:ardor_calculator/app/ardor/calculator/widget/toast.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_financial.dart';
-import 'package:ardor_calculator/app/ardor/calculator/cal_mathematicall.dart';
+import 'package:ardor_calculator/app/ardor/calculator/cal_scientific.dart';
 import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:ardor_calculator/library/callback.dart';
 import 'package:ardor_calculator/library/crypto.dart';
@@ -304,7 +304,7 @@ class _PasswordKeybordDialogState extends State<PasswordKeybordDialog> {
         CalGeneral((String p) {
           passwordDown(p);
         }),
-        CalMathematical((String p) {
+        CalScientific((String p) {
           passwordDown(p);
         }),
         CalFinancial((String p) {

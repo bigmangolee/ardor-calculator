@@ -19,12 +19,12 @@ import 'package:flutter/material.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 
 // ignore: must_be_immutable
-class CalMathematical extends CalBase {
-  CalMathematical(passwordInputCallback) : super(passwordInputCallback);
+class CalScientific extends CalBase {
+  CalScientific(passwordInputCallback) : super(passwordInputCallback);
 
   @override
   String getName() {
-    return S.current.calMathematical_name;
+    return S.current.calScientific_name;
   }
 
   @override
@@ -45,7 +45,7 @@ class CalMathematical extends CalBase {
 }
 
 
-class _CalMathematicalState extends State<CalMathematical> {
+class _CalMathematicalState extends State<CalScientific> {
 
   @override
   Widget build(BuildContext context) {

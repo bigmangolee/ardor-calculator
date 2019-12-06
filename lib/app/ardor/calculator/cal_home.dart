@@ -25,7 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_general.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_base.dart';
 import 'package:ardor_calculator/app/ardor/calculator/cal_financial.dart';
-import 'package:ardor_calculator/app/ardor/calculator/cal_mathematicall.dart';
+import 'package:ardor_calculator/app/ardor/calculator/cal_scientific.dart';
 
 // ignore: must_be_immutable
 class CalHome extends StatefulWidget {
@@ -144,7 +144,7 @@ class _CalHomeState extends State<CalHome> with SingleTickerProviderStateMixin {
         CalGeneral((String p) {
           startTreasure(p);
         }),
-        CalMathematical((String p) {
+        CalScientific((String p) {
           startTreasure(p);
         }),
         CalFinancial((String p) {
