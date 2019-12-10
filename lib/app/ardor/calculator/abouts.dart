@@ -16,7 +16,6 @@ import 'package:ardor_calculator/app/ardor/calculator/app_global.dart';
 import 'package:ardor_calculator/generated/i18n.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Abouts extends StatelessWidget {
   @override
@@ -58,10 +57,6 @@ class Abouts extends StatelessWidget {
   }
 
   _launchURL(apkUrl) async {
-    if (await canLaunch(apkUrl)) {
-      await launch(apkUrl);
-    } else {
-      throw 'Could not launch $apkUrl';
-    }
+
   }
 }
