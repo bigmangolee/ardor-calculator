@@ -21,7 +21,7 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
-  String get abouts_info_content => "\n\nArdor calculator is a practical encrypted data storage & calculator mobile application created by ardor. App team.\n\n1. Security: local data storage adopts AES-CBC-256 high-strength encryption algorithm for data encryption.\n2. Green: only need to store the permission, without any other privacy permission application (even without network access permission), will not collect and transmit any user data.\n3. Open source: Stand up to audit, no backdoor, reliable and practical, if necessary, you can conduct secondary customized development and self-compilation.";
+  String get abouts_info_content => "\n\nArdor calculator is a practical encrypted data storage & calculator mobile application created by ardor. App team.\n\n1. Security: local data storage adopts AES-CBC-256 high-strength encryption algorithm for data encryption.\n2. Green: only need to store the permission, without any other privacy permission application (even without network access permission), will not collect and transmit any user data.\n3. Open source: Stand up to audit, no backdoor, trust to use, if necessary, you can conduct secondary customized development and self-compilation.";
   String get abouts_info_github_info => "\nOpen source address:\n";
   String get abouts_info_github_url => "https://github.com/ardorapp/ardor-calculator";
   String get abouts_info_url => "https://www.ardor.app";
@@ -256,7 +256,7 @@ class $zh_CN extends S {
   @override
   String get passwordKeybord_tips_reset_password => "重置密码\n(连续点击3次=号确认输入)";
   @override
-  String get abouts_info_content => "\nArdor计算器是Ardor.App团队打造的实用加密数据存储&&计算器移动应用程序，本应用程序特点：\n\n1.安全：数据本地存储采用AES-CBC-256高强度加密算法进行数据加密。\n2.绿色：只需存储权限，无任何其他隐私权限申请（甚至网络访问权限都没有），不会收集和传输用户任何数据。\n3.开源：经得起审计，无后门，放心实用，如有需要，可进行二次定制开发，自行编译。 ";
+  String get abouts_info_content => "\nArdor计算器是Ardor.App团队打造的实用加密数据存储&&计算器移动应用程序，本应用程序特点：\n\n1.安全：数据本地存储采用AES-CBC-256高强度加密算法进行数据加密。\n2.绿色：只需存储权限，无任何其他隐私权限申请（甚至网络访问权限都没有），不会收集和传输用户任何数据。\n3.开源：经得起审计，无后门，放心使用，如有需要，可进行二次定制开发，自行编译。 ";
   @override
   String get common_ok => "好的";
   @override
