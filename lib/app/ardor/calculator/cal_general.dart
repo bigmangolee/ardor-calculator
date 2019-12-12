@@ -628,7 +628,7 @@ class _CalculateOperation extends StatelessWidget {
             "=",
             style: TextStyle(
               fontSize: 30.0,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w500,
             ),
           ),
           onPressed: () {
@@ -641,6 +641,6 @@ class _CalculateOperation extends StatelessWidget {
 TextStyle getCalculateTextStyle() {
   return TextStyle(
     fontSize: 30.0,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w500,
   );
 }

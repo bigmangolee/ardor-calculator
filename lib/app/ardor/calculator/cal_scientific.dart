@@ -169,111 +169,111 @@ class _CalScientificState extends State<CalScientific> {
     list = new List();
 
     //row 1
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"","函数","fuction"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"","角度",""));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"e","e","e"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"π","π","π"));
     list.add(new _CleanOperation(() {
       onKey(FormulaAction.Clean);
     }));
 
     //row 2
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"MA","MA","MA"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"M+","M+","M+"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"M-","M-","M-"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"MR","MR","MR"));
     list.add(new _DeleteOperation(() {
       onKey(FormulaAction.Delete);
     }));
 
     //row 3
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"Log","Log","Log"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"√x","√x","√x"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"3√x","3√x","3√x"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"y√x","y√x","y√x"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"exp","exp","exp"));
 
     //row 4
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"lne","lne","lne"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"x2","x2","x2"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"x3","x3","x3"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"x^y","x^y","x^y"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"10^y","10^y","10^y"));
 
     //row 5
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"Log10","Log10","Log10"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"n!","n!","n!"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"1/x","1/x","1/x"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"mod","mod","mod"));
     list.add(new _MathOperation(Devi(), (dynamic key) {
       onKey(key);
     }));
 
     //row 6
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"atan2","atan2","atan2"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"","+/-","+/-"));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    },"UpPriority","(",FormulaAction.UpPriority));
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"DownPriority",")",FormulaAction.DownPriority));
     list.add(new _MathOperation(Multi(), (dynamic key) {
       onKey(key);
     }));
 
     //row 7
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"","sin","sin"));
     list.add(new _CalInput(7, (int key) {
       onKey(key);
     }));
@@ -288,9 +288,9 @@ class _CalScientificState extends State<CalScientific> {
     }));
 
     //row 8
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"","cos","cos"));
     list.add(new _CalInput(4, (int key) {
       onKey(key);
     }));
@@ -305,9 +305,9 @@ class _CalScientificState extends State<CalScientific> {
     }));
 
     //row 9
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"","tan","tan"));
     list.add(new _CalInput(1, (int key) {
       onKey(key);
     }));
@@ -323,9 +323,9 @@ class _CalScientificState extends State<CalScientific> {
     }));
 
     //row 10
-    list.add(new _MathOperation(Devi(), (dynamic key) {
+    list.add(new _CalAction((dynamic key) {
       onKey(key);
-    }));
+    },"","cot","cot"));
     list.add(new _CalPercent(() {
       onKey(Percent());
     }));
@@ -781,6 +781,40 @@ class _DeleteOperation extends StatelessWidget {
   }
 }
 
+/// 通用的功能按钮。
+// ignore: must_be_immutable
+class _CalAction extends StatelessWidget {
+  final CalculatorCallbackDynamic callback;
+  String id;
+  String displayName;
+  dynamic input;
+  _CalAction(this.callback,this.id,this.displayName,this.input);
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: RaisedButton(
+            key: Key(id),
+            child: new Text(
+              displayName,
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            onPressed: () {
+              doInput();
+            }));
+  }
+
+  bool doInput() {
+    callback(input);
+    return true;
+  }
+}
+
 class _CalculateOperation extends StatelessWidget {
   final VoidCallback callback;
 
@@ -797,8 +831,8 @@ class _CalculateOperation extends StatelessWidget {
           child: new Text(
             "=",
             style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.w700,
+              fontSize: 25.0,
+              fontWeight: FontWeight.w500,
             ),
           ),
           onPressed: () {
@@ -810,7 +844,7 @@ class _CalculateOperation extends StatelessWidget {
 
 TextStyle getCalculateTextStyle() {
   return TextStyle(
-    fontSize: 30.0,
-    fontWeight: FontWeight.w700,
+    fontSize: 25.0,
+    fontWeight: FontWeight.w500,
   );
 }
